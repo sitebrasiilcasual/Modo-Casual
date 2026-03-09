@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zona Casual</title>
+<style>
+body{margin:0;font-family:Arial;background:#000;color:#fff;text-align:center}
+header{background:#0b0000;padding:15px;border-bottom:2px solid #ff0000}
+h1{color:#ff2b2b}
+.container{max-width:900px;margin:auto;padding:20px}
+.card{background:#111;border:1px solid rgba(255,0,0,.3);border-radius:12px;padding:20px;margin-bottom:20px}
+.btn{display:inline-block;padding:12px 20px;border-radius:30px;text-decoration:none;font-weight:bold;margin-top:10px}
+.whatsapp{background:#25D366;color:#fff}
+.cadastro{background:#ff0000;color:#fff}
+.streamer img{width:120px;height:120px;object-fit:cover;border-radius:50%}
+.teams{display:flex;justify-content:center;gap:30px;flex-wrap:wrap}
+.teams img{width:90px;height:90px;object-fit:contain}
+footer{padding:15px;border-top:1px solid #ff0000;color:#aaa}
+.admin-btn{position:fixed;bottom:20px;right:20px;background:#ff0000;color:#fff;border:none;width:55px;height:55px;border-radius:50%;font-size:22px;cursor:pointer}
+.admin{position:fixed;inset:0;background:#000;display:none;overflow:auto;padding:20px}
+.admin-box{max-width:600px;margin:auto;background:#111;padding:20px;border-radius:12px;border:1px solid rgba(255,0,0,.25)}
+input,textarea,button{width:100%;padding:10px;margin:8px 0;border-radius:6px;border:none;box-sizing:border-box}
+textarea{min-height:90px;resize:vertical}
+.save{background:#ff0000;color:#fff;cursor:pointer}
+.close{background:#333;color:#fff;cursor:pointer}
+.preview{width:100px;height:100px;object-fit:cover;border-radius:10px;margin:8px auto;display:block;border:1px solid rgba(255,255,255,.15)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1 id="titulo">ZONA CASUAL</h1>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Sobre o Projeto</h2>
+    <p id="sobre">
+      Projeto criado para organizar personalizadas de Warzone.
+    </p>
+    <a id="zap" class="btn whatsapp" href="https://wa.me/5521983747028" target="_blank">
+      Entrar no WhatsApp
+    </a>
+  </div>
+
+  <div class="card">
+    <h2>Próxima Personalizada</h2>
+    <p><b>Data:</b> <span id="data">20/03/2026</span></p>
+    <p><b>Horário:</b> <span id="hora">20:00</span></p>
+  </div>
+
+  <div class="card streamer">
+    <h2>Streamer</h2>
+    <img id="streamFoto" src="streamer.jpg" alt="Streamer">
+    <p id="streamNome">@streamer</p>
+    <a id="streamLink" class="btn cadastro" href="#" target="_blank">Assistir Stream</a>
+  </div>
+
+  <div class="card">
+    <h2>Times Envolvidos</h2>
+    <div class="teams">
+      <div>
+        <img id="logo1" src="1shotkill.png" alt="Time 1">
+        <p id="time1">1Shotkill</p>
+      </div>
+      <div>
+        <img id="logo2" src="vanguarda.png" alt="Time 2">
+        <p id="time2">Vanguarda Brasil</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Zona Casual
+</footer>
+
+<button class="admin-btn" onclick="abrirAdmin()">⚙</button>
+
+<div class="admin" id="admin">
+  <div class="admin-box">
+    <h2>Painel Admin</h2>
+
+    <div id="loginBox">
+      <input type="password" id="senha" placeholder="Senha">
+      <button class="save" onclick="entrar()">Entrar</button>
+      <button class="close" onclick="fecharAdmin()">Fechar</button>
+    </div>
+
+    <div id="painel" style="display:none">
+      <h3>Título</h3>
+      <input id="f_titulo">
+
+      <h3>Texto Projeto</h3>
+      <textarea id="f_sobre"></textarea>
+
+      <h3>WhatsApp</h3>
+      <input id="f_zap">
+
+      <h3>Data</h3>
+      <input id="f_data">
+
+      <h3>Hora</h3>
+      <input id="f_hora">
+
+      <h3>Streamer</h3>
+      <input id="f_streamNome" placeholder="Nome do streamer">
+      <input id="f_streamLink" placeholder="Link da stream">
+      <input type="file" id="f_streamFoto" accept="image/*">
+      <img id="previewStream" class="preview" src="streamer.jpg" alt="Preview streamer">
+
+      <h3>Time 1</h3>
+      <input id="f_time1" placeholder="Nome do time 1">
+      <input type="file" id="f_logo1" accept="image/*">
+      <img id="previewLogo1" class="preview" src="1shotkill.png" alt="Preview logo 1">
+
+      <h3>Time 2</h3>
+      <input id="f_time2" placeholder="Nome do time 2">
+      <input type="file" id="f_logo2" accept="image/*">
+      <img id="previewLogo2" class="preview" src="vanguarda.png" alt="Preview logo 2">
+
+      <button class="save" onclick="salvar()">Salvar Alterações</button>
+      <button class="close" onclick="fecharAdmin()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SENHA_ADMIN = "senha1326";
+
+function abrirAdmin(){
+  document.getElementById("admin").style.display = "block";
+}
+
+function fecharAdmin(){
+  document.getElementById("admin").style.display = "none";
+}
+
+function entrar(){
+  const senha = document.getElementById("senha").value;
+  if(senha === SENHA_ADMIN){
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("painel").style.display = "block";
+    carregar();
+  }else{
+    alert("Senha incorreta");
+  }
+}
+
+function lerArquivoComoBase64(file){
+  return new Promise((resolve)=>{
+    if(!file){
+      resolve(null);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.onerror = () => resolve(null);
+    reader.readAsDataURL(file);
+  });
+}
+
+async function salvar(){
+  const dados = {
+    titulo: document.getElementById("f_titulo").value,
+    sobre: document.getElementById("f_sobre").value,
+    zap: document.getElementById("f_zap").value,
+    data: document.getElementById("f_data").value,
+    hora: document.getElementById("f_hora").value,
+    streamNome: document.getElementById("f_streamNome").value,
+    streamLink: document.getElementById("f_streamLink").value,
+    time1: document.getElementById("f_time1").value,
+    time2: document.getElementById("f_time2").value
+  };
+
+  localStorage.setItem("siteData", JSON.stringify(dados));
+
+  const streamFotoFile = document.getElementById("f_streamFoto").files[0];
+  const logo1File = document.getElementById("f_logo1").files[0];
+  const logo2File = document.getElementById("f_logo2").files[0];
+
+  const streamFotoBase64 = await lerArquivoComoBase64(streamFotoFile);
+  const logo1Base64 = await lerArquivoComoBase64(logo1File);
+  const logo2Base64 = await lerArquivoComoBase64(logo2File);
+
+  if(streamFotoBase64) localStorage.setItem("streamFoto", streamFotoBase64);
+  if(logo1Base64) localStorage.setItem("logo1", logo1Base64);
+  if(logo2Base64) localStorage.setItem("logo2", logo2Base64);
+
+  aplicar();
+  alert("Alterações salvas com sucesso");
+}
+
+function carregar(){
+  const d = JSON.parse(localStorage.getItem("siteData") || "{}");
+
+  document.getElementById("f_titulo").value = d.titulo || document.getElementById("titulo").innerText;
+  document.getElementById("f_sobre").value = d.sobre || document.getElementById("sobre").innerText;
+  document.getElementById("f_zap").value = d.zap || document.getElementById("zap").href;
+  document.getElementById("f_data").value = d.data || document.getElementById("data").innerText;
+  document.getElementById("f_hora").value = d.hora || document.getElementById("hora").innerText;
+  document.getElementById("f_streamNome").value = d.streamNome || document.getElementById("streamNome").innerText;
+  document.getElementById("f_streamLink").value = d.streamLink || document.getElementById("streamLink").href;
+  document.getElementById("f_time1").value = d.time1 || document.getElementById("time1").innerText;
+  document.getElementById("f_time2").value = d.time2 || document.getElementById("time2").innerText;
+
+  document.getElementById("previewStream").src = localStorage.getItem("streamFoto") || document.getElementById("streamFoto").src;
+  document.getElementById("previewLogo1").src = localStorage.getItem("logo1") || document.getElementById("logo1").src;
+  document.getElementById("previewLogo2").src = localStorage.getItem("logo2") || document.getElementById("logo2").src;
+}
+
+function aplicar(){
+  const d = JSON.parse(localStorage.getItem("siteData") || "{}");
+
+  if(d.titulo) document.getElementById("titulo").innerText = d.titulo;
+  if(d.sobre) document.getElementById("sobre").innerText = d.sobre;
+  if(d.zap) document.getElementById("zap").href = d.zap;
+  if(d.data) document.getElementById("data").innerText = d.data;
+  if(d.hora) document.getElementById("hora").innerText = d.hora;
+  if(d.streamNome) document.getElementById("streamNome").innerText = d.streamNome;
+  if(d.streamLink) document.getElementById("streamLink").href = d.streamLink;
+  if(d.time1) document.getElementById("time1").innerText = d.time1;
+  if(d.time2) document.getElementById("time2").innerText = d.time2;
+
+  const imgStream = localStorage.getItem("streamFoto");
+  const imgLogo1 = localStorage.getItem("logo1");
+  const imgLogo2 = localStorage.getItem("logo2");
+
+  if(imgStream) document.getElementById("streamFoto").src = imgStream;
+  if(imgLogo1) document.getElementById("logo1").src = imgLogo1;
+  if(imgLogo2) document.getElementById("logo2").src = imgLogo2;
+}
+
+document.getElementById("f_streamFoto").addEventListener("change", function(){
+  const file = this.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = e => document.getElementById("previewStream").src = e.target.result;
+    reader.readAsDataURL(file);
+  }
+});
+
+document.getElementById("f_logo1").addEventListener("change", function(){
+  const file = this.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = e => document.getElementById("previewLogo1").src = e.target.result;
+    reader.readAsDataURL(file);
+  }
+});
+
+document.getElementById("f_logo2").addEventListener("change", function(){
+  const file = this.files[0];
+  if(file){
+    const reader = new FileReader();
+    reader.onload = e => document.getElementById("previewLogo2").src = e.target.result;
+    reader.readAsDataURL(file);
+  }
+});
+
+aplicar();
+</script>
+
+</body>
+</html>
