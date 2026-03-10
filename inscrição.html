@@ -22,9 +22,9 @@ content:"";
 position:fixed;
 inset:0;
 background:
-radial-gradient(circle at 20% 20%,rgba(255,60,0,.1),transparent 35%),
-radial-gradient(circle at 80% 30%,rgba(255,0,0,.08),transparent 30%),
-linear-gradient(to bottom,rgba(20,0,0,.8),rgba(0,0,0,.95));
+radial-gradient(circle at 20% 20%,rgba(255,140,0,.13),transparent 35%),
+radial-gradient(circle at 80% 30%,rgba(255,94,0,.1),transparent 30%),
+linear-gradient(to bottom,rgba(32,12,0,.82),rgba(0,0,0,.96));
 z-index:0;
 }
 
@@ -43,8 +43,8 @@ bottom:-20px;
 width:4px;
 height:4px;
 border-radius:50%;
-background:#ff5a1f;
-box-shadow:0 0 10px #ff3c00;
+background:#ff8c00;
+box-shadow:0 0 10px #ff6a00;
 animation:e linear infinite;
 opacity:.8;
 }
@@ -57,8 +57,8 @@ opacity:.8;
 
 /* HEADER */
 header{
-background:rgba(11,0,0,.9);
-border-bottom:2px solid #ff0000;
+background:rgba(20,8,0,.92);
+border-bottom:2px solid #ff7a00;
 height:64px;
 display:flex;
 align-items:center;
@@ -105,10 +105,11 @@ top:0;
 left:-210px;
 width:190px;
 height:100%;
-background:#0b0000;
+background:#120700;
 padding-top:75px;
 transition:.3s;
 z-index:10;
+border-right:1px solid rgba(255,122,0,.25);
 }
 
 .sidebar a{
@@ -122,7 +123,7 @@ font-weight:bold;
 
 .sidebar.active{left:0}
 
-/* TÍTULO - IGUAL AO INDEX */
+/* TÍTULO */
 .glitch{
 position:relative;
 display:inline-block;
@@ -147,14 +148,14 @@ overflow:hidden;
 }
 
 .glitch:before{
-color:#ff0000;
+color:#ff7a00;
 transform:translate(-2px,0);
-text-shadow:-2px 0 #ff0000;
+text-shadow:-2px 0 #ff7a00;
 animation:err1 1.2s infinite steps(1);
 }
 
 .glitch:after{
-color:#ff0000;
+color:#ff9f43;
 transform:translate(2px,0);
 opacity:.6;
 animation:err2 .9s infinite steps(1);
@@ -195,16 +196,18 @@ z-index:3;
 
 .card{
 background:rgba(17,17,17,.9);
-border:1px solid rgba(255,0,0,.3);
+border:1px solid rgba(255,122,0,.35);
 border-radius:12px;
 padding:20px;
+box-shadow:0 0 30px rgba(255,122,0,.08);
 }
 
 .info{
-background:#1a0000;
+background:#1d0d00;
 padding:12px;
 border-radius:10px;
 margin-bottom:14px;
+border:1px solid rgba(255,122,0,.16);
 }
 
 input,textarea,button{
@@ -214,15 +217,23 @@ margin:7px 0;
 border:none;
 border-radius:8px;
 box-sizing:border-box;
+font-size:15px;
 }
 
 input,textarea{
 background:#1a1a1a;
 color:#fff;
+border:1px solid rgba(255,122,0,.15);
+outline:none;
+}
+
+input:focus,textarea:focus{
+border-color:#ff7a00;
+box-shadow:0 0 0 2px rgba(255,122,0,.12);
 }
 
 button{
-background:#ff0000;
+background:linear-gradient(180deg,#ff8c00,#ff5e00);
 color:#fff;
 font-weight:bold;
 cursor:pointer;
@@ -230,16 +241,17 @@ cursor:pointer;
 
 .vagas{
 margin-top:14px;
-background:#1a0000;
+background:#1d0d00;
 border-radius:10px;
 padding:12px;
+border:1px solid rgba(255,122,0,.16);
 }
 
 .vagas b{font-size:28px}
 
 footer{
 padding:16px;
-border-top:1px solid #ff0000;
+border-top:1px solid #ff7a00;
 background:rgba(0,0,0,.4);
 margin-top:16px;
 position:relative;
@@ -255,10 +267,11 @@ width:54px;
 height:54px;
 border:none;
 border-radius:50%;
-background:#ff0000;
+background:linear-gradient(180deg,#ff8c00,#ff5e00);
 color:#fff;
 font-size:22px;
 z-index:20;
+box-shadow:0 8px 18px rgba(255,94,0,.3);
 }
 
 .admin{
@@ -277,11 +290,24 @@ margin:auto;
 background:#111;
 padding:18px;
 border-radius:12px;
-border:1px solid rgba(255,0,0,.25);
+border:1px solid rgba(255,122,0,.25);
 }
 
 .close{
 background:#333;
+}
+
+.admin-title{
+font-size:20px;
+font-weight:bold;
+margin-bottom:12px;
+color:#ff9f43;
+}
+
+.admin-info{
+font-size:14px;
+color:#ddd;
+margin-bottom:10px;
 }
 
 @media(max-width:700px){
@@ -335,8 +361,8 @@ background:#333;
 
 <div class="vagas">
 Vagas Disponíveis<br><br>
-<b id="v">12</b> / 12
-<div id="msg" style="display:none;color:#ff7777;margin-top:8px">Vagas esgotadas</div>
+<b id="v">12</b> / <span id="totalTxt">12</span>
+<div id="msg" style="display:none;color:#ff9b6b;margin-top:8px">Vagas esgotadas</div>
 </div>
 
 </div>
@@ -350,13 +376,19 @@ Vagas Disponíveis<br><br>
 <div class="admin-box">
 
 <div id="loginBox">
+<div class="admin-title">Painel Admin</div>
 <input type="password" id="senha" placeholder="Senha">
 <button onclick="login()">Entrar</button>
 <button class="close" onclick="fecharAdmin()">Fechar</button>
 </div>
 
 <div id="painel" style="display:none">
-<button onclick="resetarVagas()">Resetar Vagas</button>
+<div class="admin-title">Painel Admin</div>
+<div class="admin-info">Aqui o admin pode alterar o total de times e resetar as vagas.</div>
+
+<input type="number" id="novoTotal" min="1" placeholder="Quantidade total de times">
+<button onclick="salvarTotal()">Salvar quantidade de times</button>
+<button onclick="resetarVagas()">Resetar vagas usadas</button>
 <button class="close" onclick="fecharAdmin()">Fechar</button>
 </div>
 
@@ -364,7 +396,7 @@ Vagas Disponíveis<br><br>
 </div>
 
 <script>
-const T=12
+let T=parseInt(localStorage.getItem("totalTimes")||"12",10)
 let u=parseInt(localStorage.getItem("vagasUsadas")||"0",10)
 
 function m(){
@@ -372,9 +404,19 @@ document.getElementById("side").classList.toggle("active")
 }
 
 function upd(){
+if(T<1)T=1
+if(u<0)u=0
+if(u>T)u=T
+
 let r=T-u
 if(r<0)r=0
+
 document.getElementById("v").innerText=r
+document.getElementById("totalTxt").innerText=T
+
+if(document.getElementById("novoTotal")){
+document.getElementById("novoTotal").value=T
+}
 
 if(r<=0){
 document.getElementById("enviar").disabled=true
@@ -387,11 +429,14 @@ document.getElementById("msg").style.display="none"
 }
 }
 
-document.getElementById("f").addEventListener("submit",()=>{
-if(u<T){
+document.getElementById("f").addEventListener("submit",function(e){
+if(u>=T){
+e.preventDefault()
+upd()
+return
+}
 u++
 localStorage.setItem("vagasUsadas",u)
-}
 })
 
 function abrirAdmin(){
@@ -406,9 +451,30 @@ function login(){
 if(document.getElementById("senha").value==="senha1326"){
 document.getElementById("loginBox").style.display="none"
 document.getElementById("painel").style.display="block"
+document.getElementById("novoTotal").value=T
 }else{
 alert("Senha incorreta")
 }
+}
+
+function salvarTotal(){
+let n=parseInt(document.getElementById("novoTotal").value,10)
+
+if(!n || n<1){
+alert("Digite uma quantidade válida")
+return
+}
+
+T=n
+
+if(u>T){
+u=T
+localStorage.setItem("vagasUsadas",u)
+}
+
+localStorage.setItem("totalTimes",T)
+upd()
+alert("Quantidade total de times atualizada para "+T)
 }
 
 function resetarVagas(){
