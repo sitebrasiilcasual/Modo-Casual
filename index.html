@@ -504,6 +504,13 @@ function pegarImagemSobre(d){
   );
 }
 
+function formatarDataBR(data){
+  if(!data) return "";
+  const partes = data.split("-");
+  if(partes.length !== 3) return data;
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
 function aplicarDados(d){
   const titulo = d.titulo || "ZONA CASUAL";
   const tituloEl = document.getElementById("titulo");
@@ -513,11 +520,12 @@ function aplicarDados(d){
   document.getElementById("sobreImg").src = pegarImagemSobre(d);
   document.getElementById("sobre").innerHTML = d.sobre || "";
   document.getElementById("chamada").innerHTML = d.chamada || "";
-  document.getElementById("dataTxt").textContent = d.data || "-";
-  document.getElementById("horaTxt").textContent = d.hora || "-";
+  document.getElementById("dataTxt").textContent = d.dataEvento ? formatarDataBR(d.dataEvento) : "-";
+  document.getElementById("horaTxt").textContent = d.horaEvento || "-";
 
+  const streamerPrincipal = d.streamerPrincipal || {};
   const listaStreamers = Array.isArray(d.streamers) ? d.streamers : [];
-  const streamerAtual = listaStreamers.length ? listaStreamers[0] : null;
+  const streamerAtual = streamerPrincipal.nome || streamerPrincipal.img || streamerPrincipal.link ? streamerPrincipal : (listaStreamers.length ? listaStreamers[0] : null);
 
   document.getElementById("streamerImg").src =
     streamerAtual && streamerAtual.img ? streamerAtual.img : "streamer.jpg";
@@ -596,6 +604,5 @@ async function carregarDados(){
 
 window.addEventListener("DOMContentLoaded", carregarDados);
 </script>
-
 </body>
 </html>
