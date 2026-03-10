@@ -211,6 +211,7 @@ padding:12px;
 border-radius:10px;
 margin-bottom:14px;
 border:1px solid rgba(255,122,0,.16);
+line-height:1.7;
 }
 
 input,textarea,button{
@@ -291,7 +292,7 @@ display:none;
 
 <div class="sidebar" id="side">
 <a href="index.html">INÍCIO</a>
-<a href="ademar.html">ADM
+<a href="ademar.html">ADM</a>
 <a href="inscrição.html">INSCRIÇÃO</a>
 </div>
 
@@ -389,16 +390,18 @@ async function carregarDados(){
     tituloEl.textContent = titulo;
     tituloEl.setAttribute("data-text", titulo);
 
-    if(dados.inscricao){
-      document.title = dados.inscricao.pageTitle || "Inscrição";
-      document.getElementById("infoTxt").innerHTML =
-        dados.inscricao.infoTexto || "<b>Somente o líder da equipe</b> deve fazer a inscrição.";
+    document.title = "Inscrição - " + titulo;
 
-      if(dados.inscricao.formAction){
-        document.getElementById("f").action = dados.inscricao.formAction;
-      }
+    if(dados.infoInscricao){
+      document.getElementById("infoTxt").innerHTML = dados.infoInscricao;
+    }
 
-      T = parseInt(dados.inscricao.totalTimes || 12, 10);
+    if(dados.formAction){
+      document.getElementById("f").action = dados.formAction;
+    }
+
+    if(dados.totalTimes){
+      T = parseInt(dados.totalTimes,10);
     }else{
       T = 12;
     }
@@ -408,7 +411,7 @@ async function carregarDados(){
     console.error(e);
     T = 12;
     upd();
-    mostrarErro("Erro ao carregar dados.json. A página usou os valores padrão.");
+    mostrarErro("Erro ao carregar dados.json. A página usou valores padrão.");
   }
 }
 

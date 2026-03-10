@@ -28,6 +28,11 @@ h1,h2{
   text-align:center;
   color:#ff8c00;
 }
+label{
+  display:block;
+  margin-top:8px;
+  margin-bottom:4px;
+}
 input,textarea,button{
   width:100%;
   padding:12px;
@@ -137,6 +142,16 @@ small{
 
     <label>Chamada</label>
     <textarea id="chamada">Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível.</textarea>
+  </div>
+
+  <div class="card">
+    <h2>Configuração da Inscrição</h2>
+
+    <label>Número máximo de participantes</label>
+    <input type="number" id="maxParticipantes" min="1" value="100" placeholder="Ex: 100">
+
+    <label>Número de times</label>
+    <input type="number" id="numeroTimes" min="1" value="10" placeholder="Ex: 10">
   </div>
 
   <div class="card">
@@ -301,6 +316,8 @@ function dados(){
     titulo: document.getElementById("titulo").value,
     sobre: document.getElementById("sobre").value,
     chamada: document.getElementById("chamada").value,
+    maxParticipantes: Number(document.getElementById("maxParticipantes").value) || 0,
+    numeroTimes: Number(document.getElementById("numeroTimes").value) || 0,
     times: times,
     patrocinadores: pats,
     streamers: streamers
@@ -311,6 +328,8 @@ function aplicarDados(d){
   document.getElementById("titulo").value = d.titulo || "";
   document.getElementById("sobre").value = d.sobre || "";
   document.getElementById("chamada").value = d.chamada || "";
+  document.getElementById("maxParticipantes").value = d.maxParticipantes || "";
+  document.getElementById("numeroTimes").value = d.numeroTimes || "";
   times = Array.isArray(d.times) ? d.times : [];
   pats = Array.isArray(d.patrocinadores) ? d.patrocinadores : [];
   streamers = Array.isArray(d.streamers) ? d.streamers : [];
