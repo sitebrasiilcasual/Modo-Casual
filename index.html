@@ -2,264 +2,485 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Zona Casual</title>
 <style>
-body{margin:0;font-family:Arial;background:#000;color:#fff;text-align:center}
-header{background:#0b0000;padding:15px;border-bottom:2px solid #ff0000}
-h1{color:#ff2b2b}
-.container{max-width:900px;margin:auto;padding:20px}
-.card{background:#111;border:1px solid rgba(255,0,0,.3);border-radius:12px;padding:20px;margin-bottom:20px}
-.btn{display:inline-block;padding:12px 20px;border-radius:30px;text-decoration:none;font-weight:bold;margin-top:10px}
-.whatsapp{background:#25D366;color:#fff}
-.cadastro{background:#ff0000;color:#fff}
-.streamer img{width:120px;height:120px;object-fit:cover;border-radius:50%}
-.teams{display:flex;justify-content:center;gap:30px;flex-wrap:wrap}
-.teams img{width:90px;height:90px;object-fit:contain}
-footer{padding:15px;border-top:1px solid #ff0000;color:#aaa}
-.admin-btn{position:fixed;bottom:20px;right:20px;background:#ff0000;color:#fff;border:none;width:55px;height:55px;border-radius:50%;font-size:22px;cursor:pointer}
-.admin{position:fixed;inset:0;background:#000;display:none;overflow:auto;padding:20px}
-.admin-box{max-width:600px;margin:auto;background:#111;padding:20px;border-radius:12px;border:1px solid rgba(255,0,0,.25)}
-input,textarea,button{width:100%;padding:10px;margin:8px 0;border-radius:6px;border:none;box-sizing:border-box}
-textarea{min-height:90px;resize:vertical}
-.save{background:#ff0000;color:#fff;cursor:pointer}
-.close{background:#333;color:#fff;cursor:pointer}
-.preview{width:100px;height:100px;object-fit:cover;border-radius:10px;margin:8px auto;display:block;border:1px solid rgba(255,255,255,.15)}
+html,body{margin:0;padding:0;overflow-x:hidden;touch-action:pan-y}
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#000;color:#fff;text-align:center}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 20%,rgba(255,60,0,.12),transparent 35%),radial-gradient(circle at 80% 30%,rgba(255,0,0,.08),transparent 30%),linear-gradient(to bottom,rgba(20,0,0,.78),rgba(0,0,0,.96));z-index:0}
+.embers{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.embers span{position:absolute;bottom:-20px;width:4px;height:4px;border-radius:50%;background:#ff3b3b;box-shadow:0 0 10px #ff0000;animation:e linear infinite;opacity:.8}
+@keyframes e{0%{transform:translateY(0);opacity:0}10%{opacity:.9}100%{transform:translateY(-120vh) translateX(35px);opacity:0}}
+
+header{background:rgba(11,0,0,.9);border-bottom:2px solid #ff0000;height:64px;display:flex;align-items:center;justify-content:center;position:relative;z-index:3}
+.menu-btn{position:absolute;left:15px;top:0;bottom:0;margin:auto 0;width:34px;height:36px;border:none;background:none;cursor:pointer;padding:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:12px;z-index:20}
+.menu-btn span{width:24px;height:3px;background:#fff;border-radius:3px;display:block}
+.sidebar{position:fixed;top:0;left:-220px;width:200px;height:100%;background:#0b0000;padding-top:80px;transition:.3s;z-index:15}
+.sidebar a{display:block;color:#fff;padding:12px;text-decoration:none;font-weight:bold;text-align:left}
+.sidebar.active{left:0}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;z-index:14}
+.overlay.active{display:block}
+
+.glitch{position:relative;display:inline-block;font-size:26px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#fff;animation:flick .25s infinite alternate}
+.glitch:before,.glitch:after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;overflow:hidden}
+.glitch:before{color:#ff0000;transform:translate(-2px,0);text-shadow:-2px 0 #ff0000;animation:err1 1.2s infinite steps(1)}
+.glitch:after{color:#ff0000;transform:translate(2px,0);opacity:.6;animation:err2 .9s infinite steps(1)}
+@keyframes flick{0%{opacity:1}10%{opacity:.4}12%{opacity:1}54%{opacity:.5}56%{opacity:1}100%{opacity:1}}
+@keyframes err1{0%,100%{clip-path:inset(0 0 0 0)}20%{clip-path:inset(60% 0 5% 0)}40%{clip-path:inset(10% 0 80% 0)}60%{clip-path:inset(45% 0 25% 0)}80%{clip-path:inset(80% 0 5% 0)}}
+@keyframes err2{0%,100%{clip-path:inset(0 0 0 0)}25%{clip-path:inset(70% 0 8% 0)}50%{clip-path:inset(18% 0 55% 0)}75%{clip-path:inset(82% 0 3% 0)}}
+
+.container{max-width:860px;margin:auto;padding:20px;position:relative;z-index:3}
+.card{background:rgba(17,17,17,.9);border:1px solid rgba(255,0,0,.3);border-radius:12px;padding:20px;margin-bottom:18px}
+.card p{line-height:1.8;color:#d8d8d8;max-width:680px;margin:12px auto}
+.btn{display:inline-block;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:bold;margin-top:10px}
+.btn-dark{background:#000;border:1px solid #ff0000;color:#fff}
+.btn-red{background:#ff0000;color:#fff}
+
+.streamer img{width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,0,0,.35)}
+.logo-grid{display:flex;justify-content:center;gap:25px;flex-wrap:wrap}
+.logo-box{min-width:120px}
+.logo-box img{width:80px;height:80px;object-fit:contain}
+
+.slide-wrap{overflow:hidden;width:100%;padding:10px 0}
+.slide-track{display:flex;gap:25px;transition:.45s;align-items:center;will-change:transform}
+.team{min-width:120px;flex:0 0 120px}
+.team img{width:80px;height:80px;object-fit:contain}
+.team p{margin-top:8px;color:#d8d8d8}
+
+footer{padding:16px;border-top:1px solid #ff0000;background:rgba(0,0,0,.4);position:relative;z-index:3}
+
+.admin-btn{position:fixed;right:18px;bottom:18px;width:54px;height:54px;border:none;border-radius:50%;background:#ff0000;color:#fff;font-size:22px;z-index:20}
+.admin{position:fixed;inset:0;background:#000;display:none;padding:20px;overflow:auto;z-index:30}
+.admin-box{max-width:520px;margin:auto;background:#111;padding:18px;border-radius:12px}
+input,textarea,button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:8px;box-sizing:border-box}
+input,textarea{background:#1a1a1a;color:#fff}
+input[type=file]{background:#111;padding:8px}
+button{background:#ff0000;color:#fff;cursor:pointer}
+.close{background:#333}
+.plus{background:#111;border:2px dashed #ff0000}
+.preview{width:80px;height:80px;object-fit:contain;border-radius:10px;margin:10px auto;display:block;background:#1a1a1a}
+label{display:block;text-align:left;margin-top:10px;color:#ddd;font-size:13px}
+.small{font-size:12px;color:#aaa;margin-top:-2px}
+.item-box{border:1px solid rgba(255,255,255,.08);padding:10px;border-radius:10px;margin-top:10px}
+
+@media(max-width:700px){.glitch{font-size:24px}}
 </style>
 </head>
 <body>
 
+<div class="embers">
+<span style="left:10%;animation-duration:9s"></span>
+<span style="left:40%;animation-duration:12s"></span>
+<span style="left:70%;animation-duration:10s"></span>
+</div>
+
+<div class="overlay" id="overlay" onclick="fecharMenu()"></div>
+
+<div class="sidebar" id="side">
+<a href="index.html">INÍCIO</a>
+<a href="inscricao.html">INSCRIÇÃO</a>
+</div>
+
 <header>
-  <h1 id="titulo">ZONA CASUAL</h1>
+<button class="menu-btn" onclick="toggleMenu()"><span></span><span></span></button>
+<h1 id="titulo" class="glitch" data-text="ZONA CASUAL">ZONA CASUAL</h1>
 </header>
 
 <div class="container">
 
-  <div class="card">
-    <h2>Sobre o Projeto</h2>
-    <p id="sobre">
-      Projeto criado para organizar personalizadas de Warzone.
-    </p>
-    <a id="zap" class="btn whatsapp" href="https://wa.me/5521983747028" target="_blank">
-      Entrar no WhatsApp
-    </a>
-  </div>
+<div class="card">
+<h2>Sobre o Projeto</h2>
+<p id="sobre">O <b>Zona Casual</b> é um projeto criado para reunir equipes da comunidade em <b>partidas personalizadas de Warzone</b>, trazendo uma experiência organizada e dinâmica dentro do lobby.</p>
+<p id="chamada">Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível em partidas abertas para a comunidade.</p>
+<a id="btnInscricao" class="btn btn-dark" href="inscricao.html">INSCRIÇÃO PERSONALIZADA</a>
+</div>
 
-  <div class="card">
-    <h2>Próxima Personalizada</h2>
-    <p><b>Data:</b> <span id="data">20/03/2026</span></p>
-    <p><b>Horário:</b> <span id="hora">20:00</span></p>
-  </div>
+<div class="card">
+<h2>Próxima Personalizada</h2>
+<p><b>Data:</b> <span id="dataTxt">20/03/2026</span></p>
+<p><b>Horário:</b> <span id="horaTxt">20:00</span></p>
+</div>
 
-  <div class="card streamer">
-    <h2>Streamer</h2>
-    <img id="streamFoto" src="streamer.jpg" alt="Streamer">
-    <p id="streamNome">@streamer</p>
-    <a id="streamLink" class="btn cadastro" href="#" target="_blank">Assistir Stream</a>
-  </div>
+<div class="card streamer">
+<h2>Streamer</h2>
+<img id="streamerImg" src="streamer.jpg" alt="">
+<p id="streamerNome">@streamer</p>
+<a id="streamerLink" class="btn btn-red" href="#">Assistir Stream</a>
+</div>
 
-  <div class="card">
-    <h2>Times Envolvidos</h2>
-    <div class="teams">
-      <div>
-        <img id="logo1" src="1shotkill.png" alt="Time 1">
-        <p id="time1">1Shotkill</p>
-      </div>
-      <div>
-        <img id="logo2" src="vanguarda.png" alt="Time 2">
-        <p id="time2">Vanguarda Brasil</p>
-      </div>
-    </div>
-  </div>
+<div class="card">
+<h2>Times Envolvidos</h2>
+<div class="slide-wrap">
+<div class="slide-track" id="timesSlide"></div>
+</div>
+</div>
+
+<div class="card" id="patrocinadoresCard" style="display:none">
+<h2 id="patrocinadoresTitulo">Patrocinadores</h2>
+<div class="logo-grid" id="patrocinadoresGrid"></div>
+</div>
 
 </div>
 
-<footer>
-  © 2026 Zona Casual
-</footer>
+<footer>© 2026 Zona Casual</footer>
 
 <button class="admin-btn" onclick="abrirAdmin()">⚙</button>
 
 <div class="admin" id="admin">
-  <div class="admin-box">
-    <h2>Painel Admin</h2>
+<div class="admin-box">
 
-    <div id="loginBox">
-      <input type="password" id="senha" placeholder="Senha">
-      <button class="save" onclick="entrar()">Entrar</button>
-      <button class="close" onclick="fecharAdmin()">Fechar</button>
-    </div>
+<div id="loginBox">
+<input type="password" id="senha" placeholder="Senha">
+<button onclick="login()">Entrar</button>
+<button class="close" onclick="fecharAdmin()">Fechar</button>
+</div>
 
-    <div id="painel" style="display:none">
-      <h3>Título</h3>
-      <input id="f_titulo">
+<div id="painel" style="display:none">
 
-      <h3>Texto Projeto</h3>
-      <textarea id="f_sobre"></textarea>
+<label>Título do site</label>
+<input id="f_titulo">
 
-      <h3>WhatsApp</h3>
-      <input id="f_zap">
+<label>Texto sobre</label>
+<textarea id="f_sobre"></textarea>
 
-      <h3>Data</h3>
-      <input id="f_data">
+<label>Texto chamada</label>
+<textarea id="f_chamada"></textarea>
 
-      <h3>Hora</h3>
-      <input id="f_hora">
+<label>Data</label>
+<input id="f_data">
 
-      <h3>Streamer</h3>
-      <input id="f_streamNome" placeholder="Nome do streamer">
-      <input id="f_streamLink" placeholder="Link da stream">
-      <input type="file" id="f_streamFoto" accept="image/*">
-      <img id="previewStream" class="preview" src="streamer.jpg" alt="Preview streamer">
+<label>Hora</label>
+<input id="f_hora">
 
-      <h3>Time 1</h3>
-      <input id="f_time1" placeholder="Nome do time 1">
-      <input type="file" id="f_logo1" accept="image/*">
-      <img id="previewLogo1" class="preview" src="1shotkill.png" alt="Preview logo 1">
+<label>Nome streamer</label>
+<input id="f_streamerNome">
 
-      <h3>Time 2</h3>
-      <input id="f_time2" placeholder="Nome do time 2">
-      <input type="file" id="f_logo2" accept="image/*">
-      <img id="previewLogo2" class="preview" src="vanguarda.png" alt="Preview logo 2">
+<label>Link streamer</label>
+<input id="f_streamerLink">
 
-      <button class="save" onclick="salvar()">Salvar Alterações</button>
-      <button class="close" onclick="fecharAdmin()">Fechar</button>
-    </div>
-  </div>
+<label>Foto Streamer</label>
+<input type="file" id="uploadStreamer" accept="image/*">
+<img id="prevStreamer" class="preview">
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:14px 0">
+
+<label>Times do slide</label>
+<div class="small">Os 2 primeiros são fixos. Use o + para adicionar mais logos ao slide.</div>
+
+<input id="f_logo1Nome" placeholder="Nome time 1">
+<input type="file" id="upload1" accept="image/*">
+<img id="prev1" class="preview">
+
+<input id="f_logo2Nome" placeholder="Nome time 2">
+<input type="file" id="upload2" accept="image/*">
+<img id="prev2" class="preview">
+
+<div id="extraTimes"></div>
+<button class="plus" onclick="novoTime()">+ Adicionar Logo ao Slide</button>
+
+<hr style="border:none;border-top:1px solid rgba(255,255,255,.08);margin:14px 0">
+
+<label>Título patrocinadores</label>
+<input id="f_patrocinadoresTitulo">
+
+<div id="patrociniosAdmin"></div>
+<button class="plus" onclick="novoPatrocinador()">+ Adicionar Patrocinador</button>
+
+<button onclick="salvar()">Salvar</button>
+<button class="close" onclick="resetar()">Resetar</button>
+<button class="close" onclick="fecharAdmin()">Fechar</button>
+
+</div>
+</div>
 </div>
 
 <script>
-const SENHA_ADMIN = "senha1326";
+const SENHA="senha1326";
 
-function abrirAdmin(){
-  document.getElementById("admin").style.display = "block";
+function toggleMenu(){
+  document.getElementById("side").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+function fecharMenu(){
+  document.getElementById("side").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
+}
+function abrirAdmin(){ document.getElementById("admin").style.display="block"; }
+function fecharAdmin(){ document.getElementById("admin").style.display="none"; }
+
+function file64(file){
+  return new Promise(resolve=>{
+    if(!file){ resolve(null); return; }
+    const fr=new FileReader();
+    fr.onload=e=>resolve(e.target.result);
+    fr.onerror=()=>resolve(null);
+    fr.readAsDataURL(file);
+  });
 }
 
-function fecharAdmin(){
-  document.getElementById("admin").style.display = "none";
+function getExtraTimes(){
+  return JSON.parse(localStorage.getItem("extraTimes")||"[]");
+}
+function setExtraTimes(v){
+  localStorage.setItem("extraTimes",JSON.stringify(v));
+}
+function getPatrocinios(){
+  return JSON.parse(localStorage.getItem("patrocinios")||"[]");
+}
+function setPatrocinios(v){
+  localStorage.setItem("patrocinios",JSON.stringify(v));
 }
 
-function entrar(){
-  const senha = document.getElementById("senha").value;
-  if(senha === SENHA_ADMIN){
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("painel").style.display = "block";
-    carregar();
+function renderExtraAdmin(){
+  const list=getExtraTimes();
+  const box=document.getElementById("extraTimes");
+  box.innerHTML="";
+  list.forEach((item,i)=>{
+    box.insertAdjacentHTML("beforeend",`
+      <div class="item-box">
+        <input id="extraName${i}" value="${item.nome||""}" placeholder="Nome do time extra ${i+1}">
+        <input type="file" id="extraFile${i}" accept="image/*">
+        <img id="extraPrev${i}" class="preview" src="${item.img||""}">
+        <button class="close" onclick="removerTime(${i})">Remover Logo</button>
+      </div>
+    `);
+    const input=document.getElementById("extraFile"+i);
+    input.addEventListener("change",async()=>{
+      const img=await file64(input.files[0]);
+      if(img) document.getElementById("extraPrev"+i).src=img;
+    });
+  });
+}
+
+function renderPatrociniosAdmin(){
+  const list=getPatrocinios();
+  const box=document.getElementById("patrociniosAdmin");
+  box.innerHTML="";
+  list.forEach((item,i)=>{
+    box.insertAdjacentHTML("beforeend",`
+      <div class="item-box">
+        <input id="patNome${i}" value="${item.nome||""}" placeholder="Nome do patrocinador ${i+1}">
+        <input type="file" id="patFile${i}" accept="image/*">
+        <img id="patPrev${i}" class="preview" src="${item.img||""}">
+        <button class="close" onclick="removerPatrocinador(${i})">Remover Logo</button>
+      </div>
+    `);
+    const input=document.getElementById("patFile"+i);
+    input.addEventListener("change",async()=>{
+      const img=await file64(input.files[0]);
+      if(img) document.getElementById("patPrev"+i).src=img;
+    });
+  });
+}
+
+function novoTime(){
+  const list=getExtraTimes();
+  list.push({nome:"Novo Time",img:""});
+  setExtraTimes(list);
+  renderExtraAdmin();
+}
+function removerTime(i){
+  const list=getExtraTimes();
+  list.splice(i,1);
+  setExtraTimes(list);
+  renderExtraAdmin();
+  renderTimesSlide();
+}
+
+function novoPatrocinador(){
+  const list=getPatrocinios();
+  list.push({nome:"Novo Patrocinador",img:""});
+  setPatrocinios(list);
+  renderPatrociniosAdmin();
+}
+function removerPatrocinador(i){
+  const list=getPatrocinios();
+  list.splice(i,1);
+  setPatrocinios(list);
+  renderPatrociniosAdmin();
+  renderPatrocinadores();
+}
+
+function login(){
+  if(document.getElementById("senha").value===SENHA){
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("painel").style.display="block";
+    carregarCampos();
   }else{
     alert("Senha incorreta");
   }
 }
 
-function lerArquivoComoBase64(file){
-  return new Promise((resolve)=>{
-    if(!file){
-      resolve(null);
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = e => resolve(e.target.result);
-    reader.onerror = () => resolve(null);
-    reader.readAsDataURL(file);
-  });
+function carregarCampos(){
+  document.getElementById("f_titulo").value=localStorage.getItem("titulo")||"ZONA CASUAL";
+  document.getElementById("f_sobre").value=localStorage.getItem("sobre")||"";
+  document.getElementById("f_chamada").value=localStorage.getItem("chamada")||"";
+  document.getElementById("f_data").value=localStorage.getItem("data")||"20/03/2026";
+  document.getElementById("f_hora").value=localStorage.getItem("hora")||"20:00";
+  document.getElementById("f_streamerNome").value=localStorage.getItem("streamerNome")||"@streamer";
+  document.getElementById("f_streamerLink").value=localStorage.getItem("streamerLink")||"#";
+  document.getElementById("f_logo1Nome").value=localStorage.getItem("logo1Nome")||"1Shotkill";
+  document.getElementById("f_logo2Nome").value=localStorage.getItem("logo2Nome")||"Vanguarda Brasil";
+  document.getElementById("f_patrocinadoresTitulo").value=localStorage.getItem("patrocinadoresTitulo")||"Patrocinadores";
+
+  document.getElementById("prevStreamer").src=localStorage.getItem("streamer")||"streamer.jpg";
+  document.getElementById("prev1").src=localStorage.getItem("logo1")||"1shotkill.png";
+  document.getElementById("prev2").src=localStorage.getItem("logo2")||"vanguarda.png";
+
+  renderExtraAdmin();
+  renderPatrociniosAdmin();
 }
 
 async function salvar(){
-  const dados = {
-    titulo: document.getElementById("f_titulo").value,
-    sobre: document.getElementById("f_sobre").value,
-    zap: document.getElementById("f_zap").value,
-    data: document.getElementById("f_data").value,
-    hora: document.getElementById("f_hora").value,
-    streamNome: document.getElementById("f_streamNome").value,
-    streamLink: document.getElementById("f_streamLink").value,
-    time1: document.getElementById("f_time1").value,
-    time2: document.getElementById("f_time2").value
-  };
+  const pares=[
+    ["titulo",document.getElementById("f_titulo").value],
+    ["sobre",document.getElementById("f_sobre").value],
+    ["chamada",document.getElementById("f_chamada").value],
+    ["data",document.getElementById("f_data").value],
+    ["hora",document.getElementById("f_hora").value],
+    ["streamerNome",document.getElementById("f_streamerNome").value],
+    ["streamerLink",document.getElementById("f_streamerLink").value],
+    ["logo1Nome",document.getElementById("f_logo1Nome").value],
+    ["logo2Nome",document.getElementById("f_logo2Nome").value],
+    ["patrocinadoresTitulo",document.getElementById("f_patrocinadoresTitulo").value]
+  ];
+  pares.forEach(([k,v])=>localStorage.setItem(k,v));
 
-  localStorage.setItem("siteData", JSON.stringify(dados));
+  const s=await file64(document.getElementById("uploadStreamer").files[0]);
+  const l1=await file64(document.getElementById("upload1").files[0]);
+  const l2=await file64(document.getElementById("upload2").files[0]);
 
-  const streamFotoFile = document.getElementById("f_streamFoto").files[0];
-  const logo1File = document.getElementById("f_logo1").files[0];
-  const logo2File = document.getElementById("f_logo2").files[0];
+  if(s) localStorage.setItem("streamer",s);
+  if(l1) localStorage.setItem("logo1",l1);
+  if(l2) localStorage.setItem("logo2",l2);
 
-  const streamFotoBase64 = await lerArquivoComoBase64(streamFotoFile);
-  const logo1Base64 = await lerArquivoComoBase64(logo1File);
-  const logo2Base64 = await lerArquivoComoBase64(logo2File);
+  let extra=getExtraTimes();
+  for(let i=0;i<extra.length;i++){
+    const nome=document.getElementById("extraName"+i);
+    const file=document.getElementById("extraFile"+i);
+    if(nome) extra[i].nome=nome.value;
+    if(file && file.files[0]){
+      const img=await file64(file.files[0]);
+      if(img) extra[i].img=img;
+    }
+  }
+  setExtraTimes(extra);
 
-  if(streamFotoBase64) localStorage.setItem("streamFoto", streamFotoBase64);
-  if(logo1Base64) localStorage.setItem("logo1", logo1Base64);
-  if(logo2Base64) localStorage.setItem("logo2", logo2Base64);
+  let pats=getPatrocinios();
+  for(let i=0;i<pats.length;i++){
+    const nome=document.getElementById("patNome"+i);
+    const file=document.getElementById("patFile"+i);
+    if(nome) pats[i].nome=nome.value;
+    if(file && file.files[0]){
+      const img=await file64(file.files[0]);
+      if(img) pats[i].img=img;
+    }
+  }
+  setPatrocinios(pats);
 
   aplicar();
-  alert("Alterações salvas com sucesso");
-}
-
-function carregar(){
-  const d = JSON.parse(localStorage.getItem("siteData") || "{}");
-
-  document.getElementById("f_titulo").value = d.titulo || document.getElementById("titulo").innerText;
-  document.getElementById("f_sobre").value = d.sobre || document.getElementById("sobre").innerText;
-  document.getElementById("f_zap").value = d.zap || document.getElementById("zap").href;
-  document.getElementById("f_data").value = d.data || document.getElementById("data").innerText;
-  document.getElementById("f_hora").value = d.hora || document.getElementById("hora").innerText;
-  document.getElementById("f_streamNome").value = d.streamNome || document.getElementById("streamNome").innerText;
-  document.getElementById("f_streamLink").value = d.streamLink || document.getElementById("streamLink").href;
-  document.getElementById("f_time1").value = d.time1 || document.getElementById("time1").innerText;
-  document.getElementById("f_time2").value = d.time2 || document.getElementById("time2").innerText;
-
-  document.getElementById("previewStream").src = localStorage.getItem("streamFoto") || document.getElementById("streamFoto").src;
-  document.getElementById("previewLogo1").src = localStorage.getItem("logo1") || document.getElementById("logo1").src;
-  document.getElementById("previewLogo2").src = localStorage.getItem("logo2") || document.getElementById("logo2").src;
+  alert("Salvo");
 }
 
 function aplicar(){
-  const d = JSON.parse(localStorage.getItem("siteData") || "{}");
+  const titulo=localStorage.getItem("titulo");
+  const sobre=localStorage.getItem("sobre");
+  const chamada=localStorage.getItem("chamada");
+  const data=localStorage.getItem("data");
+  const hora=localStorage.getItem("hora");
+  const streamerNome=localStorage.getItem("streamerNome");
+  const streamerLink=localStorage.getItem("streamerLink");
+  const logo1Nome=localStorage.getItem("logo1Nome");
+  const logo2Nome=localStorage.getItem("logo2Nome");
+  const patrocinadoresTitulo=localStorage.getItem("patrocinadoresTitulo");
 
-  if(d.titulo) document.getElementById("titulo").innerText = d.titulo;
-  if(d.sobre) document.getElementById("sobre").innerText = d.sobre;
-  if(d.zap) document.getElementById("zap").href = d.zap;
-  if(d.data) document.getElementById("data").innerText = d.data;
-  if(d.hora) document.getElementById("hora").innerText = d.hora;
-  if(d.streamNome) document.getElementById("streamNome").innerText = d.streamNome;
-  if(d.streamLink) document.getElementById("streamLink").href = d.streamLink;
-  if(d.time1) document.getElementById("time1").innerText = d.time1;
-  if(d.time2) document.getElementById("time2").innerText = d.time2;
+  if(titulo){
+    const el=document.getElementById("titulo");
+    el.innerText=titulo;
+    el.setAttribute("data-text",titulo);
+  }
+  if(sobre) document.getElementById("sobre").innerHTML=sobre;
+  if(chamada) document.getElementById("chamada").innerHTML=chamada;
+  if(data) document.getElementById("dataTxt").innerText=data;
+  if(hora) document.getElementById("horaTxt").innerText=hora;
+  if(streamerNome) document.getElementById("streamerNome").innerText=streamerNome;
+  if(streamerLink) document.getElementById("streamerLink").href=streamerLink;
+  if(localStorage.getItem("streamer")) document.getElementById("streamerImg").src=localStorage.getItem("streamer");
+  if(patrocinadoresTitulo) document.getElementById("patrocinadoresTitulo").innerText=patrocinadoresTitulo;
 
-  const imgStream = localStorage.getItem("streamFoto");
-  const imgLogo1 = localStorage.getItem("logo1");
-  const imgLogo2 = localStorage.getItem("logo2");
-
-  if(imgStream) document.getElementById("streamFoto").src = imgStream;
-  if(imgLogo1) document.getElementById("logo1").src = imgLogo1;
-  if(imgLogo2) document.getElementById("logo2").src = imgLogo2;
+  renderTimesSlide(logo1Nome||"1Shotkill",logo2Nome||"Vanguarda Brasil");
+  renderPatrocinadores();
 }
 
-document.getElementById("f_streamFoto").addEventListener("change", function(){
-  const file = this.files[0];
-  if(file){
-    const reader = new FileReader();
-    reader.onload = e => document.getElementById("previewStream").src = e.target.result;
-    reader.readAsDataURL(file);
-  }
-});
+function renderTimesSlide(nome1,nome2){
+  const slide=document.getElementById("timesSlide");
+  const img1=localStorage.getItem("logo1")||"1shotkill.png";
+  const img2=localStorage.getItem("logo2")||"vanguarda.png";
+  let html=`
+    <div class="team"><img src="${img1}" alt=""><p>${nome1}</p></div>
+    <div class="team"><img src="${img2}" alt=""><p>${nome2}</p></div>
+  `;
+  getExtraTimes().forEach(t=>{
+    if(t.img||t.nome){
+      html+=`<div class="team"><img src="${t.img||'1shotkill.png'}" alt=""><p>${t.nome||'Novo Time'}</p></div>`;
+    }
+  });
+  slide.innerHTML=html;
+  slide.dataset.pos="0";
+  slide.style.transform="translateX(0px)";
+}
 
-document.getElementById("f_logo1").addEventListener("change", function(){
-  const file = this.files[0];
-  if(file){
-    const reader = new FileReader();
-    reader.onload = e => document.getElementById("previewLogo1").src = e.target.result;
-    reader.readAsDataURL(file);
+function renderPatrocinadores(){
+  const card=document.getElementById("patrocinadoresCard");
+  const grid=document.getElementById("patrocinadoresGrid");
+  const pats=getPatrocinios().filter(x=>x.img||x.nome);
+  if(!pats.length){
+    card.style.display="none";
+    grid.innerHTML="";
+    return;
   }
-});
+  card.style.display="block";
+  grid.innerHTML="";
+  pats.forEach(p=>{
+    grid.insertAdjacentHTML("beforeend",`
+      <div class="logo-box">
+        <img src="${p.img||'1shotkill.png'}" alt="">
+        <p>${p.nome||'Patrocinador'}</p>
+      </div>
+    `);
+  });
+}
 
-document.getElementById("f_logo2").addEventListener("change", function(){
-  const file = this.files[0];
-  if(file){
-    const reader = new FileReader();
-    reader.onload = e => document.getElementById("previewLogo2").src = e.target.result;
-    reader.readAsDataURL(file);
+function resetar(){
+  localStorage.clear();
+  location.reload();
+}
+
+setInterval(()=>{
+  const track=document.getElementById("timesSlide");
+  if(!track || track.children.length<=1) return;
+
+  let pos = parseInt(track.dataset.pos || "0", 10);
+  const total = track.children.length;
+
+  pos++;
+
+  if(pos >= total){
+    track.style.transition = "none";
+    pos = 0;
+    track.dataset.pos = "0";
+    track.style.transform = "translateX(0px)";
+
+    void track.offsetWidth;
+
+    track.style.transition = ".45s";
+    return;
   }
-});
+
+  track.dataset.pos = String(pos);
+  track.style.transform = `translateX(-${pos * 145}px)`;
+},2500);
 
 aplicar();
 </script>
