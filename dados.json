@@ -1,0 +1,46 @@
+{
+  "titulo": "ZONA CASUAL",
+
+  "sobre": "O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone. Aqui você encontra organização, competição e espaço para equipes mostrarem seu nível.",
+
+  "chamada": "Participe das nossas personalizadas, enfrente outras equipes e mostre sua habilidade dentro do jogo.",
+
+  "data": "Em breve",
+  "hora": "20:00",
+
+  "sobreImg": "zona.png",
+
+  "infoInscricao": "<b>Somente o líder da equipe</b> deve fazer a inscrição.",
+
+  "formAction": "https://formspree.io/f/myknkqyb",
+
+  "totalTimes": 12,
+
+  "streamers": [
+    {
+      "nome": "@streamer",
+      "img": "streamer.jpg",
+      "link": "#"
+    }
+  ],
+
+  "times": [
+    {
+      "nome": "1Shotkill",
+      "img": "1shotkill.png"
+    },
+    {
+      "nome": "Vanguarda",
+      "img": "vanguarda.png"
+    }
+  ],
+
+  "patrocinadoresTitulo": "Patrocinadores",
+
+  "patrocinadores": [
+    {
+      "nome": "Zona Casual",
+      "img": "zona.png"
+    }
+  ]
+}
