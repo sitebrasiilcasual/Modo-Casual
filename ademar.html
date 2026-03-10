@@ -97,6 +97,16 @@ button.red{
   margin:10px 0;
   border:1px solid rgba(255,255,255,.08);
 }
+.preview-streamer{
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:50%;
+  display:block;
+  margin:10px 0;
+  border:2px solid rgba(255,140,0,.35);
+  background:#1a1a1a;
+}
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -157,6 +167,22 @@ small{
   </div>
 
   <div class="card">
+    <h2>Streamer Principal</h2>
+
+    <label>Nome do streamer</label>
+    <input id="streamerNomePrincipal" placeholder="Ex: @nomedostreamer">
+
+    <label>Link clicável do botão da stream</label>
+    <input id="streamerLinkPrincipal" placeholder="Ex: https://twitch.tv/nomedostreamer">
+
+    <label>Foto do streamer</label>
+    <input type="file" id="streamerImgInput" accept="image/*" onchange="uploadStreamerPrincipal(this)">
+    <img id="streamerPreview" class="preview-streamer" style="display:none">
+
+    <small>Isso altera o nome, a foto e o link do botão “Assistir Stream” no site.</small>
+  </div>
+
+  <div class="card">
     <h2>Configuração da Inscrição</h2>
 
     <label>Número máximo de participantes</label>
@@ -179,7 +205,7 @@ small{
   </div>
 
   <div class="card">
-    <h2>Streamers</h2>
+    <h2>Streamers Extras</h2>
     <button onclick="addStreamer()">Adicionar Streamer</button>
     <div id="streamers"></div>
   </div>
@@ -209,6 +235,11 @@ let times = [];
 let pats = [];
 let streamers = [];
 let fotoSobre = "";
+let streamerPrincipal = {
+  nome: "",
+  img: "",
+  link: ""
+};
 
 function entrarPainel(){
   const senhaDigitada = document.getElementById("senha").value.trim();
@@ -287,10 +318,34 @@ function uploadFotoSobre(input){
   r.readAsDataURL(file);
 }
 
+function uploadStreamerPrincipal(input){
+  const file = input.files[0];
+  if(!file) return;
+
+  const r = new FileReader();
+  r.onload = function(){
+    streamerPrincipal.img = r.result;
+    atualizarPreviewStreamer();
+    statusTxt("Foto do streamer alterada.");
+  };
+  r.readAsDataURL(file);
+}
+
 function atualizarPreviewFotoSobre(){
   const img = document.getElementById("fotoSobrePreview");
   if(fotoSobre){
     img.src = fotoSobre;
+    img.style.display = "block";
+  }else{
+    img.src = "";
+    img.style.display = "none";
+  }
+}
+
+function atualizarPreviewStreamer(){
+  const img = document.getElementById("streamerPreview");
+  if(streamerPrincipal.img){
+    img.src = streamerPrincipal.img;
     img.style.display = "block";
   }else{
     img.src = "";
@@ -307,7 +362,11 @@ function esc(v){
 }
 
 function render(){
+  document.getElementById("streamerNomePrincipal").value = streamerPrincipal.nome || "";
+  document.getElementById("streamerLinkPrincipal").value = streamerPrincipal.link || "";
+
   atualizarPreviewFotoSobre();
+  atualizarPreviewStreamer();
 
   let h = "";
   times.forEach(function(x,i){
@@ -339,8 +398,8 @@ function render(){
   streamers.forEach(function(x,i){
     h += `
       <div class="item">
-        <input placeholder="Nome streamer" value="${esc(x.nome)}" onchange="streamers[${i}].nome=this.value">
-        <input placeholder="Link streamer" value="${esc(x.link)}" onchange="streamers[${i}].link=this.value">
+        <input placeholder="Nome streamer extra" value="${esc(x.nome)}" onchange="streamers[${i}].nome=this.value">
+        <input placeholder="Link streamer extra" value="${esc(x.link)}" onchange="streamers[${i}].link=this.value">
         <input type="file" accept="image/*" onchange="uploadImg(this,function(img){streamers[${i}].img=img})">
         ${x.img ? `<img class="preview" src="${x.img}">` : ""}
         <button class="red" onclick="streamers.splice(${i},1);render()">Remover</button>
@@ -351,6 +410,9 @@ function render(){
 }
 
 function dados(){
+  streamerPrincipal.nome = document.getElementById("streamerNomePrincipal").value;
+  streamerPrincipal.link = document.getElementById("streamerLinkPrincipal").value;
+
   return {
     titulo: document.getElementById("titulo").value,
     sobre: document.getElementById("sobre").value,
@@ -358,6 +420,7 @@ function dados(){
     chamada: document.getElementById("chamada").value,
     maxParticipantes: Number(document.getElementById("maxParticipantes").value) || 0,
     numeroTimes: Number(document.getElementById("numeroTimes").value) || 0,
+    streamerPrincipal: streamerPrincipal,
     times: times,
     patrocinadores: pats,
     streamers: streamers
@@ -371,9 +434,17 @@ function aplicarDados(d){
   document.getElementById("chamada").value = d.chamada || "";
   document.getElementById("maxParticipantes").value = d.maxParticipantes || "";
   document.getElementById("numeroTimes").value = d.numeroTimes || "";
+
+  streamerPrincipal = d.streamerPrincipal || {
+    nome: "",
+    img: "",
+    link: ""
+  };
+
   times = Array.isArray(d.times) ? d.times : [];
   pats = Array.isArray(d.patrocinadores) ? d.patrocinadores : [];
   streamers = Array.isArray(d.streamers) ? d.streamers : [];
+
   render();
 }
 
