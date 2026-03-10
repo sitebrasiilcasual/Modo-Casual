@@ -19,46 +19,26 @@ body{
 }
 .card{
   background:#111;
-  border:1px solid rgba(255,140,0,.28);
-  border-radius:14px;
+  border:1px solid rgba(255,140,0,.25);
+  border-radius:12px;
   padding:18px;
   margin-bottom:18px;
-  box-shadow:0 0 0 1px rgba(255,140,0,.05),0 10px 30px rgba(0,0,0,.35);
 }
-h1{
+h1,h2{
   text-align:center;
   color:#ff8c00;
-  margin:0 0 18px;
-}
-h2{
-  color:#ff8c00;
-  margin:0 0 14px;
-  text-align:center;
-}
-label{
-  display:block;
-  margin:8px 0 6px;
-  color:#ffb86a;
-  font-size:14px;
 }
 input,textarea,button{
   width:100%;
   padding:12px;
-  margin-top:6px;
-  margin-bottom:10px;
+  margin:6px 0 10px;
   border:none;
-  border-radius:10px;
+  border-radius:8px;
   font-size:16px;
 }
 input,textarea{
   background:#1a1a1a;
   color:#fff;
-  outline:none;
-  border:1px solid rgba(255,255,255,.06);
-}
-textarea{
-  min-height:100px;
-  resize:vertical;
 }
 button{
   background:#ff8c00;
@@ -67,12 +47,12 @@ button{
   cursor:pointer;
 }
 button.sec{
-  background:#232323;
+  background:#222;
   color:#fff;
   border:1px solid rgba(255,255,255,.08);
 }
 button.red{
-  background:#b63a3a;
+  background:#9f2e2e;
   color:#fff;
 }
 .login{
@@ -86,51 +66,42 @@ button.red{
 }
 .login-box{
   background:#111;
-  padding:24px;
-  border-radius:14px;
+  padding:25px;
+  border-radius:12px;
   width:100%;
-  max-width:340px;
-  border:1px solid rgba(255,140,0,.3);
+  max-width:320px;
+  border:1px solid rgba(255,140,0,.25);
 }
 .item{
   border:1px solid rgba(255,255,255,.08);
-  padding:12px;
-  border-radius:10px;
+  padding:10px;
+  border-radius:8px;
   margin-top:10px;
-  background:#0d0d0d;
 }
-.actions{
+.preview{
+  max-width:100px;
+  border-radius:8px;
+  display:block;
+  margin:8px 0;
+}
+.grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
-.info{
-  font-size:13px;
-  color:#aaa;
-  margin-top:4px;
-}
 .status{
   font-size:14px;
-  color:#bbb;
-  margin-top:8px;
-  min-height:20px;
+  color:#aaa;
   word-break:break-word;
+  min-height:20px;
 }
-.preview{
-  max-width:110px;
-  border-radius:8px;
-  display:block;
-  margin:6px 0 8px;
-  border:1px solid rgba(255,255,255,.08);
-}
-hr{
-  border:none;
-  border-top:1px solid rgba(255,255,255,.08);
-  margin:14px 0;
-}
-.small{
-  font-size:12px;
+small{
   color:#999;
+}
+@media(max-width:700px){
+  .grid{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -139,8 +110,8 @@ hr{
 <div class="login" id="login">
   <div class="login-box">
     <h2>Admin Zona Casual</h2>
-    <input type="password" id="senha" placeholder="Senha do painel">
-    <button onclick="login()">Entrar</button>
+    <input type="password" id="senha" placeholder="Senha">
+    <button onclick="entrarPainel()">Entrar</button>
   </div>
 </div>
 
@@ -150,16 +121,11 @@ hr{
   <div class="card">
     <label>Token GitHub</label>
     <input id="token" placeholder="Cole seu token GitHub">
-    <div class="actions">
-      <button onclick="salvarTokenLocal()">Salvar token no aparelho</button>
-      <button class="sec" onclick="carregarTokenLocal()">Usar token salvo</button>
+    <div class="grid">
+      <button onclick="salvarToken()">Salvar token</button>
+      <button class="sec" onclick="usarToken()">Usar token salvo</button>
     </div>
-    <div class="actions">
-      <button class="red" onclick="apagarTokenLocal()">Apagar token salvo</button>
-      <button class="sec" onclick="testarToken()">Testar token</button>
-    </div>
-    <div class="info">O token fica salvo só neste aparelho, no navegador/app local.</div>
-    <div class="small">Repositório: <span id="repoInfo">sitebrasiilcasual/Modo-Casual</span> | Branch: <span id="branchInfo">main</span></div>
+    <small>O token fica salvo só no seu aparelho.</small>
   </div>
 
   <div class="card">
@@ -192,9 +158,13 @@ hr{
   </div>
 
   <div class="card">
-    <div class="actions">
+    <div class="grid">
+      <button onclick="salvarNoSite()">SALVAR NO SITE</button>
       <button onclick="salvarGithub()">SALVAR NO GITHUB</button>
-      <button class="sec" onclick="carregarDadosDoGithub()">CARREGAR DO GITHUB</button>
+    </div>
+    <div class="grid">
+      <button class="sec" onclick="carregarDoSite()">CARREGAR DO SITE</button>
+      <button class="sec" onclick="carregarDoGithub()">CARREGAR DO GITHUB</button>
     </div>
     <div class="status" id="status"></div>
   </div>
@@ -202,61 +172,51 @@ hr{
 
 <script>
 const SENHA = "zona1326";
+const TOKEN_KEY = "zc_token";
+const SITE_KEY = "zc_dados";
 const REPO = "sitebrasiilcasual/Modo-Casual";
 const BRANCH = "main";
 const PATH = "dados.json";
-const TOKEN_KEY = "zonaCasualGithubToken";
 
 let times = [];
 let pats = [];
 let streamers = [];
 
-function login(){
-  const senhaDigitada = document.getElementById("senha").value;
+function entrarPainel(){
+  const senhaDigitada = document.getElementById("senha").value.trim();
+
   if(senhaDigitada === SENHA){
     document.getElementById("login").style.display = "none";
     document.getElementById("painel").style.display = "block";
-    carregarTokenLocal();
+    usarToken();
+    carregarDoSiteAuto();
     render();
   }else{
     alert("Senha incorreta");
   }
 }
 
-function setStatus(msg){
-  document.getElementById("status").innerText = msg || "";
+function statusTxt(t){
+  document.getElementById("status").innerText = t || "";
 }
 
-function salvarTokenLocal(){
-  const token = document.getElementById("token").value.trim();
-  if(!token){
+function salvarToken(){
+  const t = document.getElementById("token").value.trim();
+  if(!t){
     alert("Cole o token primeiro");
     return;
   }
-  localStorage.setItem(TOKEN_KEY, token);
-  setStatus("Token salvo neste aparelho.");
-  alert("Token salvo no aparelho");
+  localStorage.setItem(TOKEN_KEY, t);
+  statusTxt("Token salvo no aparelho.");
+  alert("Token salvo");
 }
 
-function carregarTokenLocal(){
-  const token = localStorage.getItem(TOKEN_KEY) || "";
-  if(token){
-    document.getElementById("token").value = token;
-    setStatus("Token salvo carregado.");
-  }else{
-    setStatus("Nenhum token salvo neste aparelho.");
+function usarToken(){
+  const t = localStorage.getItem(TOKEN_KEY) || "";
+  if(t){
+    document.getElementById("token").value = t;
+    statusTxt("Token carregado.");
   }
-}
-
-function apagarTokenLocal(){
-  localStorage.removeItem(TOKEN_KEY);
-  document.getElementById("token").value = "";
-  setStatus("Token salvo removido.");
-  alert("Token apagado do aparelho");
-}
-
-function getToken(){
-  return document.getElementById("token").value.trim();
 }
 
 function addTime(){
@@ -274,134 +234,69 @@ function addStreamer(){
   render();
 }
 
-function removerTime(i){
-  times.splice(i,1);
-  render();
-}
-
-function removerPat(i){
-  pats.splice(i,1);
-  render();
-}
-
-function removerStreamer(i){
-  streamers.splice(i,1);
-  render();
-}
-
-function uploadImg(input, callback){
+function uploadImg(input, cb){
   const file = input.files[0];
   if(!file) return;
 
-  const reader = new FileReader();
-  reader.onload = function(){
-    callback(reader.result);
+  const r = new FileReader();
+  r.onload = function(){
+    cb(r.result);
     render();
   };
-  reader.readAsDataURL(file);
+  r.readAsDataURL(file);
 }
 
-function escapeHtml(str){
-  return String(str || "")
+function esc(v){
+  return String(v || "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    .replace(/"/g,"&quot;");
 }
 
 function render(){
-  const t = document.getElementById("times");
-  t.innerHTML = "";
-  times.forEach((x,i)=>{
-    t.innerHTML += `
+  let h = "";
+  times.forEach(function(x,i){
+    h += `
       <div class="item">
-        <input placeholder="Título do time" value="${escapeHtml(x.nome)}" onchange="times[${i}].nome=this.value">
+        <input placeholder="Título do time" value="${esc(x.nome)}" onchange="times[${i}].nome=this.value">
         <input type="file" accept="image/*" onchange="uploadImg(this,function(img){times[${i}].img=img})">
-        ${x.img ? `<img class="preview" src="${x.img}" alt="preview">` : ""}
-        <button class="red" onclick="removerTime(${i})">Remover</button>
+        ${x.img ? `<img class="preview" src="${x.img}">` : ""}
+        <button class="red" onclick="times.splice(${i},1);render()">Remover</button>
       </div>
     `;
   });
+  document.getElementById("times").innerHTML = h;
 
-  const p = document.getElementById("pats");
-  p.innerHTML = "";
-  pats.forEach((x,i)=>{
-    p.innerHTML += `
+  h = "";
+  pats.forEach(function(x,i){
+    h += `
       <div class="item">
-        <input placeholder="Título patrocinador" value="${escapeHtml(x.nome)}" onchange="pats[${i}].nome=this.value">
+        <input placeholder="Título patrocinador" value="${esc(x.nome)}" onchange="pats[${i}].nome=this.value">
         <input type="file" accept="image/*" onchange="uploadImg(this,function(img){pats[${i}].img=img})">
-        ${x.img ? `<img class="preview" src="${x.img}" alt="preview">` : ""}
-        <button class="red" onclick="removerPat(${i})">Remover</button>
+        ${x.img ? `<img class="preview" src="${x.img}">` : ""}
+        <button class="red" onclick="pats.splice(${i},1);render()">Remover</button>
       </div>
     `;
   });
+  document.getElementById("pats").innerHTML = h;
 
-  const s = document.getElementById("streamers");
-  s.innerHTML = "";
-  streamers.forEach((x,i)=>{
-    s.innerHTML += `
+  h = "";
+  streamers.forEach(function(x,i){
+    h += `
       <div class="item">
-        <input placeholder="Nome streamer" value="${escapeHtml(x.nome)}" onchange="streamers[${i}].nome=this.value">
-        <input placeholder="Link stream" value="${escapeHtml(x.link)}" onchange="streamers[${i}].link=this.value">
+        <input placeholder="Nome streamer" value="${esc(x.nome)}" onchange="streamers[${i}].nome=this.value">
+        <input placeholder="Link streamer" value="${esc(x.link)}" onchange="streamers[${i}].link=this.value">
         <input type="file" accept="image/*" onchange="uploadImg(this,function(img){streamers[${i}].img=img})">
-        ${x.img ? `<img class="preview" src="${x.img}" alt="preview">` : ""}
-        <button class="red" onclick="removerStreamer(${i})">Remover</button>
+        ${x.img ? `<img class="preview" src="${x.img}">` : ""}
+        <button class="red" onclick="streamers.splice(${i},1);render()">Remover</button>
       </div>
     `;
   });
+  document.getElementById("streamers").innerHTML = h;
 }
 
-function utf8ToBase64(str){
-  return btoa(unescape(encodeURIComponent(str)));
-}
-
-async function githubFetch(url, options){
-  const token = getToken();
-  if(!token){
-    throw new Error("Cole o token GitHub");
-  }
-  const headers = Object.assign({
-    "Authorization":"Bearer " + token,
-    "Accept":"application/vnd.github+json"
-  }, (options && options.headers) || {});
-  const finalOptions = Object.assign({}, options || {}, {headers});
-  return fetch(url, finalOptions);
-}
-
-async function testarToken(){
-  try{
-    setStatus("Testando token...");
-    const res = await githubFetch("https://api.github.com/repos/" + REPO);
-    const data = await res.json();
-
-    if(res.ok){
-      setStatus("Token OK. Repositório encontrado.");
-      alert("Token funcionando");
-    }else{
-      setStatus("Erro no token: " + (data.message || "Falha"));
-      alert("Erro: " + (data.message || "Falha ao testar token"));
-    }
-  }catch(e){
-    setStatus("Erro: " + e.message);
-    alert("Erro: " + e.message);
-  }
-}
-
-async function pegarShaAtual(){
-  const url = "https://api.github.com/repos/" + REPO + "/contents/" + PATH + "?ref=" + BRANCH + "&t=" + Date.now();
-  const res = await githubFetch(url, {method:"GET"});
-  if(res.status === 404){
-    return null;
-  }
-  const data = await res.json();
-  if(!res.ok){
-    throw new Error(data.message || "Erro ao buscar SHA");
-  }
-  return data.sha || null;
-}
-
-function montarDados(){
+function dados(){
   return {
     titulo: document.getElementById("titulo").value,
     sobre: document.getElementById("sobre").value,
@@ -412,92 +307,130 @@ function montarDados(){
   };
 }
 
+function aplicarDados(d){
+  document.getElementById("titulo").value = d.titulo || "";
+  document.getElementById("sobre").value = d.sobre || "";
+  document.getElementById("chamada").value = d.chamada || "";
+  times = Array.isArray(d.times) ? d.times : [];
+  pats = Array.isArray(d.patrocinadores) ? d.patrocinadores : [];
+  streamers = Array.isArray(d.streamers) ? d.streamers : [];
+  render();
+}
+
+function salvarNoSite(){
+  localStorage.setItem(SITE_KEY, JSON.stringify(dados()));
+  statusTxt("Dados salvos no site/aparelho.");
+  alert("Salvo no site");
+}
+
+function carregarDoSite(){
+  const raw = localStorage.getItem(SITE_KEY);
+  if(!raw){
+    alert("Nenhum dado salvo no site");
+    return;
+  }
+  const d = JSON.parse(raw);
+  aplicarDados(d);
+  statusTxt("Dados carregados do site/aparelho.");
+  alert("Dados carregados do site");
+}
+
+function carregarDoSiteAuto(){
+  const raw = localStorage.getItem(SITE_KEY);
+  if(!raw) return;
+  try{
+    aplicarDados(JSON.parse(raw));
+    statusTxt("Dados locais carregados.");
+  }catch(e){}
+}
+
+function b64utf8(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+async function gh(url,opt){
+  const t = document.getElementById("token").value.trim();
+  if(!t) throw new Error("Cole o token GitHub");
+
+  localStorage.setItem(TOKEN_KEY, t);
+
+  opt = opt || {};
+  opt.headers = Object.assign({
+    "Authorization":"Bearer " + t,
+    "Accept":"application/vnd.github+json"
+  }, opt.headers || {});
+
+  return fetch(url, opt);
+}
+
 async function salvarGithub(){
   try{
-    setStatus("Preparando envio...");
-    const token = getToken();
+    statusTxt("Buscando arquivo atual...");
 
-    if(!token){
-      alert("Cole o token GitHub");
-      return;
+    const jsonStr = JSON.stringify(dados(), null, 2);
+    const content = b64utf8(jsonStr);
+    let sha = null;
+
+    const getRes = await gh("https://api.github.com/repos/" + REPO + "/contents/" + PATH + "?ref=" + BRANCH + "&t=" + Date.now());
+
+    if(getRes.ok){
+      const getData = await getRes.json();
+      sha = getData.sha;
     }
 
-    localStorage.setItem(TOKEN_KEY, token);
-
-    const dados = montarDados();
-    const content = utf8ToBase64(JSON.stringify(dados, null, 2));
-
-    setStatus("Buscando versão atual do arquivo...");
-    const sha = await pegarShaAtual();
+    statusTxt("Enviando ao GitHub...");
 
     const body = {
-      message: "Atualizar dados do site",
-      content: content,
-      branch: BRANCH
+      message:"Atualizar dados do site",
+      content:content,
+      branch:BRANCH
     };
 
-    if(sha){
-      body.sha = sha;
-    }
+    if(sha) body.sha = sha;
 
-    setStatus("Enviando para o GitHub...");
-    const res = await githubFetch("https://api.github.com/repos/" + REPO + "/contents/" + PATH, {
+    const put = await gh("https://api.github.com/repos/" + REPO + "/contents/" + PATH, {
       method:"PUT",
       headers:{
         "Content-Type":"application/json"
       },
-      body: JSON.stringify(body)
+      body:JSON.stringify(body)
     });
 
-    const data = await res.json();
+    const resp = await put.json();
 
-    if(res.ok){
-      setStatus("dados.json atualizado com sucesso.");
-      alert("Atualizado no GitHub com sucesso");
+    if(put.ok){
+      statusTxt("dados.json atualizado no GitHub.");
+      alert("Salvo no GitHub");
     }else{
-      setStatus("Erro: " + (data.message || "Falha"));
-      alert("Erro: " + (data.message || "Falha ao enviar"));
+      statusTxt("Erro: " + (resp.message || "falha"));
+      alert("Erro: " + (resp.message || "falha"));
     }
-
   }catch(e){
-    setStatus("Erro: " + e.message);
+    statusTxt("Erro: " + e.message);
     alert("Erro: " + e.message);
-    console.log(e);
   }
 }
 
-async function carregarDadosDoGithub(){
+async function carregarDoGithub(){
   try{
-    setStatus("Carregando dados do GitHub...");
-    const res = await githubFetch("https://api.github.com/repos/" + REPO + "/contents/" + PATH + "?ref=" + BRANCH + "&t=" + Date.now(), {
-      method:"GET"
-    });
+    statusTxt("Carregando do GitHub...");
+
+    const res = await gh("https://api.github.com/repos/" + REPO + "/contents/" + PATH + "?ref=" + BRANCH + "&t=" + Date.now());
     const data = await res.json();
 
     if(!res.ok){
-      throw new Error(data.message || "Não foi possível carregar dados");
+      throw new Error(data.message || "Falha");
     }
 
-    const conteudo = decodeURIComponent(escape(atob(data.content.replace(/\n/g,""))));
-    const json = JSON.parse(conteudo);
-
-    document.getElementById("titulo").value = json.titulo || "";
-    document.getElementById("sobre").value = json.sobre || "";
-    document.getElementById("chamada").value = json.chamada || "";
-
-    times = Array.isArray(json.times) ? json.times : [];
-    pats = Array.isArray(json.patrocinadores) ? json.patrocinadores : [];
-    streamers = Array.isArray(json.streamers) ? json.streamers : [];
-
-    render();
-    setStatus("Dados carregados do GitHub.");
-    alert("Dados carregados");
+    const txt = decodeURIComponent(escape(atob((data.content || "").replace(/\n/g,""))));
+    aplicarDados(JSON.parse(txt));
+    statusTxt("Dados carregados do GitHub.");
+    alert("Dados carregados do GitHub");
   }catch(e){
-    setStatus("Erro: " + e.message);
+    statusTxt("Erro: " + e.message);
     alert("Erro: " + e.message);
   }
 }
 </script>
-
 </body>
 </html>
