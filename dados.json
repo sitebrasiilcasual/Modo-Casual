@@ -1,0 +1,18 @@
+{
+  "titulo": "ZONA CASUAL",
+  "dataEvento": "",
+  "horaEvento": "",
+  "sobre": "O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone.",
+  "fotoSobre": "",
+  "chamada": "Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível.",
+  "maxParticipantes": 100,
+  "numeroTimes": 10,
+  "streamerPrincipal": {
+    "nome": "",
+    "img": "",
+    "link": ""
+  },
+  "times": [],
+  "patrocinadores": [],
+  "streamers": []
+}
