@@ -90,6 +90,24 @@ border-radius:8px;
 display:block;
 margin:8px 0;
 }
+.preview-sobre{
+width:100%;
+max-width:260px;
+border-radius:10px;
+display:block;
+margin:10px 0;
+border:1px solid rgba(255,255,255,.08);
+}
+.preview-streamer{
+width:120px;
+height:120px;
+object-fit:cover;
+border-radius:50%;
+display:block;
+margin:10px 0;
+border:2px solid rgba(255,140,0,.35);
+background:#1a1a1a;
+}
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -98,7 +116,14 @@ gap:10px;
 .status{
 font-size:14px;
 color:#aaa;
+word-break:break-word;
 min-height:20px;
+}
+small{
+color:#999;
+}
+@media(max-width:700px){
+.grid{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -127,6 +152,8 @@ min-height:20px;
 <button class="sec" onclick="usarToken()">Usar token salvo</button>
 </div>
 
+<small>O token fica salvo só no seu aparelho.</small>
+
 </div>
 
 <div class="card">
@@ -141,10 +168,42 @@ min-height:20px;
 <input type="time" id="horaEvento">
 
 <label>Texto Sobre</label>
-<textarea id="sobre"></textarea>
+<textarea id="sobre">O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone.</textarea>
+
+<label>Foto do Sobre</label>
+<input type="file" id="fotoSobreInput" accept="image/*" onchange="uploadFotoSobre(this)">
+<img id="fotoSobrePreview" class="preview-sobre" style="display:none">
 
 <label>Chamada</label>
-<textarea id="chamada"></textarea>
+<textarea id="chamada">Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível.</textarea>
+
+</div>
+
+<div class="card">
+
+<h2>Streamer Principal</h2>
+
+<label>Nome do streamer</label>
+<input id="streamerNomePrincipal">
+
+<label>Link clicável do botão da stream</label>
+<input id="streamerLinkPrincipal">
+
+<label>Foto do streamer</label>
+<input type="file" id="streamerImgInput" accept="image/*" onchange="uploadStreamerPrincipal(this)">
+<img id="streamerPreview" class="preview-streamer" style="display:none">
+
+</div>
+
+<div class="card">
+
+<h2>Configuração da Inscrição</h2>
+
+<label>Número máximo de participantes</label>
+<input type="number" id="maxParticipantes" value="100">
+
+<label>Número de times</label>
+<input type="number" id="numeroTimes" value="10">
 
 </div>
 
@@ -203,6 +262,8 @@ const PATH="dados.json"
 let times=[]
 let pats=[]
 let streamers=[]
+let fotoSobre=""
+let streamerPrincipal={nome:"",img:"",link:""}
 
 function entrarPainel(){
 const s=document.getElementById("senha").value.trim()
@@ -210,6 +271,7 @@ if(s===SENHA){
 document.getElementById("login").style.display="none"
 document.getElementById("painel").style.display="block"
 usarToken()
+carregarDoSiteAuto()
 render()
 }else{
 alert("Senha incorreta")
@@ -217,7 +279,7 @@ alert("Senha incorreta")
 }
 
 function statusTxt(t){
-document.getElementById("status").innerText=t
+document.getElementById("status").innerText=t||""
 }
 
 function salvarToken(){
@@ -227,32 +289,80 @@ alert("Token salvo")
 }
 
 function usarToken(){
-document.getElementById("token").value=localStorage.getItem(TOKEN_KEY)||""
+const t=localStorage.getItem(TOKEN_KEY)||""
+document.getElementById("token").value=t
 }
 
 function addTime(){
-times.push({nome:""})
+times.push({nome:"",img:""})
 render()
 }
 
 function addPat(){
-pats.push({nome:""})
+pats.push({nome:"",img:""})
 render()
 }
 
 function addStreamer(){
-streamers.push({nome:"",link:""})
+streamers.push({nome:"",img:"",link:""})
 render()
 }
 
+function uploadImg(input,cb){
+const f=input.files[0]
+if(!f)return
+const r=new FileReader()
+r.onload=()=>{cb(r.result);render()}
+r.readAsDataURL(f)
+}
+
+function uploadFotoSobre(i){
+const f=i.files[0]
+if(!f)return
+const r=new FileReader()
+r.onload=()=>{
+fotoSobre=r.result
+document.getElementById("fotoSobrePreview").src=fotoSobre
+document.getElementById("fotoSobrePreview").style.display="block"
+}
+r.readAsDataURL(f)
+}
+
+function uploadStreamerPrincipal(i){
+const f=i.files[0]
+if(!f)return
+const r=new FileReader()
+r.onload=()=>{
+streamerPrincipal.img=r.result
+document.getElementById("streamerPreview").src=r.result
+document.getElementById("streamerPreview").style.display="block"
+}
+r.readAsDataURL(f)
+}
+
 function render(){
+
+document.getElementById("streamerNomePrincipal").value=streamerPrincipal.nome||""
+document.getElementById("streamerLinkPrincipal").value=streamerPrincipal.link||""
+
+if(fotoSobre){
+document.getElementById("fotoSobrePreview").src=fotoSobre
+document.getElementById("fotoSobrePreview").style.display="block"
+}
+
+if(streamerPrincipal.img){
+document.getElementById("streamerPreview").src=streamerPrincipal.img
+document.getElementById("streamerPreview").style.display="block"
+}
 
 let h=""
 
 times.forEach((x,i)=>{
 h+=`
 <div class="item">
-<input value="${x.nome||""}" onchange="times[${i}].nome=this.value">
+<input placeholder="Título do time" value="${x.nome||""}" onchange="times[${i}].nome=this.value">
+<input type="file" onchange="uploadImg(this,function(img){times[${i}].img=img})">
+${x.img?`<img class="preview" src="${x.img}">`:""}
 <button class="red" onclick="times.splice(${i},1);render()">Remover</button>
 </div>`
 })
@@ -263,7 +373,9 @@ h=""
 pats.forEach((x,i)=>{
 h+=`
 <div class="item">
-<input value="${x.nome||""}" onchange="pats[${i}].nome=this.value">
+<input placeholder="Título patrocinador" value="${x.nome||""}" onchange="pats[${i}].nome=this.value">
+<input type="file" onchange="uploadImg(this,function(img){pats[${i}].img=img})">
+${x.img?`<img class="preview" src="${x.img}">`:""}
 <button class="red" onclick="pats.splice(${i},1);render()">Remover</button>
 </div>`
 })
@@ -274,8 +386,10 @@ h=""
 streamers.forEach((x,i)=>{
 h+=`
 <div class="item">
-<input value="${x.nome||""}" onchange="streamers[${i}].nome=this.value">
-<input value="${x.link||""}" onchange="streamers[${i}].link=this.value">
+<input placeholder="Nome streamer" value="${x.nome||""}" onchange="streamers[${i}].nome=this.value">
+<input placeholder="Link streamer" value="${x.link||""}" onchange="streamers[${i}].link=this.value">
+<input type="file" onchange="uploadImg(this,function(img){streamers[${i}].img=img})">
+${x.img?`<img class="preview" src="${x.img}">`:""}
 <button class="red" onclick="streamers.splice(${i},1);render()">Remover</button>
 </div>`
 })
@@ -285,16 +399,46 @@ document.getElementById("streamers").innerHTML=h
 }
 
 function dados(){
+
+streamerPrincipal.nome=document.getElementById("streamerNomePrincipal").value
+streamerPrincipal.link=document.getElementById("streamerLinkPrincipal").value
+
 return{
 titulo:document.getElementById("titulo").value,
 dataEvento:document.getElementById("dataEvento").value,
 horaEvento:document.getElementById("horaEvento").value,
 sobre:document.getElementById("sobre").value,
+fotoSobre:fotoSobre,
 chamada:document.getElementById("chamada").value,
+maxParticipantes:Number(document.getElementById("maxParticipantes").value)||0,
+numeroTimes:Number(document.getElementById("numeroTimes").value)||0,
+streamerPrincipal:streamerPrincipal,
 times:times,
 patrocinadores:pats,
 streamers:streamers
 }
+
+}
+
+function aplicarDados(d){
+
+document.getElementById("titulo").value=d.titulo||""
+document.getElementById("dataEvento").value=d.dataEvento||""
+document.getElementById("horaEvento").value=d.horaEvento||""
+document.getElementById("sobre").value=d.sobre||""
+fotoSobre=d.fotoSobre||""
+document.getElementById("chamada").value=d.chamada||""
+document.getElementById("maxParticipantes").value=d.maxParticipantes||""
+document.getElementById("numeroTimes").value=d.numeroTimes||""
+
+streamerPrincipal=d.streamerPrincipal||{nome:"",img:"",link:""}
+
+times=d.times||[]
+pats=d.patrocinadores||[]
+streamers=d.streamers||[]
+
+render()
+
 }
 
 function salvarNoSite(){
@@ -305,16 +449,13 @@ alert("Salvo no site")
 function carregarDoSite(){
 const raw=localStorage.getItem(SITE_KEY)
 if(!raw)return
-const d=JSON.parse(raw)
-document.getElementById("titulo").value=d.titulo||""
-document.getElementById("dataEvento").value=d.dataEvento||""
-document.getElementById("horaEvento").value=d.horaEvento||""
-document.getElementById("sobre").value=d.sobre||""
-document.getElementById("chamada").value=d.chamada||""
-times=d.times||[]
-pats=d.patrocinadores||[]
-streamers=d.streamers||[]
-render()
+aplicarDados(JSON.parse(raw))
+}
+
+function carregarDoSiteAuto(){
+const raw=localStorage.getItem(SITE_KEY)
+if(!raw)return
+aplicarDados(JSON.parse(raw))
 }
 
 async function salvarGithub(){
@@ -323,6 +464,8 @@ const token=document.getElementById("token").value.trim()
 if(!token){alert("Coloque o token GitHub");return}
 
 statusTxt("Salvando no GitHub...")
+
+try{
 
 let sha=null
 
@@ -334,7 +477,7 @@ sha=j.sha
 
 const conteudo=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))))
 
-await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
+const resp=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
 method:"PUT",
 headers:{
 "Authorization":"token "+token,
@@ -348,7 +491,15 @@ sha:sha
 })
 })
 
-statusTxt("Dados enviados para o GitHub")
+if(resp.ok){
+statusTxt("✅ Dados enviados para o GitHub")
+}else{
+statusTxt("❌ Erro ao salvar no GitHub")
+}
+
+}catch(e){
+statusTxt("Erro: "+e.message)
+}
 
 }
 
@@ -356,22 +507,24 @@ async function carregarDoGithub(){
 
 statusTxt("Carregando do GitHub...")
 
+try{
+
 const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now())
+
+if(!r.ok){
+statusTxt("❌ Não foi possível carregar")
+return
+}
+
 const d=await r.json()
 
-document.getElementById("titulo").value=d.titulo||""
-document.getElementById("dataEvento").value=d.dataEvento||""
-document.getElementById("horaEvento").value=d.horaEvento||""
-document.getElementById("sobre").value=d.sobre||""
-document.getElementById("chamada").value=d.chamada||""
+aplicarDados(d)
 
-times=d.times||[]
-pats=d.patrocinadores||[]
-streamers=d.streamers||[]
+statusTxt("✅ Dados carregados do GitHub")
 
-render()
-
-statusTxt("Dados carregados")
+}catch(e){
+statusTxt("Erro: "+e.message)
+}
 
 }
 
