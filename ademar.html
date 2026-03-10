@@ -89,6 +89,8 @@ max-width:100px;
 border-radius:8px;
 display:block;
 margin:8px 0;
+border:1px solid rgba(255,255,255,.08);
+background:#1a1a1a;
 }
 .preview-sobre{
 width:100%;
@@ -97,6 +99,7 @@ border-radius:10px;
 display:block;
 margin:10px 0;
 border:1px solid rgba(255,255,255,.08);
+background:#1a1a1a;
 }
 .preview-streamer{
 width:120px;
@@ -133,8 +136,8 @@ color:#999;
 <div class="login" id="login">
 <div class="login-box">
 <h2>Admin Zona Casual</h2>
-<input type="password" id="senha" placeholder="Senha">
-<button onclick="entrarPainel()">Entrar</button>
+<input type="password" id="senha" placeholder="Senha do painel">
+<button onclick="entrarPainel()">Entrar no painel</button>
 </div>
 </div>
 
@@ -162,13 +165,13 @@ color:#999;
 <input id="titulo" value="ZONA CASUAL">
 
 <label>Data do Evento</label>
-<input type="date" id="dataEvento">
+<input type="date" id="dataEvento" value="2026-03-20">
 
 <label>Horário do Evento</label>
-<input type="time" id="horaEvento">
+<input type="time" id="horaEvento" value="21:00">
 
 <label>Texto Sobre</label>
-<textarea id="sobre">O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone.</textarea>
+<textarea id="sobre">O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone. Nosso objetivo é trazer partidas organizadas, competitivas e divertidas para a comunidade.</textarea>
 
 <label>Foto do Sobre</label>
 <input type="file" id="fotoSobreInput" accept="image/*" onchange="uploadFotoSobre(this)">
@@ -184,10 +187,10 @@ color:#999;
 <h2>Streamer Principal</h2>
 
 <label>Nome do streamer</label>
-<input id="streamerNomePrincipal">
+<input id="streamerNomePrincipal" value="@StreamerOficial">
 
 <label>Link clicável do botão da stream</label>
-<input id="streamerLinkPrincipal">
+<input id="streamerLinkPrincipal" value="https://twitch.tv/">
 
 <label>Foto do streamer</label>
 <input type="file" id="streamerImgInput" accept="image/*" onchange="uploadStreamerPrincipal(this)">
@@ -294,17 +297,17 @@ document.getElementById("token").value=t
 }
 
 function addTime(){
-times.push({nome:"",img:""})
+times.push({nome:"Novo Time",img:""})
 render()
 }
 
 function addPat(){
-pats.push({nome:"",img:""})
+pats.push({nome:"Novo Patrocinador",img:""})
 render()
 }
 
 function addStreamer(){
-streamers.push({nome:"",img:"",link:""})
+streamers.push({nome:"Streamer",img:"",link:"https://twitch.tv/"})
 render()
 }
 
@@ -361,7 +364,7 @@ times.forEach((x,i)=>{
 h+=`
 <div class="item">
 <input placeholder="Título do time" value="${x.nome||""}" onchange="times[${i}].nome=this.value">
-<input type="file" onchange="uploadImg(this,function(img){times[${i}].img=img})">
+<input type="file" accept="image/*" onchange="uploadImg(this,function(img){times[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
 <button class="red" onclick="times.splice(${i},1);render()">Remover</button>
 </div>`
@@ -374,7 +377,7 @@ pats.forEach((x,i)=>{
 h+=`
 <div class="item">
 <input placeholder="Título patrocinador" value="${x.nome||""}" onchange="pats[${i}].nome=this.value">
-<input type="file" onchange="uploadImg(this,function(img){pats[${i}].img=img})">
+<input type="file" accept="image/*" onchange="uploadImg(this,function(img){pats[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
 <button class="red" onclick="pats.splice(${i},1);render()">Remover</button>
 </div>`
@@ -388,7 +391,7 @@ h+=`
 <div class="item">
 <input placeholder="Nome streamer" value="${x.nome||""}" onchange="streamers[${i}].nome=this.value">
 <input placeholder="Link streamer" value="${x.link||""}" onchange="streamers[${i}].link=this.value">
-<input type="file" onchange="uploadImg(this,function(img){streamers[${i}].img=img})">
+<input type="file" accept="image/*" onchange="uploadImg(this,function(img){streamers[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
 <button class="red" onclick="streamers.splice(${i},1);render()">Remover</button>
 </div>`
@@ -417,7 +420,6 @@ times:times,
 patrocinadores:pats,
 streamers:streamers
 }
-
 }
 
 function aplicarDados(d){
@@ -438,7 +440,6 @@ pats=d.patrocinadores||[]
 streamers=d.streamers||[]
 
 render()
-
 }
 
 function salvarNoSite(){
@@ -494,13 +495,13 @@ sha:sha
 if(resp.ok){
 statusTxt("✅ Dados enviados para o GitHub")
 }else{
-statusTxt("❌ Erro ao salvar no GitHub")
+const erro=await resp.text()
+statusTxt("❌ Erro ao salvar no GitHub: "+erro)
 }
 
 }catch(e){
 statusTxt("Erro: "+e.message)
 }
-
 }
 
 async function carregarDoGithub(){
@@ -517,7 +518,6 @@ return
 }
 
 const d=await r.json()
-
 aplicarDados(d)
 
 statusTxt("✅ Dados carregados do GitHub")
@@ -525,7 +525,6 @@ statusTxt("✅ Dados carregados do GitHub")
 }catch(e){
 statusTxt("Erro: "+e.message)
 }
-
 }
 
 </script>
