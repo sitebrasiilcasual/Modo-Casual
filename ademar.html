@@ -89,6 +89,14 @@ button.red{
   display:block;
   margin:8px 0;
 }
+.preview-sobre{
+  width:100%;
+  max-width:260px;
+  border-radius:10px;
+  display:block;
+  margin:10px 0;
+  border:1px solid rgba(255,255,255,.08);
+}
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -139,6 +147,10 @@ small{
 
     <label>Texto Sobre</label>
     <textarea id="sobre">O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone.</textarea>
+
+    <label>Foto do Sobre</label>
+    <input type="file" id="fotoSobreInput" accept="image/*" onchange="uploadFotoSobre(this)">
+    <img id="fotoSobrePreview" class="preview-sobre" style="display:none">
 
     <label>Chamada</label>
     <textarea id="chamada">Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível.</textarea>
@@ -196,6 +208,7 @@ const PATH = "dados.json";
 let times = [];
 let pats = [];
 let streamers = [];
+let fotoSobre = "";
 
 function entrarPainel(){
   const senhaDigitada = document.getElementById("senha").value.trim();
@@ -261,6 +274,30 @@ function uploadImg(input, cb){
   r.readAsDataURL(file);
 }
 
+function uploadFotoSobre(input){
+  const file = input.files[0];
+  if(!file) return;
+
+  const r = new FileReader();
+  r.onload = function(){
+    fotoSobre = r.result;
+    atualizarPreviewFotoSobre();
+    statusTxt("Foto do sobre alterada.");
+  };
+  r.readAsDataURL(file);
+}
+
+function atualizarPreviewFotoSobre(){
+  const img = document.getElementById("fotoSobrePreview");
+  if(fotoSobre){
+    img.src = fotoSobre;
+    img.style.display = "block";
+  }else{
+    img.src = "";
+    img.style.display = "none";
+  }
+}
+
 function esc(v){
   return String(v || "")
     .replace(/&/g,"&amp;")
@@ -270,6 +307,8 @@ function esc(v){
 }
 
 function render(){
+  atualizarPreviewFotoSobre();
+
   let h = "";
   times.forEach(function(x,i){
     h += `
@@ -315,6 +354,7 @@ function dados(){
   return {
     titulo: document.getElementById("titulo").value,
     sobre: document.getElementById("sobre").value,
+    fotoSobre: fotoSobre,
     chamada: document.getElementById("chamada").value,
     maxParticipantes: Number(document.getElementById("maxParticipantes").value) || 0,
     numeroTimes: Number(document.getElementById("numeroTimes").value) || 0,
@@ -327,6 +367,7 @@ function dados(){
 function aplicarDados(d){
   document.getElementById("titulo").value = d.titulo || "";
   document.getElementById("sobre").value = d.sobre || "";
+  fotoSobre = d.fotoSobre || "";
   document.getElementById("chamada").value = d.chamada || "";
   document.getElementById("maxParticipantes").value = d.maxParticipantes || "";
   document.getElementById("numeroTimes").value = d.numeroTimes || "";
