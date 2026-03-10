@@ -2,37 +2,284 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Zona Casual</title>
 <style>
-html,body{margin:0;padding:0;overflow-x:hidden}*{box-sizing:border-box}body{font-family:Arial,sans-serif;background:#000;color:#fff;text-align:center;position:relative}
-body:before{content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;background:radial-gradient(circle at 20% 20%,rgba(255,140,0,.16),transparent 35%),radial-gradient(circle at 80% 30%,rgba(255,180,0,.10),transparent 30%),linear-gradient(to bottom,rgba(25,12,0,.82),rgba(0,0,0,.96))}
-.embers{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-2}.embers span{position:absolute;bottom:-20px;width:5px;height:5px;border-radius:50%;background:#ff9a1f;box-shadow:0 0 12px #ff8c00,0 0 22px rgba(255,140,0,.7);animation:e linear infinite;opacity:.95}
-@keyframes e{0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:.95}100%{transform:translateY(-120vh) translateX(35px);opacity:0}}
-header{background:rgba(20,10,0,.9);border-bottom:2px solid #ff8c00;height:64px;display:flex;align-items:center;justify-content:center;position:relative;z-index:3}
-.menu-btn{position:absolute;left:15px;top:0;bottom:0;margin:auto 0;width:36px;height:42px;border:none;background:none;cursor:pointer;padding:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:14px;z-index:20}.menu-btn span{width:25px;height:3px;background:#fff;border-radius:3px;display:block}
-.sidebar{position:fixed;top:0;left:-220px;width:200px;height:100%;background:#140a00;padding-top:80px;transition:.3s;z-index:15}.sidebar a{display:block;color:#fff;padding:12px;text-decoration:none;font-weight:bold;text-align:left}.sidebar.active{left:0}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;z-index:14}.overlay.active{display:block}
-.glitch{position:relative;display:inline-block;font-size:28px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#fff;text-shadow:0 0 5px #ff6a00,0 0 10px #ff8c00,0 0 20px #ff8c00,0 0 40px #ff4500;animation:fireGlow 1.6s infinite alternate}
-.glitch:before,.glitch:after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;overflow:hidden;pointer-events:none}
-.glitch:before{color:#ff8c00;transform:translate(-2px,0);text-shadow:-2px 0 #ff4500;animation:glitchTop 2s infinite linear alternate-reverse}
-.glitch:after{color:#ff4500;transform:translate(2px,0);text-shadow:2px 0 #ff8c00;animation:glitchBottom 1.8s infinite linear alternate-reverse}
-@keyframes fireGlow{0%{text-shadow:0 0 5px #ff6a00,0 0 10px #ff8c00,0 0 20px #ff8c00}100%{text-shadow:0 0 10px #ff6a00,0 0 25px #ff8c00,0 0 45px #ff4500}}
-@keyframes glitchTop{0%{clip-path:inset(0 0 80% 0)}25%{clip-path:inset(20% 0 50% 0)}50%{clip-path:inset(40% 0 30% 0)}75%{clip-path:inset(10% 0 70% 0)}100%{clip-path:inset(0 0 80% 0)}}
-@keyframes glitchBottom{0%{clip-path:inset(80% 0 0 0)}25%{clip-path:inset(60% 0 20% 0)}50%{clip-path:inset(70% 0 10% 0)}75%{clip-path:inset(85% 0 0 0)}100%{clip-path:inset(80% 0 0 0)}}
-.container{max-width:860px;margin:auto;padding:20px;position:relative;z-index:3}
-.card{background:rgba(17,17,17,.9);border:1px solid rgba(255,140,0,.35);border-radius:12px;padding:20px;margin-bottom:18px;box-shadow:0 0 18px rgba(255,140,0,.06)}
-.card p{line-height:1.8;color:#d8d8d8;max-width:680px;margin:12px auto}.btn{display:inline-block;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:bold;margin-top:10px}.btn-main{background:#ff8c00;color:#000}
-.sobre-img{width:220px;height:220px;max-width:100%;margin:0 auto 15px;display:block;object-fit:cover;border-radius:50%;border:3px solid #ff8c00;background:#111;box-shadow:0 0 18px rgba(255,140,0,.35)}
-.streamer img{width:110px;height:110px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,140,0,.4)}
-.logo-grid{display:flex;justify-content:center;gap:25px;flex-wrap:wrap}.logo-box{min-width:120px}.logo-box img{width:80px;height:80px;object-fit:contain}
-.slide-wrap{overflow:hidden;width:100%;padding:10px 0}.slide-track{display:flex;gap:25px;align-items:center;transform:translateX(0)}.team{min-width:120px;flex:0 0 120px;text-align:center}.team img{width:80px;height:80px;object-fit:contain;display:block;margin:0 auto}.team p{margin-top:8px;color:#d8d8d8}
-footer{padding:16px;border-top:1px solid #ff8c00;background:rgba(0,0,0,.4);position:relative;z-index:3}
-.admin-btn{position:fixed;right:18px;bottom:18px;width:54px;height:54px;border:none;border-radius:50%;background:#ff8c00;color:#000;font-size:22px;z-index:20}
-.admin{position:fixed;inset:0;background:#000;display:none;padding:20px;overflow:auto;z-index:30}.admin-box{max-width:540px;margin:auto;background:#111;padding:18px;border-radius:12px;border:1px solid rgba(255,140,0,.25)}
-input,textarea,button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:8px;box-sizing:border-box}input,textarea{background:#1a1a1a;color:#fff}button{background:#ff8c00;color:#000;cursor:pointer;font-weight:bold}.close{background:#333;color:#fff}.plus{background:#111;border:2px dashed #ff8c00;color:#fff}
-.preview{width:80px;height:80px;object-fit:contain;border-radius:10px;margin:10px auto;display:block;background:#1a1a1a}label{display:block;text-align:left;margin-top:10px;color:#ddd;font-size:13px}.small{font-size:12px;color:#aaa;margin-top:-2px}.item-box{border:1px solid rgba(255,255,255,.08);padding:10px;border-radius:10px;margin-top:10px}.status{font-size:12px;color:#ffd3a1;margin-top:4px}hr{border:none;border-top:1px solid rgba(255,255,255,.08);margin:14px 0}
-@media(max-width:700px){.glitch{font-size:24px}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden}
+body{font-family:Arial,sans-serif;background:#000;color:#fff;text-align:center;position:relative}
+body:before{
+content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;
+background:
+radial-gradient(circle at 20% 20%,rgba(255,140,0,.16),transparent 35%),
+radial-gradient(circle at 80% 30%,rgba(255,180,0,.10),transparent 30%),
+linear-gradient(to bottom,rgba(25,12,0,.82),rgba(0,0,0,.96))
+}
+
+/* partículas */
+.embers{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-2}
+.embers span{
+position:absolute;bottom:-20px;width:5px;height:5px;border-radius:50%;
+background:#ff9a1f;box-shadow:0 0 12px #ff8c00,0 0 22px rgba(255,140,0,.7);
+animation:e linear infinite;opacity:.95
+}
+@keyframes e{
+0%{transform:translateY(0) translateX(0);opacity:0}
+10%{opacity:.95}
+100%{transform:translateY(-120vh) translateX(35px);opacity:0}
+}
+
+header{
+background:rgba(20,10,0,.9);
+border-bottom:2px solid #ff8c00;
+height:64px;display:flex;align-items:center;justify-content:center;
+position:relative;z-index:5
+}
+
+/* menu hambúrguer 2 listras */
+.menu-btn{
+position:absolute;
+left:15px;
+top:50%;
+transform:translateY(-50%);
+background:none;
+border:none;
+cursor:pointer;
+display:flex;
+flex-direction:column;
+gap:6px;
+z-index:20
+}
+.menu-btn span{
+display:block;
+width:26px;
+height:3px;
+background:#fff;
+border-radius:3px
+}
+
+/* sidebar */
+.sidebar{
+position:fixed;
+top:0;
+left:-220px;
+width:200px;
+height:100%;
+background:#140a00;
+padding-top:80px;
+transition:.3s;
+z-index:15
+}
+.sidebar a{
+display:block;
+color:#fff;
+padding:14px;
+text-decoration:none;
+font-weight:bold;
+text-align:left;
+line-height:1.4;
+border-bottom:1px solid rgba(255,140,0,.2)
+}
+.sidebar.active{left:0}
+
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+z-index:14
+}
+.overlay.active{display:block}
+
+/* título fogo + glitch */
+.glitch{
+position:relative;
+display:inline-block;
+font-size:28px;
+font-weight:900;
+letter-spacing:2px;
+text-transform:uppercase;
+color:#fff;
+text-shadow:
+0 0 5px #ff6a00,
+0 0 10px #ff8c00,
+0 0 20px #ff8c00,
+0 0 40px #ff4500;
+animation:fireGlow 1.6s infinite alternate
+}
+.glitch:before,
+.glitch:after{
+content:attr(data-text);
+position:absolute;
+left:0;
+top:0;
+width:100%;
+overflow:hidden;
+pointer-events:none
+}
+.glitch:before{
+color:#ff8c00;
+transform:translate(-2px,0);
+text-shadow:-2px 0 #ff4500;
+animation:glitchTop 2s infinite linear alternate-reverse
+}
+.glitch:after{
+color:#ff4500;
+transform:translate(2px,0);
+text-shadow:2px 0 #ff8c00;
+animation:glitchBottom 1.8s infinite linear alternate-reverse
+}
+@keyframes fireGlow{
+0%{
+text-shadow:
+0 0 5px #ff6a00,
+0 0 10px #ff8c00,
+0 0 20px #ff8c00
+}
+100%{
+text-shadow:
+0 0 10px #ff6a00,
+0 0 25px #ff8c00,
+0 0 45px #ff4500
+}
+}
+@keyframes glitchTop{
+0%{clip-path:inset(0 0 80% 0)}
+25%{clip-path:inset(20% 0 50% 0)}
+50%{clip-path:inset(40% 0 30% 0)}
+75%{clip-path:inset(10% 0 70% 0)}
+100%{clip-path:inset(0 0 80% 0)}
+}
+@keyframes glitchBottom{
+0%{clip-path:inset(80% 0 0 0)}
+25%{clip-path:inset(60% 0 20% 0)}
+50%{clip-path:inset(70% 0 10% 0)}
+75%{clip-path:inset(85% 0 0 0)}
+100%{clip-path:inset(80% 0 0 0)}
+}
+
+.container{
+max-width:860px;
+margin:auto;
+padding:20px;
+position:relative;
+z-index:3
+}
+.card{
+background:rgba(17,17,17,.9);
+border:1px solid rgba(255,140,0,.35);
+border-radius:12px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 0 18px rgba(255,140,0,.06)
+}
+.card p{
+line-height:1.8;
+color:#d8d8d8;
+max-width:680px;
+margin:12px auto
+}
+.btn{
+display:inline-block;
+padding:12px 20px;
+border-radius:999px;
+text-decoration:none;
+font-weight:bold;
+margin-top:10px
+}
+.btn-main{
+background:#ff8c00;
+color:#000
+}
+
+.sobre-img{
+width:220px;
+height:220px;
+max-width:100%;
+margin:0 auto 15px;
+display:block;
+object-fit:cover;
+border-radius:50%;
+border:3px solid #ff8c00;
+background:#111;
+box-shadow:0 0 18px rgba(255,140,0,.35)
+}
+
+.streamer img{
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid rgba(255,140,0,.4)
+}
+
+/* slide */
+.slide-wrap{
+overflow:hidden;
+width:100%;
+padding:10px 0
+}
+.slide-track{
+display:flex;
+gap:25px;
+align-items:center
+}
+.team{
+min-width:120px;
+text-align:center
+}
+.team img{
+width:80px;
+height:80px;
+object-fit:contain;
+display:block;
+margin:auto
+}
+.team p{
+margin-top:8px;
+color:#ccc
+}
+
+/* patrocinadores */
+.logo-grid{
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap
+}
+.logo-box{
+min-width:120px
+}
+.logo-box img{
+width:80px;
+height:80px;
+object-fit:contain;
+display:block;
+margin:auto
+}
+.logo-box p{
+margin-top:8px;
+color:#ccc
+}
+
+footer{
+padding:16px;
+border-top:1px solid #ff8c00;
+background:rgba(0,0,0,.4);
+position:relative;
+z-index:3
+}
+
+.erro-box{
+background:rgba(255,0,0,.08);
+border:1px solid rgba(255,80,80,.35);
+color:#ffd6d6
+}
+
+@media(max-width:700px){
+.glitch{font-size:24px}
+.sobre-img{width:180px;height:180px}
+}
 </style>
 </head>
 <body>
@@ -50,28 +297,32 @@ input,textarea,button{width:100%;padding:12px;margin:6px 0;border:none;border-ra
 <div class="overlay" id="overlay" onclick="fecharMenu()"></div>
 
 <div class="sidebar" id="side">
-<a href="index.html">INÍCIO</a>
-<a href="inscricao.html">INSCRIÇÃO</a>
+<a href="index.html">INÍCIO<br>ZONA CASUAL</a>
+<a href="inscricao.html">FAZER<br>INSCRIÇÃO</a>
 </div>
 
 <header>
-<button class="menu-btn" onclick="toggleMenu()"><span></span><span></span></button>
+<button class="menu-btn" onclick="toggleMenu()">
+<span></span>
+<span></span>
+</button>
 <h1 id="titulo" class="glitch" data-text="ZONA CASUAL">ZONA CASUAL</h1>
 </header>
 
 <div class="container">
+
 <div class="card">
 <h2>Sobre o Projeto</h2>
 <img id="sobreImg" class="sobre-img" src="zona.png" alt="Zona Casual">
-<p id="sobre">O <b>Zona Casual</b> é um projeto criado para reunir equipes da comunidade em <b>partidas personalizadas de Warzone</b>, trazendo uma experiência organizada e dinâmica dentro do lobby.</p>
-<p id="chamada">Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível em partidas abertas para a comunidade.</p>
-<a id="btnInscricao" class="btn btn-main" href="inscricao.html">INSCREVER NA PERSONALIZADA</a>
+<p id="sobre">Carregando...</p>
+<p id="chamada"></p>
+<a class="btn btn-main" href="inscricao.html">INSCREVER NA PERSONALIZADA</a>
 </div>
 
 <div class="card">
 <h2>Próxima Personalizada</h2>
-<p><b>Data:</b> <span id="dataTxt">20/03/2026</span></p>
-<p><b>Horário:</b> <span id="horaTxt">20:00</span></p>
+<p><b>Data:</b> <span id="dataTxt">-</span></p>
+<p><b>Horário:</b> <span id="horaTxt">-</span></p>
 </div>
 
 <div class="card streamer">
@@ -83,217 +334,150 @@ input,textarea,button{width:100%;padding:12px;margin:6px 0;border:none;border-ra
 
 <div class="card">
 <h2>Times Envolvidos</h2>
-<div class="slide-wrap"><div class="slide-track" id="timesSlide"></div></div>
+<div class="slide-wrap">
+<div class="slide-track" id="timesSlide"></div>
+</div>
 </div>
 
-<div class="card" id="patrocinadoresCard" style="display:none">
-<h2 id="patrocinadoresTitulo">Patrocinadores</h2>
-<div class="logo-grid" id="patrocinadoresGrid"></div>
+<div class="card" id="patroCard" style="display:none">
+<h2 id="patroTitulo">Patrocinadores</h2>
+<div class="logo-grid" id="patroGrid"></div>
 </div>
+
+<div class="card erro-box" id="erroCard" style="display:none">
+<h2>Erro ao carregar dados</h2>
+<p id="erroMsg"></p>
+</div>
+
 </div>
 
 <footer>© 2026 Zona Casual</footer>
 
-<button class="admin-btn" onclick="abrirAdmin()">⚙</button>
-
-<div class="admin" id="admin">
-<div class="admin-box">
-<div id="loginBox">
-<input type="password" id="senha" placeholder="Senha">
-<button onclick="login()">Entrar</button>
-<button class="close" onclick="fecharAdmin()">Fechar</button>
-</div>
-
-<div id="painel" style="display:none">
-<label>Título do site</label><input id="f_titulo">
-<label>Imagem Sobre o Projeto (URL)</label><input id="uploadSobre" placeholder="Cole o link da imagem"><img id="prevSobre" class="preview" src="zona.png" alt="">
-<label>Texto sobre</label><textarea id="f_sobre"></textarea>
-<label>Texto chamada</label><textarea id="f_chamada"></textarea>
-<label>Data</label><input id="f_data">
-<label>Hora</label><input id="f_hora">
-<label>Nome streamer</label><input id="f_streamerNome">
-<label>Link streamer</label><input id="f_streamerLink">
-<label>Foto Streamer (URL)</label><input id="uploadStreamer" placeholder="Cole o link da imagem"><img id="prevStreamer" class="preview" src="streamer.jpg" alt="">
-<hr>
-<label>Times do slide</label>
-<div class="small">Os 2 primeiros são fixos.</div>
-<input id="f_logo1Nome" placeholder="Nome time 1">
-<input id="upload1" placeholder="Link da logo do time 1">
-<img id="prev1" class="preview" src="1shotkill.png" alt="">
-<input id="f_logo2Nome" placeholder="Nome time 2">
-<input id="upload2" placeholder="Link da logo do time 2">
-<img id="prev2" class="preview" src="vanguarda.png" alt="">
-<div id="extraTimes"></div>
-<button class="plus" onclick="novoTime()">+ Adicionar Logo ao Slide</button>
-<hr>
-<label>Título patrocinadores</label><input id="f_patrocinadoresTitulo">
-<div id="patrociniosAdmin"></div>
-<button class="plus" onclick="novoPatrocinador()">+ Adicionar Patrocinador</button>
-<div class="status" id="statusMsg"></div>
-<button onclick="salvar()">Salvar</button>
-<button class="close" onclick="resetar()">Resetar</button>
-<button class="close" onclick="fecharAdmin()">Fechar</button>
-</div>
-</div>
-</div>
-
 <script>
-const SENHA="senha1326",D=document;
-const $=e=>D.getElementById(e);
-const side=$("side"),overlay=$("overlay"),timesSlide=$("timesSlide"),admin=$("admin"),extraTimes=$("extraTimes"),patrociniosAdmin=$("patrociniosAdmin");
+const side=document.getElementById("side");
+const overlay=document.getElementById("overlay");
+const slide=document.getElementById("timesSlide");
 
-function toggleMenu(){side.classList.toggle("active");overlay.classList.toggle("active")}
-function fecharMenu(){side.classList.remove("active");overlay.classList.remove("active")}
-function abrirAdmin(){admin.style.display="block"}
-function fecharAdmin(){admin.style.display="none"}
-
-const getExtraTimes=()=>JSON.parse(localStorage.getItem("extraTimes")||"[]");
-const setExtraTimes=v=>localStorage.setItem("extraTimes",JSON.stringify(v));
-const getPatrocinios=()=>JSON.parse(localStorage.getItem("patrocinios")||"[]");
-const setPatrocinios=v=>localStorage.setItem("patrocinios",JSON.stringify(v));
-
-function renderExtraAdmin(){
-  extraTimes.innerHTML="";
-  getExtraTimes().forEach((item,i)=>{
-    extraTimes.insertAdjacentHTML("beforeend",`<div class="item-box"><input id="extraName${i}" value="${item.nome||""}" placeholder="Nome do time extra ${i+1}"><input id="extraFile${i}" value="${item.img||""}" placeholder="Link da logo"><img id="extraPrev${i}" class="preview" src="${item.img||""}" alt=""><button class="close" onclick="removerTime(${i})">Remover Logo</button></div>`);
-    $("extraFile"+i).oninput=e=>$("extraPrev"+i).src=e.target.value||"";
-  });
+function toggleMenu(){
+  side.classList.toggle("active");
+  overlay.classList.toggle("active");
+}
+function fecharMenu(){
+  side.classList.remove("active");
+  overlay.classList.remove("active");
 }
 
-function renderPatrociniosAdmin(){
-  patrociniosAdmin.innerHTML="";
-  getPatrocinios().forEach((item,i)=>{
-    patrociniosAdmin.insertAdjacentHTML("beforeend",`<div class="item-box"><input id="patNome${i}" value="${item.nome||""}" placeholder="Nome do patrocinador ${i+1}"><input id="patFile${i}" value="${item.img||""}" placeholder="Link da logo"><img id="patPrev${i}" class="preview" src="${item.img||""}" alt=""><button class="close" onclick="removerPatrocinador(${i})">Remover Logo</button></div>`);
-    $("patFile"+i).oninput=e=>$("patPrev"+i).src=e.target.value||"";
-  });
-}
-
-function novoTime(){let x=getExtraTimes();x.push({nome:"Novo Time",img:""});setExtraTimes(x);renderExtraAdmin()}
-function removerTime(i){let x=getExtraTimes();x.splice(i,1);setExtraTimes(x);renderExtraAdmin();renderTimesSlide()}
-function novoPatrocinador(){let x=getPatrocinios();x.push({nome:"Novo Patrocinador",img:""});setPatrocinios(x);renderPatrociniosAdmin()}
-function removerPatrocinador(i){let x=getPatrocinios();x.splice(i,1);setPatrocinios(x);renderPatrociniosAdmin();renderPatrocinadores()}
-
-function login(){
-  if($("senha").value===SENHA){
-    $("loginBox").style.display="none";
-    $("painel").style.display="block";
-    carregarCampos();
-  }else alert("Senha incorreta");
-}
-
-function carregarCampos(){
-  $("f_titulo").value=localStorage.getItem("titulo")||"ZONA CASUAL";
-  $("f_sobre").value=localStorage.getItem("sobre")||"";
-  $("f_chamada").value=localStorage.getItem("chamada")||"";
-  $("f_data").value=localStorage.getItem("data")||"20/03/2026";
-  $("f_hora").value=localStorage.getItem("hora")||"20:00";
-  $("f_streamerNome").value=localStorage.getItem("streamerNome")||"@streamer";
-  $("f_streamerLink").value=localStorage.getItem("streamerLink")||"#";
-  $("f_logo1Nome").value=localStorage.getItem("logo1Nome")||"1Shotkill";
-  $("f_logo2Nome").value=localStorage.getItem("logo2Nome")||"Vanguarda Brasil";
-  $("f_patrocinadoresTitulo").value=localStorage.getItem("patrocinadoresTitulo")||"Patrocinadores";
-  $("uploadSobre").value=localStorage.getItem("sobreImg")||"";
-  $("uploadStreamer").value=localStorage.getItem("streamer")||"";
-  $("upload1").value=localStorage.getItem("logo1")||"";
-  $("upload2").value=localStorage.getItem("logo2")||"";
-  $("prevSobre").src=localStorage.getItem("sobreImg")||"zona.png";
-  $("prevStreamer").src=localStorage.getItem("streamer")||"streamer.jpg";
-  $("prev1").src=localStorage.getItem("logo1")||"1shotkill.png";
-  $("prev2").src=localStorage.getItem("logo2")||"vanguarda.png";
-  renderExtraAdmin();
-  renderPatrociniosAdmin();
-}
-
-function limpaOuSalva(k,v){v&&v.trim()?localStorage.setItem(k,v.trim()):localStorage.removeItem(k)}
-
-function salvar(){
-  $("statusMsg").innerText="Salvando...";
-  try{
-    [["titulo","f_titulo"],["sobre","f_sobre"],["chamada","f_chamada"],["data","f_data"],["hora","f_hora"],["streamerNome","f_streamerNome"],["streamerLink","f_streamerLink"],["logo1Nome","f_logo1Nome"],["logo2Nome","f_logo2Nome"],["patrocinadoresTitulo","f_patrocinadoresTitulo"]].forEach(([k,id])=>limpaOuSalva(k,$(id).value));
-    limpaOuSalva("sobreImg",$("uploadSobre").value);
-    limpaOuSalva("streamer",$("uploadStreamer").value);
-    limpaOuSalva("logo1",$("upload1").value);
-    limpaOuSalva("logo2",$("upload2").value);
-
-    let extra=getExtraTimes();
-    for(let i=0;i<extra.length;i++){
-      extra[i].nome=$("extraName"+i).value;
-      extra[i].img=$("extraFile"+i).value;
-    }
-    setExtraTimes(extra);
-
-    let pats=getPatrocinios();
-    for(let i=0;i<pats.length;i++){
-      pats[i].nome=$("patNome"+i).value;
-      pats[i].img=$("patFile"+i).value;
-    }
-    setPatrocinios(pats);
-
-    aplicar();
-    $("statusMsg").innerText="Salvo com sucesso.";
-    alert("Salvo com sucesso");
-  }catch(e){
-    $("statusMsg").innerText="Erro: "+e.message;
-    alert("Erro ao salvar: "+e.message);
-  }
-}
-
-function aplicar(){
-  let t=localStorage.getItem("titulo"),s=localStorage.getItem("sobre"),c=localStorage.getItem("chamada"),d=localStorage.getItem("data"),h=localStorage.getItem("hora"),sn=localStorage.getItem("streamerNome"),sl=localStorage.getItem("streamerLink"),l1n=localStorage.getItem("logo1Nome"),l2n=localStorage.getItem("logo2Nome"),pt=localStorage.getItem("patrocinadoresTitulo"),si=localStorage.getItem("sobreImg"),st=localStorage.getItem("streamer");
-  if(t){$("titulo").innerText=t;$("titulo").setAttribute("data-text",t)}
-  if(s)$("sobre").innerHTML=s;
-  if(c)$("chamada").innerHTML=c;
-  if(d)$("dataTxt").innerText=d;
-  if(h)$("horaTxt").innerText=h;
-  if(sn)$("streamerNome").innerText=sn;
-  if(sl)$("streamerLink").href=sl;
-  if(si)$("sobreImg").src=si;
-  if(st)$("streamerImg").src=st;
-  if(pt)$("patrocinadoresTitulo").innerText=pt;
-  renderTimesSlide(l1n||"1Shotkill",l2n||"Vanguarda Brasil");
-  renderPatrocinadores();
-}
-
-function renderTimesSlide(nome1,nome2){
-  let img1=localStorage.getItem("logo1")||"1shotkill.png",img2=localStorage.getItem("logo2")||"vanguarda.png";
-  let html=`<div class="team"><img src="${img1}" alt=""><p>${nome1}</p></div><div class="team"><img src="${img2}" alt=""><p>${nome2}</p></div>`;
-  getExtraTimes().forEach(t=>{if(t.img||t.nome)html+=`<div class="team"><img src="${t.img||'1shotkill.png'}" alt=""><p>${t.nome||'Novo Time'}</p></div>`});
-  timesSlide.innerHTML=html;
-  timesSlide.style.transform="translateX(0)";
-}
-
-function renderPatrocinadores(){
-  let pats=getPatrocinios().filter(x=>x.img||x.nome);
-  if(!pats.length){$("patrocinadoresCard").style.display="none";$("patrocinadoresGrid").innerHTML="";return}
-  $("patrocinadoresCard").style.display="block";
-  $("patrocinadoresGrid").innerHTML="";
-  pats.forEach(p=>$("patrocinadoresGrid").insertAdjacentHTML("beforeend",`<div class="logo-box"><img src="${p.img||'1shotkill.png'}" alt=""><p>${p.nome||'Patrocinador'}</p></div>`));
-}
-
-function resetar(){localStorage.clear();location.reload()}
-
+let slideInterval=null;
 function iniciarSlide(){
-  setInterval(()=>{
-    let items=timesSlide.querySelectorAll(".team");
-    if(items.length<=1)return;
-    let primeiro=items[0],largura=primeiro.offsetWidth+25;
-    timesSlide.style.transition="transform .45s";
-    timesSlide.style.transform=`translateX(-${largura}px)`;
+  if(slideInterval) clearInterval(slideInterval);
+
+  slideInterval=setInterval(()=>{
+    const primeiro=slide.children[0];
+    if(!primeiro || slide.children.length <= 1) return;
+
+    const largura=primeiro.offsetWidth+25;
+
+    slide.style.transition="transform .5s ease";
+    slide.style.transform=`translateX(-${largura}px)`;
+
     setTimeout(()=>{
-      timesSlide.style.transition="none";
-      timesSlide.appendChild(primeiro);
-      timesSlide.style.transform="translateX(0)";
-    },460);
+      slide.style.transition="none";
+      slide.appendChild(primeiro);
+      slide.style.transform="translateX(0)";
+    },500);
   },2500);
 }
 
-$("uploadSobre").oninput=e=>$("prevSobre").src=e.target.value||"zona.png";
-$("uploadStreamer").oninput=e=>$("prevStreamer").src=e.target.value||"streamer.jpg";
-$("upload1").oninput=e=>$("prev1").src=e.target.value||"1shotkill.png";
-$("upload2").oninput=e=>$("prev2").src=e.target.value||"vanguarda.png";
+function mostrarErro(msg){
+  const erroCard=document.getElementById("erroCard");
+  const erroMsg=document.getElementById("erroMsg");
+  erroMsg.textContent=msg;
+  erroCard.style.display="block";
+}
 
-aplicar();
-iniciarSlide();
+function aplicarDados(d){
+  const titulo=d.titulo || "ZONA CASUAL";
+  const tituloEl=document.getElementById("titulo");
+  tituloEl.textContent=titulo;
+  tituloEl.setAttribute("data-text",titulo);
+
+  document.getElementById("sobreImg").src=d.sobreImg || "zona.png";
+  document.getElementById("sobre").innerHTML=d.sobre || "";
+  document.getElementById("chamada").innerHTML=d.chamada || "";
+  document.getElementById("dataTxt").textContent=d.data || "-";
+  document.getElementById("horaTxt").textContent=d.hora || "-";
+
+  document.getElementById("streamerImg").src=d.streamerImg || "streamer.jpg";
+  document.getElementById("streamerNome").textContent=d.streamerNome || "@streamer";
+  document.getElementById("streamerLink").href=d.streamerLink || "#";
+
+  slide.innerHTML="";
+  const times=Array.isArray(d.times) ? d.times : [];
+  times.forEach(t=>{
+    slide.insertAdjacentHTML("beforeend",`
+      <div class="team">
+        <img src="${t.img || ''}" alt="">
+        <p>${t.nome || ''}</p>
+      </div>
+    `);
+  });
+
+  if(!times.length){
+    slide.innerHTML=`
+      <div class="team">
+        <img src="1shotkill.png" alt="">
+        <p>1Shotkill</p>
+      </div>
+      <div class="team">
+        <img src="vanguarda.png" alt="">
+        <p>Vanguarda</p>
+      </div>
+    `;
+  }
+
+  iniciarSlide();
+
+  const patroCard=document.getElementById("patroCard");
+  const patroTitulo=document.getElementById("patroTitulo");
+  const patroGrid=document.getElementById("patroGrid");
+
+  patroGrid.innerHTML="";
+  const patrocinadores=Array.isArray(d.patrocinadores) ? d.patrocinadores : [];
+
+  if(patrocinadores.length){
+    patroCard.style.display="block";
+    patroTitulo.textContent=d.patrocinadoresTitulo || "Patrocinadores";
+
+    patrocinadores.forEach(p=>{
+      patroGrid.insertAdjacentHTML("beforeend",`
+        <div class="logo-box">
+          <img src="${p.img || ''}" alt="">
+          <p>${p.nome || ''}</p>
+        </div>
+      `);
+    });
+  }else{
+    patroCard.style.display="none";
+  }
+}
+
+async function carregarDados(){
+  try{
+    const res=await fetch("dados.json?nocache="+Date.now());
+    if(!res.ok){
+      throw new Error("Não foi possível abrir o arquivo dados.json");
+    }
+
+    const dados=await res.json();
+    aplicarDados(dados);
+  }catch(e){
+    mostrarErro("Confira se o arquivo dados.json está na mesma pasta do index.html e se o JSON está válido.");
+    console.error(e);
+  }
+}
+
+window.addEventListener("DOMContentLoaded",carregarDados);
 </script>
+
 </body>
 </html>

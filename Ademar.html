@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Zona Casual</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#000;color:#fff;font-family:Arial}
+.container{max-width:950px;margin:auto;padding:20px}
+h1{color:#ff8c00;text-align:center}
+.card{background:#111;border:1px solid rgba(255,140,0,.3);border-radius:12px;padding:20px;margin-bottom:20px}
+label{display:block;margin:10px 0 6px;color:#ddd}
+input,textarea,button{width:100%;padding:12px;border:none;border-radius:8px;margin-bottom:10px}
+input,textarea{background:#1a1a1a;color:#fff}
+textarea{min-height:110px;resize:vertical}
+button{background:#ff8c00;color:#000;font-weight:bold;cursor:pointer}
+.preview{width:90px;height:90px;object-fit:cover;background:#1a1a1a;border-radius:10px;display:block;margin:8px auto 0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.small{font-size:13px;color:#aaa;line-height:1.6}
+.item{border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px;margin-top:12px}
+.login-screen{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:999}
+.login-box{width:320px;background:#111;border:1px solid rgba(255,140,0,.3);border-radius:12px;padding:24px}
+.linkbtn{display:block;padding:12px;background:#ff8c00;color:#000;font-weight:bold;text-align:center;border-radius:8px;text-decoration:none}
+pre{background:#0b0b0b;border:1px solid rgba(255,140,0,.2);padding:12px;border-radius:10px;white-space:pre-wrap;word-break:break-word}
+@media(max-width:700px){.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <h2 style="text-align:center;color:#ff8c00;margin-top:0">Admin Zona Casual</h2>
+    <input type="password" id="senhaAdmin" placeholder="Digite a senha">
+    <button onclick="verificarSenha()">Entrar</button>
+  </div>
+</div>
+
+<div class="container" id="painel" style="display:none">
+  <h1>PAINEL ADMIN</h1>
+
+  <div class="card">
+    <h2>GitHub / dados.json</h2>
+
+    <label>Token do GitHub</label>
+    <input id="f_githubToken" placeholder="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">
+
+    <div class="row">
+      <div>
+        <label>Repositório</label>
+        <input id="f_repo" value="sitebrasiilcasual/Modo-Casual">
+      </div>
+      <div>
+        <label>Branch</label>
+        <input id="f_branch" value="main">
+      </div>
+    </div>
+
+    <label>Arquivo JSON</label>
+    <input id="f_filePath" value="dados.json">
+
+    <p class="small">
+      Esse painel envia o conteúdo para o arquivo <b>dados.json</b> do seu repositório.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Configuração Geral</h2>
+
+    <label>Título do site</label>
+    <input id="f_titulo">
+
+    <label>Imagem Sobre</label>
+    <input type="file" id="uploadSobre" accept="image/*">
+    <img id="prevSobre" class="preview" src="" alt="preview sobre">
+
+    <label>Texto Sobre</label>
+    <textarea id="f_sobre"></textarea>
+
+    <label>Texto Chamada</label>
+    <textarea id="f_chamada"></textarea>
+
+    <div class="row">
+      <div>
+        <label>Data</label>
+        <input id="f_data">
+      </div>
+      <div>
+        <label>Hora</label>
+        <input id="f_hora">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Streamer</h2>
+
+    <label>Nome do streamer</label>
+    <input id="f_streamerNome">
+
+    <label>Link da live</label>
+    <input id="f_streamerLink">
+
+    <label>Imagem do streamer</label>
+    <input type="file" id="uploadStreamer" accept="image/*">
+    <img id="prevStreamer" class="preview" src="" alt="preview streamer">
+  </div>
+
+  <div class="card">
+    <h2>Times do Slide</h2>
+
+    <div class="item">
+      <label>Nome do time 1</label>
+      <input id="f_logo1Nome">
+      <label>Logo do time 1</label>
+      <input type="file" id="upload1" accept="image/*">
+      <img id="prev1" class="preview" src="" alt="preview time 1">
+    </div>
+
+    <div class="item">
+      <label>Nome do time 2</label>
+      <input id="f_logo2Nome">
+      <label>Logo do time 2</label>
+      <input type="file" id="upload2" accept="image/*">
+      <img id="prev2" class="preview" src="" alt="preview time 2">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Configurações da Inscrição</h2>
+
+    <label>Título da página de inscrição</label>
+    <input id="f_pageTitle">
+
+    <label>Texto informativo</label>
+    <textarea id="f_infoTexto"></textarea>
+
+    <label>Link do formulário</label>
+    <input id="f_formAction">
+
+    <div class="row">
+      <div>
+        <label>Quantidade total de times</label>
+        <input type="number" id="f_totalTimes" min="1">
+      </div>
+      <div>
+        <label>Quantidade de jogadores por equipe</label>
+        <input type="number" id="f_quantidadeJogadores" min="1" max="10">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Informação sobre imagens</h2>
+    <p class="small">
+      As imagens escolhidas aqui são convertidas em Base64 e enviadas dentro do <b>dados.json</b>.
+      Se quiser deixar mais leve, suba a imagem no GitHub e use o link público.
+    </p>
+    <a class="linkbtn" href="https://github.com/sitebrasiilcasual/Modo-Casual/upload/main" target="_blank">
+      Abrir upload no GitHub
+    </a>
+  </div>
+
+  <div class="card">
+    <button onclick="salvarLocal()">SALVAR LOCAL</button>
+    <button onclick="salvarNoGithub()">SALVAR NO GITHUB</button>
+    <button onclick="gerarPreviewJson()">GERAR PRÉVIA DO JSON</button>
+    <button onclick="resetarTudo()">RESETAR TUDO</button>
+    <a class="linkbtn" href="index.html">Abrir index.html</a>
+  </div>
+
+  <div class="card">
+    <h2>Prévia do JSON</h2>
+    <pre id="jsonPreview">{}</pre>
+  </div>
+</div>
+
+<script>
+const SENHA_ADMIN = "zona1326";
+const $ = id => document.getElementById(id);
+
+function verificarSenha(){
+  if($("senhaAdmin").value === SENHA_ADMIN){
+    $("loginScreen").style.display = "none";
+    $("painel").style.display = "block";
+    carregarCampos();
+  }else{
+    alert("Senha incorreta");
+  }
+}
+
+function setPreview(fileInputId, previewId){
+  const input = $(fileInputId);
+  input.addEventListener("change", e => {
+    const file = e.target.files[0];
+    if(file){
+      $(previewId).src = URL.createObjectURL(file);
+    }
+  });
+}
+
+function arquivoParaBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function carregarCampos(){
+  $("f_githubToken").value = localStorage.getItem("githubToken") || "";
+  $("f_repo").value = localStorage.getItem("repo") || "sitebrasiilcasual/Modo-Casual";
+  $("f_branch").value = localStorage.getItem("branch") || "main";
+  $("f_filePath").value = localStorage.getItem("filePath") || "dados.json";
+
+  $("f_titulo").value = localStorage.getItem("titulo") || "ZONA CASUAL";
+  $("f_sobre").value = localStorage.getItem("sobre") || "O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone.";
+  $("f_chamada").value = localStorage.getItem("chamada") || "Aqui você encontra personalizadas estruturadas, streamers e espaço para equipes mostrarem seu nível.";
+  $("f_data").value = localStorage.getItem("data") || "20/03/2026";
+  $("f_hora").value = localStorage.getItem("hora") || "20:00";
+
+  $("f_streamerNome").value = localStorage.getItem("streamerNome") || "@streamer";
+  $("f_streamerLink").value = localStorage.getItem("streamerLink") || "#";
+
+  $("f_logo1Nome").value = localStorage.getItem("logo1Nome") || "1Shotkill";
+  $("f_logo2Nome").value = localStorage.getItem("logo2Nome") || "Vanguarda";
+
+  $("f_pageTitle").value = localStorage.getItem("pageTitle") || "Inscrição";
+  $("f_infoTexto").value = localStorage.getItem("infoTexto") || "<b>Somente o líder da equipe</b> deve fazer a inscrição.";
+  $("f_formAction").value = localStorage.getItem("formAction") || "https://formspree.io/f/myknkqyb";
+  $("f_totalTimes").value = localStorage.getItem("totalTimes") || "12";
+  $("f_quantidadeJogadores").value = localStorage.getItem("quantidadeJogadores") || "4";
+
+  $("prevSobre").src = localStorage.getItem("sobreImg") || "zona.png";
+  $("prevStreamer").src = localStorage.getItem("streamer") || "streamer.jpg";
+  $("prev1").src = localStorage.getItem("logo1") || "1shotkill.png";
+  $("prev2").src = localStorage.getItem("logo2") || "vanguarda.png";
+
+  gerarPreviewJson();
+}
+
+async function salvarArquivosNoLocalStorage(){
+  const sobreFile = $("uploadSobre").files[0];
+  const streamerFile = $("uploadStreamer").files[0];
+  const logo1File = $("upload1").files[0];
+  const logo2File = $("upload2").files[0];
+
+  if(sobreFile){
+    localStorage.setItem("sobreImg", await arquivoParaBase64(sobreFile));
+  }
+  if(streamerFile){
+    localStorage.setItem("streamer", await arquivoParaBase64(streamerFile));
+  }
+  if(logo1File){
+    localStorage.setItem("logo1", await arquivoParaBase64(logo1File));
+  }
+  if(logo2File){
+    localStorage.setItem("logo2", await arquivoParaBase64(logo2File));
+  }
+}
+
+function montarDados(){
+  return {
+    titulo: $("f_titulo").value,
+    sobreImg: localStorage.getItem("sobreImg") || "zona.png",
+    sobre: $("f_sobre").value,
+    chamada: $("f_chamada").value,
+    data: $("f_data").value,
+    hora: $("f_hora").value,
+    streamerNome: $("f_streamerNome").value,
+    streamerLink: $("f_streamerLink").value,
+    streamerImg: localStorage.getItem("streamer") || "streamer.jpg",
+    times: [
+      {
+        nome: $("f_logo1Nome").value,
+        img: localStorage.getItem("logo1") || "1shotkill.png"
+      },
+      {
+        nome: $("f_logo2Nome").value,
+        img: localStorage.getItem("logo2") || "vanguarda.png"
+      }
+    ],
+    inscricao: {
+      pageTitle: $("f_pageTitle").value,
+      infoTexto: $("f_infoTexto").value,
+      formAction: $("f_formAction").value,
+      totalTimes: parseInt($("f_totalTimes").value || "12", 10),
+      quantidadeJogadores: parseInt($("f_quantidadeJogadores").value || "4", 10)
+    }
+  };
+}
+
+async function salvarLocal(){
+  try{
+    localStorage.setItem("githubToken", $("f_githubToken").value);
+    localStorage.setItem("repo", $("f_repo").value);
+    localStorage.setItem("branch", $("f_branch").value);
+    localStorage.setItem("filePath", $("f_filePath").value);
+
+    localStorage.setItem("titulo", $("f_titulo").value);
+    localStorage.setItem("sobre", $("f_sobre").value);
+    localStorage.setItem("chamada", $("f_chamada").value);
+    localStorage.setItem("data", $("f_data").value);
+    localStorage.setItem("hora", $("f_hora").value);
+
+    localStorage.setItem("streamerNome", $("f_streamerNome").value);
+    localStorage.setItem("streamerLink", $("f_streamerLink").value);
+
+    localStorage.setItem("logo1Nome", $("f_logo1Nome").value);
+    localStorage.setItem("logo2Nome", $("f_logo2Nome").value);
+
+    localStorage.setItem("pageTitle", $("f_pageTitle").value);
+    localStorage.setItem("infoTexto", $("f_infoTexto").value);
+    localStorage.setItem("formAction", $("f_formAction").value);
+    localStorage.setItem("totalTimes", $("f_totalTimes").value);
+    localStorage.setItem("quantidadeJogadores", $("f_quantidadeJogadores").value);
+
+    await salvarArquivosNoLocalStorage();
+    gerarPreviewJson();
+    alert("Salvo localmente");
+  }catch(e){
+    console.error(e);
+    alert("Erro ao salvar localmente");
+  }
+}
+
+async function gerarPreviewJson(){
+  await salvarArquivosNoLocalStorage().catch(()=>{});
+  const dados = montarDados();
+  $("jsonPreview").textContent = JSON.stringify(dados, null, 2);
+}
+
+async function salvarNoGithub(){
+  try{
+    await salvarLocal();
+
+    const token = $("f_githubToken").value.trim();
+    const repo = $("f_repo").value.trim();
+    const branch = $("f_branch").value.trim();
+    const filePath = $("f_filePath").value.trim();
+
+    if(!token){
+      alert("Cole o token do GitHub");
+      return;
+    }
+
+    const url = `https://api.github.com/repos/${repo}/contents/${filePath}`;
+    let sha = null;
+
+    const getRes = await fetch(url, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Accept": "application/vnd.github+json"
+      }
+    });
+
+    if(getRes.ok){
+      const getData = await getRes.json();
+      sha = getData.sha;
+    }
+
+    const dados = montarDados();
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(dados, null, 2))));
+
+    const body = {
+      message: "Atualizar dados do site",
+      content,
+      branch
+    };
+
+    if(sha) body.sha = sha;
+
+    const putRes = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    if(putRes.ok){
+      alert("dados.json enviado para o GitHub com sucesso");
+    }else{
+      const errText = await putRes.text();
+      console.error(errText);
+      alert("Erro ao enviar para o GitHub");
+    }
+  }catch(e){
+    console.error(e);
+    alert("Erro ao enviar");
+  }
+}
+
+function resetarTudo(){
+  if(confirm("Apagar todas as alterações salvas neste navegador?")){
+    localStorage.clear();
+    location.reload();
+  }
+}
+
+setPreview("uploadSobre","prevSobre");
+setPreview("uploadStreamer","prevStreamer");
+setPreview("upload1","prev1");
+setPreview("upload2","prev2");
+</script>
+</body>
+</html>

@@ -70,23 +70,15 @@ z-index:3;
 /* MENU HAMBÚRGUER 2 LINHAS */
 .menu-btn{
 position:absolute;
-left:18px;
+left:15px;
 top:50%;
 transform:translateY(-50%);
-width:30px;
-height:22px;
-padding:0;
-margin:0;
+background:none;
 border:none;
-outline:none;
-background:transparent;
-appearance:none;
--webkit-appearance:none;
+cursor:pointer;
 display:flex;
 flex-direction:column;
-justify-content:space-between;
-align-items:flex-start;
-cursor:pointer;
+gap:6px;
 }
 
 .menu-btn span{
@@ -119,9 +111,20 @@ text-decoration:none;
 padding:12px;
 text-align:left;
 font-weight:bold;
+line-height:1.4;
 }
 
 .sidebar.active{left:0}
+
+/* OVERLAY */
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+z-index:9;
+}
+.overlay.active{display:block}
 
 /* TÍTULO */
 .glitch{
@@ -258,56 +261,14 @@ position:relative;
 z-index:3;
 }
 
-/* ADMIN */
-.admin-btn{
-position:fixed;
-right:18px;
-bottom:18px;
-width:54px;
-height:54px;
-border:none;
-border-radius:50%;
-background:linear-gradient(180deg,#ff8c00,#ff5e00);
-color:#fff;
-font-size:22px;
-z-index:20;
-box-shadow:0 8px 18px rgba(255,94,0,.3);
-}
-
-.admin{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.96);
+.erro-box{
+margin-top:14px;
+background:rgba(255,0,0,.08);
+border:1px solid rgba(255,80,80,.35);
+color:#ffd6d6;
+border-radius:10px;
+padding:12px;
 display:none;
-padding:20px;
-overflow:auto;
-z-index:30;
-}
-
-.admin-box{
-max-width:420px;
-margin:auto;
-background:#111;
-padding:18px;
-border-radius:12px;
-border:1px solid rgba(255,122,0,.25);
-}
-
-.close{
-background:#333;
-}
-
-.admin-title{
-font-size:20px;
-font-weight:bold;
-margin-bottom:12px;
-color:#ff9f43;
-}
-
-.admin-info{
-font-size:14px;
-color:#ddd;
-margin-bottom:10px;
 }
 
 @media(max-width:700px){
@@ -326,9 +287,11 @@ margin-bottom:10px;
 <span style="left:90%;animation-duration:9s"></span>
 </div>
 
+<div class="overlay" id="overlay" onclick="fecharMenu()"></div>
+
 <div class="sidebar" id="side">
-<a href="index.html">INÍCIO</a>
-<a href="inscricao.html">INSCRIÇÃO</a>
+<a href="index.html">INÍCIO<br>ZONA CASUAL</a>
+<a href="inscricao.html">FAZER<br>INSCRIÇÃO</a>
 </div>
 
 <header>
@@ -337,13 +300,13 @@ margin-bottom:10px;
 <span></span>
 </button>
 
-<h1 class="glitch" data-text="ZONA CASUAL">ZONA CASUAL</h1>
+<h1 class="glitch" id="titulo" data-text="ZONA CASUAL">ZONA CASUAL</h1>
 </header>
 
 <div class="wrap">
 <div class="card">
 
-<div class="info">
+<div class="info" id="infoTxt">
 <b>Somente o líder da equipe</b> deve fazer a inscrição.
 </div>
 
@@ -365,126 +328,101 @@ Vagas Disponíveis<br><br>
 <div id="msg" style="display:none;color:#ff9b6b;margin-top:8px">Vagas esgotadas</div>
 </div>
 
+<div class="erro-box" id="erroBox"></div>
+
 </div>
 </div>
 
 <footer>© 2026 Zona Casual</footer>
 
-<button class="admin-btn" onclick="abrirAdmin()">⚙</button>
-
-<div class="admin" id="admin">
-<div class="admin-box">
-
-<div id="loginBox">
-<div class="admin-title">Painel Admin</div>
-<input type="password" id="senha" placeholder="Senha">
-<button onclick="login()">Entrar</button>
-<button class="close" onclick="fecharAdmin()">Fechar</button>
-</div>
-
-<div id="painel" style="display:none">
-<div class="admin-title">Painel Admin</div>
-<div class="admin-info">Aqui o admin pode alterar o total de times e resetar as vagas.</div>
-
-<input type="number" id="novoTotal" min="1" placeholder="Quantidade total de times">
-<button onclick="salvarTotal()">Salvar quantidade de times</button>
-<button onclick="resetarVagas()">Resetar vagas usadas</button>
-<button class="close" onclick="fecharAdmin()">Fechar</button>
-</div>
-
-</div>
-</div>
-
 <script>
-let T=parseInt(localStorage.getItem("totalTimes")||"12",10)
-let u=parseInt(localStorage.getItem("vagasUsadas")||"0",10)
+let T = 12;
+let u = parseInt(localStorage.getItem("vagasUsadas") || "0", 10);
 
 function m(){
-document.getElementById("side").classList.toggle("active")
+  document.getElementById("side").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+
+function fecharMenu(){
+  document.getElementById("side").classList.remove("active");
+  document.getElementById("overlay").classList.remove("active");
 }
 
 function upd(){
-if(T<1)T=1
-if(u<0)u=0
-if(u>T)u=T
+  if(T < 1) T = 1;
+  if(u < 0) u = 0;
+  if(u > T) u = T;
 
-let r=T-u
-if(r<0)r=0
+  let r = T - u;
+  if(r < 0) r = 0;
 
-document.getElementById("v").innerText=r
-document.getElementById("totalTxt").innerText=T
+  document.getElementById("v").innerText = r;
+  document.getElementById("totalTxt").innerText = T;
 
-if(document.getElementById("novoTotal")){
-document.getElementById("novoTotal").value=T
+  if(r <= 0){
+    document.getElementById("enviar").disabled = true;
+    document.getElementById("enviar").style.opacity = ".6";
+    document.getElementById("msg").style.display = "block";
+  }else{
+    document.getElementById("enviar").disabled = false;
+    document.getElementById("enviar").style.opacity = "1";
+    document.getElementById("msg").style.display = "none";
+  }
 }
 
-if(r<=0){
-document.getElementById("enviar").disabled=true
-document.getElementById("enviar").style.opacity=".6"
-document.getElementById("msg").style.display="block"
-}else{
-document.getElementById("enviar").disabled=false
-document.getElementById("enviar").style.opacity="1"
-document.getElementById("msg").style.display="none"
-}
+function mostrarErro(msg){
+  const box = document.getElementById("erroBox");
+  box.style.display = "block";
+  box.textContent = msg;
 }
 
-document.getElementById("f").addEventListener("submit",function(e){
-if(u>=T){
-e.preventDefault()
-upd()
-return
-}
-u++
-localStorage.setItem("vagasUsadas",u)
-})
+async function carregarDados(){
+  try{
+    const res = await fetch("dados.json?nocache=" + Date.now());
+    if(!res.ok) throw new Error("Não foi possível carregar dados.json");
+    const dados = await res.json();
 
-function abrirAdmin(){
-document.getElementById("admin").style.display="block"
-}
+    const titulo = dados.titulo || "ZONA CASUAL";
+    const tituloEl = document.getElementById("titulo");
+    tituloEl.textContent = titulo;
+    tituloEl.setAttribute("data-text", titulo);
 
-function fecharAdmin(){
-document.getElementById("admin").style.display="none"
-}
+    if(dados.inscricao){
+      document.title = dados.inscricao.pageTitle || "Inscrição";
+      document.getElementById("infoTxt").innerHTML =
+        dados.inscricao.infoTexto || "<b>Somente o líder da equipe</b> deve fazer a inscrição.";
 
-function login(){
-if(document.getElementById("senha").value==="senha1326"){
-document.getElementById("loginBox").style.display="none"
-document.getElementById("painel").style.display="block"
-document.getElementById("novoTotal").value=T
-}else{
-alert("Senha incorreta")
-}
-}
+      if(dados.inscricao.formAction){
+        document.getElementById("f").action = dados.inscricao.formAction;
+      }
 
-function salvarTotal(){
-let n=parseInt(document.getElementById("novoTotal").value,10)
+      T = parseInt(dados.inscricao.totalTimes || 12, 10);
+    }else{
+      T = 12;
+    }
 
-if(!n || n<1){
-alert("Digite uma quantidade válida")
-return
+    upd();
+  }catch(e){
+    console.error(e);
+    T = 12;
+    upd();
+    mostrarErro("Erro ao carregar dados.json. A página usou os valores padrão.");
+  }
 }
 
-T=n
+document.getElementById("f").addEventListener("submit", function(e){
+  if(u >= T){
+    e.preventDefault();
+    upd();
+    return;
+  }
 
-if(u>T){
-u=T
-localStorage.setItem("vagasUsadas",u)
-}
+  u++;
+  localStorage.setItem("vagasUsadas", u);
+});
 
-localStorage.setItem("totalTimes",T)
-upd()
-alert("Quantidade total de times atualizada para "+T)
-}
-
-function resetarVagas(){
-u=0
-localStorage.setItem("vagasUsadas","0")
-upd()
-alert("Vagas resetadas")
-}
-
-upd()
+window.addEventListener("DOMContentLoaded", carregarDados);
 </script>
 
 </body>
