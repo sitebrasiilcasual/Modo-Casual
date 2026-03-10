@@ -254,6 +254,7 @@ color:#999;
 const SENHA="zona1326"
 const TOKEN_KEY="zc_token"
 const SITE_KEY="zc_dados"
+
 const REPO="sitebrasiilcasual/Modo-Casual"
 const BRANCH="main"
 const PATH="dados.json"
@@ -457,12 +458,74 @@ if(!raw)return
 aplicarDados(JSON.parse(raw))
 }
 
-function salvarGithub(){
-statusTxt("Função salvarGithub ainda não foi adicionada nesse código.")
+async function salvarGithub(){
+
+const token=document.getElementById("token").value.trim()
+if(!token){alert("Coloque o token GitHub");return}
+
+statusTxt("Salvando no GitHub...")
+
+try{
+
+let sha=null
+
+const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BRANCH}`)
+if(r.ok){
+const j=await r.json()
+sha=j.sha
 }
 
-function carregarDoGithub(){
-statusTxt("Função carregarDoGithub ainda não foi adicionada nesse código.")
+const conteudo=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))))
+
+const resp=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
+method:"PUT",
+headers:{
+"Authorization":"token "+token,
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+message:"Atualizar dados.json",
+content:conteudo,
+branch:BRANCH,
+sha:sha
+})
+})
+
+if(resp.ok){
+statusTxt("✅ Dados enviados para o GitHub")
+}else{
+statusTxt("❌ Erro ao salvar no GitHub")
+}
+
+}catch(e){
+statusTxt("Erro: "+e.message)
+}
+
+}
+
+async function carregarDoGithub(){
+
+statusTxt("Carregando do GitHub...")
+
+try{
+
+const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now())
+
+if(!r.ok){
+statusTxt("❌ Não foi possível carregar")
+return
+}
+
+const d=await r.json()
+
+aplicarDados(d)
+
+statusTxt("✅ Dados carregados do GitHub")
+
+}catch(e){
+statusTxt("Erro: "+e.message)
+}
+
 }
 
 </script>
