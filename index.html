@@ -206,7 +206,6 @@ header{
   font-size:16px;
 }
 
-/* ===== SOBRE MAIS ORGANIZADO ===== */
 #sobre,
 #chamada{
   width:100%;
@@ -322,6 +321,27 @@ header{
   color:#ccc
 }
 
+.info-list{
+  max-width:420px;
+  margin:0 auto;
+  text-align:left;
+}
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.info-label{
+  font-weight:bold;
+  color:#ffb04d;
+}
+.info-value{
+  color:#fff;
+  text-align:right;
+}
+
 footer{
   padding:16px;
   border-top:1px solid #ff8c00;
@@ -387,21 +407,21 @@ footer{
     <a class="btn btn-main" href="inscrição.html">INSCRIÇÃO PERSONALIZADA</a>
   </div>
 
- <div class="card">
-  <h2>Próxima Personalizada</h2>
+  <div class="card">
+    <h2>Próxima Personalizada</h2>
 
-  <div class="info-list">
-    <div class="info-row">
-      <span class="info-label">Data:</span>
-      <span class="info-value" id="dataTxt">-</span>
-    </div>
+    <div class="info-list">
+      <div class="info-row">
+        <span class="info-label">Data:</span>
+        <span class="info-value" id="dataTxt">-</span>
+      </div>
 
-    <div class="info-row">
-      <span class="info-label">Horário:</span>
-      <span class="info-value" id="horaTxt">-</span>
+      <div class="info-row">
+        <span class="info-label">Horário:</span>
+        <span class="info-value" id="horaTxt">-</span>
+      </div>
     </div>
   </div>
-</div>
 
   <div class="card streamer">
     <h2>Streamer</h2>
@@ -432,9 +452,9 @@ footer{
 <footer>© 2026 Zona Casual</footer>
 
 <script>
-const side=document.getElementById("side");
-const overlay=document.getElementById("overlay");
-const slide=document.getElementById("timesSlide");
+const side = document.getElementById("side");
+const overlay = document.getElementById("overlay");
+const slide = document.getElementById("timesSlide");
 
 function toggleMenu(){
   side.classList.toggle("active");
@@ -445,45 +465,56 @@ function fecharMenu(){
   overlay.classList.remove("active");
 }
 
-let slideInterval=null;
+let slideInterval = null;
+
 function iniciarSlide(){
   if(slideInterval) clearInterval(slideInterval);
 
-  slideInterval=setInterval(()=>{
-    const primeiro=slide.children[0];
+  slideInterval = setInterval(()=>{
+    const primeiro = slide.children[0];
     if(!primeiro || slide.children.length <= 1) return;
 
-    const largura=primeiro.offsetWidth+25;
+    const largura = primeiro.offsetWidth + 25;
 
-    slide.style.transition="transform .5s ease";
-    slide.style.transform=`translateX(-${largura}px)`;
+    slide.style.transition = "transform .5s ease";
+    slide.style.transform = `translateX(-${largura}px)`;
 
     setTimeout(()=>{
-      slide.style.transition="none";
+      slide.style.transition = "none";
       slide.appendChild(primeiro);
-      slide.style.transform="translateX(0)";
+      slide.style.transform = "translateX(0)";
     },500);
   },2500);
 }
 
 function mostrarErro(msg){
-  const erroCard=document.getElementById("erroCard");
-  const erroMsg=document.getElementById("erroMsg");
-  erroMsg.textContent=msg;
-  erroCard.style.display="block";
+  const erroCard = document.getElementById("erroCard");
+  const erroMsg = document.getElementById("erroMsg");
+  erroMsg.textContent = msg;
+  erroCard.style.display = "block";
+}
+
+function pegarImagemSobre(d){
+  return (
+    d.fotoSobre ||
+    d.sobreImg ||
+    d.imagemSobre ||
+    d.sobreImagem ||
+    "zona.png"
+  );
 }
 
 function aplicarDados(d){
-  const titulo=d.titulo || "ZONA CASUAL";
-  const tituloEl=document.getElementById("titulo");
-  tituloEl.textContent=titulo;
-  tituloEl.setAttribute("data-text",titulo);
+  const titulo = d.titulo || "ZONA CASUAL";
+  const tituloEl = document.getElementById("titulo");
+  tituloEl.textContent = titulo;
+  tituloEl.setAttribute("data-text", titulo);
 
-  document.getElementById("sobreImg").src=d.sobreImg || "zona.png";
-  document.getElementById("sobre").innerHTML=d.sobre || "";
-  document.getElementById("chamada").innerHTML=d.chamada || "";
-  document.getElementById("dataTxt").textContent=d.data || "-";
-  document.getElementById("horaTxt").textContent=d.hora || "-";
+  document.getElementById("sobreImg").src = pegarImagemSobre(d);
+  document.getElementById("sobre").innerHTML = d.sobre || "";
+  document.getElementById("chamada").innerHTML = d.chamada || "";
+  document.getElementById("dataTxt").textContent = d.data || "-";
+  document.getElementById("horaTxt").textContent = d.hora || "-";
 
   const listaStreamers = Array.isArray(d.streamers) ? d.streamers : [];
   const streamerAtual = listaStreamers.length ? listaStreamers[0] : null;
@@ -497,8 +528,8 @@ function aplicarDados(d){
   document.getElementById("streamerLink").href =
     streamerAtual && streamerAtual.link ? streamerAtual.link : "#";
 
-  slide.innerHTML="";
-  const times=Array.isArray(d.times) ? d.times : [];
+  slide.innerHTML = "";
+  const times = Array.isArray(d.times) ? d.times : [];
 
   times.forEach(t=>{
     slide.insertAdjacentHTML("beforeend",`
@@ -510,7 +541,7 @@ function aplicarDados(d){
   });
 
   if(!times.length){
-    slide.innerHTML=`
+    slide.innerHTML = `
       <div class="team">
         <img src="1shotkill.png" alt="">
         <p>1Shotkill</p>
@@ -524,16 +555,16 @@ function aplicarDados(d){
 
   iniciarSlide();
 
-  const patroCard=document.getElementById("patroCard");
-  const patroTitulo=document.getElementById("patroTitulo");
-  const patroGrid=document.getElementById("patroGrid");
+  const patroCard = document.getElementById("patroCard");
+  const patroTitulo = document.getElementById("patroTitulo");
+  const patroGrid = document.getElementById("patroGrid");
 
-  patroGrid.innerHTML="";
-  const patrocinadores=Array.isArray(d.patrocinadores) ? d.patrocinadores : [];
+  patroGrid.innerHTML = "";
+  const patrocinadores = Array.isArray(d.patrocinadores) ? d.patrocinadores : [];
 
   if(patrocinadores.length){
-    patroCard.style.display="block";
-    patroTitulo.textContent=d.patrocinadoresTitulo || "Patrocinadores";
+    patroCard.style.display = "block";
+    patroTitulo.textContent = d.patrocinadoresTitulo || "Patrocinadores";
 
     patrocinadores.forEach(p=>{
       patroGrid.insertAdjacentHTML("beforeend",`
@@ -544,18 +575,18 @@ function aplicarDados(d){
       `);
     });
   }else{
-    patroCard.style.display="none";
+    patroCard.style.display = "none";
   }
 }
 
 async function carregarDados(){
   try{
-    const res=await fetch("dados.json?nocache="+Date.now());
+    const res = await fetch("dados.json?nocache=" + Date.now());
     if(!res.ok){
       throw new Error("Não foi possível abrir o arquivo dados.json");
     }
 
-    const dados=await res.json();
+    const dados = await res.json();
     aplicarDados(dados);
   }catch(e){
     mostrarErro("Confira se o arquivo dados.json está na mesma pasta do index.html e se o JSON está válido.");
@@ -563,7 +594,7 @@ async function carregarDados(){
   }
 }
 
-window.addEventListener("DOMContentLoaded",carregarDados);
+window.addEventListener("DOMContentLoaded", carregarDados);
 </script>
 
 </body>
