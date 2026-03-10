@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zona Casual</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden}
+body{font-family:Arial,sans-serif;background:#000;color:#fff;text-align:center;position:relative}
+body:before{
+content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;
+background:
+radial-gradient(circle at 20% 20%,rgba(255,140,0,.16),transparent 35%),
+radial-gradient(circle at 80% 30%,rgba(255,180,0,.10),transparent 30%),
+linear-gradient(to bottom,rgba(25,12,0,.82),rgba(0,0,0,.96))
+}
+
+/* partículas */
+.embers{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-2}
+.embers span{
+position:absolute;bottom:-20px;width:5px;height:5px;border-radius:50%;
+background:#ff9a1f;box-shadow:0 0 12px #ff8c00,0 0 22px rgba(255,140,0,.7);
+animation:e linear infinite;opacity:.95
+}
+@keyframes e{
+0%{transform:translateY(0) translateX(0);opacity:0}
+10%{opacity:.95}
+100%{transform:translateY(-120vh) translateX(35px);opacity:0}
+}
+
+header{
+background:rgba(20,10,0,.9);
+border-bottom:2px solid #ff8c00;
+height:64px;display:flex;align-items:center;justify-content:center;
+position:relative;z-index:5
+}
+
+/* menu hambúrguer 2 listras */
+.menu-btn{
+position:absolute;
+left:15px;
+top:50%;
+transform:translateY(-50%);
+background:none;
+border:none;
+cursor:pointer;
+display:flex;
+flex-direction:column;
+gap:6px;
+z-index:20
+}
+.menu-btn span{
+display:block;
+width:26px;
+height:3px;
+background:#fff;
+border-radius:3px
+}
+
+/* sidebar */
+.sidebar{
+position:fixed;
+top:0;
+left:-220px;
+width:200px;
+height:100%;
+background:#140a00;
+padding-top:80px;
+transition:.3s;
+z-index:15
+}
+.sidebar a{
+display:block;
+color:#fff;
+padding:14px;
+text-decoration:none;
+font-weight:bold;
+text-align:left;
+line-height:1.4;
+border-bottom:1px solid rgba(255,140,0,.2)
+}
+.sidebar.active{left:0}
+
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+z-index:14
+}
+.overlay.active{display:block}
+
+/* título fogo + glitch */
+.glitch{
+position:relative;
+display:inline-block;
+font-size:28px;
+font-weight:900;
+letter-spacing:2px;
+text-transform:uppercase;
+color:#fff;
+text-shadow:
+0 0 5px #ff6a00,
+0 0 10px #ff8c00,
+0 0 20px #ff8c00,
+0 0 40px #ff4500;
+animation:fireGlow 1.6s infinite alternate
+}
+.glitch:before,
+.glitch:after{
+content:attr(data-text);
+position:absolute;
+left:0;
+top:0;
+width:100%;
+overflow:hidden;
+pointer-events:none
+}
+.glitch:before{
+color:#ff8c00;
+transform:translate(-2px,0);
+text-shadow:-2px 0 #ff4500;
+animation:glitchTop 2s infinite linear alternate-reverse
+}
+.glitch:after{
+color:#ff4500;
+transform:translate(2px,0);
+text-shadow:2px 0 #ff8c00;
+animation:glitchBottom 1.8s infinite linear alternate-reverse
+}
+@keyframes fireGlow{
+0%{
+text-shadow:
+0 0 5px #ff6a00,
+0 0 10px #ff8c00,
+0 0 20px #ff8c00
+}
+100%{
+text-shadow:
+0 0 10px #ff6a00,
+0 0 25px #ff8c00,
+0 0 45px #ff4500
+}
+}
+@keyframes glitchTop{
+0%{clip-path:inset(0 0 80% 0)}
+25%{clip-path:inset(20% 0 50% 0)}
+50%{clip-path:inset(40% 0 30% 0)}
+75%{clip-path:inset(10% 0 70% 0)}
+100%{clip-path:inset(0 0 80% 0)}
+}
+@keyframes glitchBottom{
+0%{clip-path:inset(80% 0 0 0)}
+25%{clip-path:inset(60% 0 20% 0)}
+50%{clip-path:inset(70% 0 10% 0)}
+75%{clip-path:inset(85% 0 0 0)}
+100%{clip-path:inset(80% 0 0 0)}
+}
+
+.container{
+max-width:860px;
+margin:auto;
+padding:20px;
+position:relative;
+z-index:3
+}
+.card{
+background:rgba(17,17,17,.9);
+border:1px solid rgba(255,140,0,.35);
+border-radius:12px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 0 18px rgba(255,140,0,.06)
+}
+.card p{
+line-height:1.8;
+color:#d8d8d8;
+max-width:680px;
+margin:12px auto
+}
+.btn{
+display:inline-block;
+padding:12px 20px;
+border-radius:999px;
+text-decoration:none;
+font-weight:bold;
+margin-top:10px
+}
+.btn-main{
+background:#ff8c00;
+color:#000
+}
+
+.sobre-img{
+width:220px;
+height:220px;
+max-width:100%;
+margin:0 auto 15px;
+display:block;
+object-fit:cover;
+border-radius:50%;
+border:3px solid #ff8c00;
+background:#111;
+box-shadow:0 0 18px rgba(255,140,0,.35)
+}
+
+.streamer img{
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid rgba(255,140,0,.4)
+}
+
+/* slide */
+.slide-wrap{
+overflow:hidden;
+width:100%;
+padding:10px 0
+}
+.slide-track{
+display:flex;
+gap:25px;
+align-items:center
+}
+.team{
+min-width:120px;
+text-align:center
+}
+.team img{
+width:80px;
+height:80px;
+object-fit:contain;
+display:block;
+margin:auto
+}
+.team p{
+margin-top:8px;
+color:#ccc
+}
+
+/* patrocinadores */
+.logo-grid{
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap
+}
+.logo-box{
+min-width:120px
+}
+.logo-box img{
+width:80px;
+height:80px;
+object-fit:contain;
+display:block;
+margin:auto
+}
+.logo-box p{
+margin-top:8px;
+color:#ccc
+}
+
+footer{
+padding:16px;
+border-top:1px solid #ff8c00;
+background:rgba(0,0,0,.4);
+position:relative;
+z-index:3
+}
+
+.erro-box{
+background:rgba(255,0,0,.08);
+border:1px solid rgba(255,80,80,.35);
+color:#ffd6d6
+}
+
+@media(max-width:700px){
+.glitch{font-size:24px}
+.sobre-img{width:180px;height:180px}
+}
+</style>
+</head>
+<body>
+
+<div class="embers">
+<span style="left:8%;animation-duration:9s"></span>
+<span style="left:18%;animation-duration:11s"></span>
+<span style="left:34%;animation-duration:8s"></span>
+<span style="left:50%;animation-duration:10s"></span>
+<span style="left:66%;animation-duration:12s"></span>
+<span style="left:82%;animation-duration:9s"></span>
+<span style="left:92%;animation-duration:11s"></span>
+</div>
+
+<div class="overlay" id="overlay" onclick="fecharMenu()"></div>
+
+<div class="sidebar" id="side">
+<a href="index.html">INÍCIO<br>ZONA CASUAL</a>
+<a href="inscricao.html">FAZER<br>INSCRIÇÃO</a>
+</div>
+
+<header>
+<button class="menu-btn" onclick="toggleMenu()">
+<span></span>
+<span></span>
+</button>
+<h1 id="titulo" class="glitch" data-text="ZONA CASUAL">ZONA CASUAL</h1>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h2>Sobre o Projeto</h2>
+<img id="sobreImg" class="sobre-img" src="zona.png" alt="Zona Casual">
+<p id="sobre">Carregando...</p>
+<p id="chamada"></p>
+<a class="btn btn-main" href="inscricao.html">INSCREVER NA PERSONALIZADA</a>
+</div>
+
+<div class="card">
+<h2>Próxima Personalizada</h2>
+<p><b>Data:</b> <span id="dataTxt">-</span></p>
+<p><b>Horário:</b> <span id="horaTxt">-</span></p>
+</div>
+
+<div class="card streamer">
+<h2>Streamer</h2>
+<img id="streamerImg" src="streamer.jpg" alt="">
+<p id="streamerNome">@streamer</p>
+<a id="streamerLink" class="btn btn-main" href="#">Assistir Stream</a>
+</div>
+
+<div class="card">
+<h2>Times Envolvidos</h2>
+<div class="slide-wrap">
+<div class="slide-track" id="timesSlide"></div>
+</div>
+</div>
+
+<div class="card" id="patroCard" style="display:none">
+<h2 id="patroTitulo">Patrocinadores</h2>
+<div class="logo-grid" id="patroGrid"></div>
+</div>
+
+<div class="card erro-box" id="erroCard" style="display:none">
+<h2>Erro ao carregar dados</h2>
+<p id="erroMsg"></p>
+</div>
+
+</div>
+
+<footer>© 2026 Zona Casual</footer>
+
+<script>
+const side=document.getElementById("side");
+const overlay=document.getElementById("overlay");
+const slide=document.getElementById("timesSlide");
+
+function toggleMenu(){
+  side.classList.toggle("active");
+  overlay.classList.toggle("active");
+}
+function fecharMenu(){
+  side.classList.remove("active");
+  overlay.classList.remove("active");
+}
+
+let slideInterval=null;
+function iniciarSlide(){
+  if(slideInterval) clearInterval(slideInterval);
+
+  slideInterval=setInterval(()=>{
+    const primeiro=slide.children[0];
+    if(!primeiro || slide.children.length <= 1) return;
+
+    const largura=primeiro.offsetWidth+25;
+
+    slide.style.transition="transform .5s ease";
+    slide.style.transform=`translateX(-${largura}px)`;
+
+    setTimeout(()=>{
+      slide.style.transition="none";
+      slide.appendChild(primeiro);
+      slide.style.transform="translateX(0)";
+    },500);
+  },2500);
+}
+
+function mostrarErro(msg){
+  const erroCard=document.getElementById("erroCard");
+  const erroMsg=document.getElementById("erroMsg");
+  erroMsg.textContent=msg;
+  erroCard.style.display="block";
+}
+
+function aplicarDados(d){
+  const titulo=d.titulo || "ZONA CASUAL";
+  const tituloEl=document.getElementById("titulo");
+  tituloEl.textContent=titulo;
+  tituloEl.setAttribute("data-text",titulo);
+
+  document.getElementById("sobreImg").src=d.sobreImg || "zona.png";
+  document.getElementById("sobre").innerHTML=d.sobre || "";
+  document.getElementById("chamada").innerHTML=d.chamada || "";
+  document.getElementById("dataTxt").textContent=d.data || "-";
+  document.getElementById("horaTxt").textContent=d.hora || "-";
+
+  document.getElementById("streamerImg").src=d.streamerImg || "streamer.jpg";
+  document.getElementById("streamerNome").textContent=d.streamerNome || "@streamer";
+  document.getElementById("streamerLink").href=d.streamerLink || "#";
+
+  slide.innerHTML="";
+  const times=Array.isArray(d.times) ? d.times : [];
+  times.forEach(t=>{
+    slide.insertAdjacentHTML("beforeend",`
+      <div class="team">
+        <img src="${t.img || ''}" alt="">
+        <p>${t.nome || ''}</p>
+      </div>
+    `);
+  });
+
+  if(!times.length){
+    slide.innerHTML=`
+      <div class="team">
+        <img src="1shotkill.png" alt="">
+        <p>1Shotkill</p>
+      </div>
+      <div class="team">
+        <img src="vanguarda.png" alt="">
+        <p>Vanguarda</p>
+      </div>
+    `;
+  }
+
+  iniciarSlide();
+
+  const patroCard=document.getElementById("patroCard");
+  const patroTitulo=document.getElementById("patroTitulo");
+  const patroGrid=document.getElementById("patroGrid");
+
+  patroGrid.innerHTML="";
+  const patrocinadores=Array.isArray(d.patrocinadores) ? d.patrocinadores : [];
+
+  if(patrocinadores.length){
+    patroCard.style.display="block";
+    patroTitulo.textContent=d.patrocinadoresTitulo || "Patrocinadores";
+
+    patrocinadores.forEach(p=>{
+      patroGrid.insertAdjacentHTML("beforeend",`
+        <div class="logo-box">
+          <img src="${p.img || ''}" alt="">
+          <p>${p.nome || ''}</p>
+        </div>
+      `);
+    });
+  }else{
+    patroCard.style.display="none";
+  }
+}
+
+async function carregarDados(){
+  try{
+    const res=await fetch("dados.json?nocache="+Date.now());
+    if(!res.ok){
+      throw new Error("Não foi possível abrir o arquivo dados.json");
+    }
+
+    const dados=await res.json();
+    aplicarDados(dados);
+  }catch(e){
+    mostrarErro("Confira se o arquivo dados.json está na mesma pasta do index.html e se o JSON está válido.");
+    console.error(e);
+  }
+}
+
+window.addEventListener("DOMContentLoaded",carregarDados);
+</script>
+
+</body>
+</html>
