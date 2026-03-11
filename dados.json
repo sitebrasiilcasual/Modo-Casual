@@ -1,70 +1,32 @@
 {
   "dataEvento": "20/03/2026",
   "horaEvento": "20:00",
-
-  "sobre": "A Zona Casual é um projeto criado para reunir jogadores em partidas personalizadas competitivas e organizadas. Nosso objetivo é criar eventos divertidos e competitivos para a comunidade.",
-
+  "sobre": "Bem-vindo ao projeto Zona Casual. Aqui você pode divulgar as personalizadas, os times envolvidos, streamer principal e patrocinadores.",
   "fotoSobre": "zona.png",
-
   "streamerPrincipal": {
-    "nome": "@zona_casual",
-    "img": "streamer.jpg",
-    "link": "https://twitch.tv/"
+    "nome": "@streamer",
+    "link": "https://youtube.com/",
+    "img": "streamer.jpg"
   },
-
+  "inscricao": {
+    "totalVagas": 12,
+    "vagasOcupadas": 4,
+    "times": []
+  },
   "times": [
     {
-      "nome": "Alpha",
+      "nome": "Time 1",
       "img": "time1.png"
     },
     {
-      "nome": "Bravo",
+      "nome": "Time 2",
       "img": "time2.png"
-    },
-    {
-      "nome": "Charlie",
-      "img": "time3.png"
     }
   ],
-
   "patrocinadores": [
     {
-      "nome": "Sponsor 1",
+      "nome": "Patro 1",
       "img": "patro1.png"
-    },
-    {
-      "nome": "Sponsor 2",
-      "img": "patro2.png"
     }
-  ],
-
-  "inscricao": {
-    "totalVagas": 12,
-
-    "times": [
-      {
-        "nomeTime": "Team Alpha",
-        "responsavel": "Carlos",
-        "whatsapp": "21999999999",
-        "jogadores": [
-          "Carlos",
-          "Pedro",
-          "Lucas",
-          "Mateus"
-        ]
-      },
-
-      {
-        "nomeTime": "Team Bravo",
-        "responsavel": "João",
-        "whatsapp": "21888888888",
-        "jogadores": [
-          "João",
-          "Rafael",
-          "Igor",
-          "Bruno"
-        ]
-      }
-    ]
-  }
+  ]
 }
