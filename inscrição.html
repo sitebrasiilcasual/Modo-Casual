@@ -14,6 +14,7 @@ font-family:Arial;
 background:#000;
 color:#fff;
 text-align:center;
+position:relative;
 }
 
 /* FUNDO */
@@ -36,7 +37,6 @@ pointer-events:none;
 overflow:hidden;
 z-index:1;
 }
-
 .embers span{
 position:absolute;
 bottom:-20px;
@@ -48,7 +48,6 @@ box-shadow:0 0 10px #ff6a00;
 animation:e linear infinite;
 opacity:.8;
 }
-
 @keyframes e{
 0%{transform:translateY(0);opacity:0}
 10%{opacity:.9}
@@ -57,78 +56,16 @@ opacity:.8;
 
 /* HEADER */
 header{
-background:rgba(20,8,0,.92);
-border-bottom:2px solid #ff7a00;
+background:rgba(20,10,0,.9);
+border-bottom:2px solid #ff8c00;
 height:88px;
 display:flex;
 align-items:center;
 justify-content:center;
 position:relative;
+overflow:visible;
 z-index:3;
-overflow:visible
 }
-
-/* MENU HAMBÚRGUER 2 LINHAS */
-.menu-btn{
-position:absolute;
-left:15px;
-top:50%;
-transform:translateY(-50%);
-background:none;
-border:none;
-cursor:pointer;
-display:flex;
-flex-direction:column;
-gap:6px;
-z-index:12;
-}
-
-.menu-btn span{
-display:block;
-width:22px;
-height:4px;
-background:#fff;
-border-radius:4px;
-flex:0 0 auto;
-}
-
-/* SIDEBAR */
-.sidebar{
-position:fixed;
-top:0;
-left:-210px;
-width:190px;
-height:100%;
-background:#120700;
-padding-top:75px;
-transition:.3s;
-z-index:10;
-border-right:1px solid rgba(255,122,0,.25);
-}
-
-.sidebar a{
-display:block;
-color:#fff;
-text-decoration:none;
-padding:12px;
-text-align:left;
-font-weight:bold;
-line-height:1.4;
-}
-
-.sidebar.active{left:0}
-
-/* OVERLAY */
-.overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.6);
-display:none;
-z-index:9;
-}
-.overlay.active{display:block}
-
-/* ===== TÍTULO INSANO COM FOGO ===== */
 
 .titulo-wrap{
 position:relative;
@@ -136,9 +73,8 @@ display:inline-flex;
 align-items:center;
 justify-content:center;
 padding:8px 18px;
-filter:drop-shadow(0 0 10px rgba(255,120,0,.35)) drop-shadow(0 0 25px rgba(255,80,0,.25))
+filter:drop-shadow(0 0 10px rgba(255,120,0,.35)) drop-shadow(0 0 25px rgba(255,80,0,.25));
 }
-
 .titulo-wrap:before{
 content:"";
 position:absolute;
@@ -153,9 +89,8 @@ radial-gradient(circle at 50% 40%,rgba(255,90,0,.18),transparent 30%),
 radial-gradient(circle at 80% 50%,rgba(255,180,0,.18),transparent 22%);
 filter:blur(18px);
 z-index:0;
-animation:auraFogo 2.4s ease-in-out infinite alternate
+animation:auraFogo 2.4s ease-in-out infinite alternate;
 }
-
 @keyframes auraFogo{
 0%{transform:translateY(-50%) scale(1)}
 100%{transform:translateY(-50%) scale(1.06)}
@@ -164,7 +99,6 @@ animation:auraFogo 2.4s ease-in-out infinite alternate
 .glitch{
 position:relative;
 z-index:3;
-display:inline-block;
 font-size:34px;
 font-weight:900;
 letter-spacing:3px;
@@ -178,20 +112,17 @@ text-shadow:
 0 0 16px #ff8c00,
 0 0 28px #ff5a00,
 0 0 52px #ff2a00;
-animation:fogoMain .12s infinite alternate,tremer .9s infinite steps(2,end)
+animation:fogoMain .12s infinite alternate,tremer .9s infinite steps(2,end);
 }
-
-.glitch:before,
-.glitch:after{
+.glitch:before,.glitch:after{
 content:attr(data-text);
 position:absolute;
 left:0;
 top:0;
 width:100%;
 overflow:hidden;
-pointer-events:none
+pointer-events:none;
 }
-
 .glitch:before{
 color:rgba(255,60,0,.85);
 z-index:-1;
@@ -200,9 +131,8 @@ text-shadow:
 0 0 8px #ff2a00,
 0 0 18px #ff5a00,
 0 0 30px #ff8c00;
-animation:glitchLeft .18s infinite steps(2,end)
+animation:glitchLeft .18s infinite steps(2,end);
 }
-
 .glitch:after{
 color:rgba(255,200,80,.9);
 z-index:-1;
@@ -211,7 +141,7 @@ text-shadow:
 0 0 8px #ffae00,
 0 0 18px #ff8c00,
 0 0 34px #ff4500;
-animation:glitchRight .14s infinite steps(2,end)
+animation:glitchRight .14s infinite steps(2,end);
 }
 
 .fogo-topo{
@@ -223,22 +153,18 @@ width:115%;
 height:95%;
 pointer-events:none;
 z-index:2;
-filter:blur(1.2px) saturate(1.25)
+filter:blur(1.2px) saturate(1.25);
 }
-
 .fogo-topo span{
 position:absolute;
 bottom:18%;
 width:16%;
 border-radius:50% 50% 45% 45%;
 background:linear-gradient(to top,rgba(255,60,0,.96),rgba(255,140,0,.92),rgba(255,220,140,.28),transparent);
-box-shadow:
-0 0 14px rgba(255,100,0,.7),
-0 0 28px rgba(255,140,0,.45);
+box-shadow:0 0 14px rgba(255,100,0,.7),0 0 28px rgba(255,140,0,.45);
 transform-origin:center bottom;
-animation:subirChama ease-in-out infinite alternate
+animation:subirChama ease-in-out infinite alternate;
 }
-
 .fogo-topo span:nth-child(1){left:2%;height:40px;animation-duration:1.0s}
 .fogo-topo span:nth-child(2){left:12%;height:52px;animation-duration:.8s}
 .fogo-topo span:nth-child(3){left:23%;height:42px;animation-duration:1.15s}
@@ -247,25 +173,17 @@ animation:subirChama ease-in-out infinite alternate
 .fogo-topo span:nth-child(6){left:59%;height:60px;animation-duration:.78s}
 .fogo-topo span:nth-child(7){left:71%;height:44px;animation-duration:1.05s}
 .fogo-topo span:nth-child(8){left:83%;height:54px;animation-duration:.9s}
-
 @keyframes subirChama{
-0%{
-transform:translateY(0) scaleY(.9) scaleX(.95) rotate(-2deg);
-opacity:.65
-}
-100%{
-transform:translateY(-8px) scaleY(1.25) scaleX(1.08) rotate(2deg);
-opacity:.98
-}
+0%{transform:translateY(0) scaleY(.9) scaleX(.95) rotate(-2deg);opacity:.65}
+100%{transform:translateY(-8px) scaleY(1.25) scaleX(1.08) rotate(2deg);opacity:.98}
 }
 
 .brasas-titulo{
 position:absolute;
 inset:-18px -24px -10px -24px;
 pointer-events:none;
-z-index:4
+z-index:4;
 }
-
 .brasas-titulo i{
 position:absolute;
 bottom:10px;
@@ -274,9 +192,8 @@ height:5px;
 border-radius:50%;
 background:#ffb347;
 box-shadow:0 0 10px #ff8c00,0 0 20px rgba(255,90,0,.85);
-animation:brasasTitulo linear infinite
+animation:brasasTitulo linear infinite;
 }
-
 .brasas-titulo i:nth-child(1){left:8%;animation-duration:1.8s;animation-delay:.1s}
 .brasas-titulo i:nth-child(2){left:16%;animation-duration:2.2s;animation-delay:.4s}
 .brasas-titulo i:nth-child(3){left:26%;animation-duration:1.7s;animation-delay:.2s}
@@ -286,7 +203,6 @@ animation:brasasTitulo linear infinite
 .brasas-titulo i:nth-child(7){left:72%;animation-duration:1.6s;animation-delay:.1s}
 .brasas-titulo i:nth-child(8){left:82%;animation-duration:2.2s;animation-delay:.6s}
 .brasas-titulo i:nth-child(9){left:91%;animation-duration:1.75s;animation-delay:.2s}
-
 @keyframes brasasTitulo{
 0%{transform:translateY(0) translateX(0) scale(.7);opacity:0}
 12%{opacity:1}
@@ -302,9 +218,8 @@ height:18px;
 background:radial-gradient(ellipse at center,rgba(255,120,0,.42),rgba(255,80,0,.14),transparent 70%);
 filter:blur(8px);
 z-index:1;
-animation:reflexoPulso 1.3s ease-in-out infinite alternate
+animation:reflexoPulso 1.3s ease-in-out infinite alternate;
 }
-
 @keyframes reflexoPulso{
 0%{opacity:.5;transform:scaleX(.96)}
 100%{opacity:.95;transform:scaleX(1.04)}
@@ -312,25 +227,14 @@ animation:reflexoPulso 1.3s ease-in-out infinite alternate
 
 @keyframes fogoMain{
 0%{
-text-shadow:
-0 0 4px #fff3d6,
-0 0 8px #ffcf66,
-0 0 16px #ff8c00,
-0 0 28px #ff5a00,
-0 0 52px #ff2a00;
+text-shadow:0 0 4px #fff3d6,0 0 8px #ffcf66,0 0 16px #ff8c00,0 0 28px #ff5a00,0 0 52px #ff2a00;
 filter:brightness(1)
 }
 100%{
-text-shadow:
-0 0 5px #fff7ea,
-0 0 12px #ffd26c,
-0 0 24px #ff9a1f,
-0 0 40px #ff5a00,
-0 0 70px #ff1e00;
+text-shadow:0 0 5px #fff7ea,0 0 12px #ffd26c,0 0 24px #ff9a1f,0 0 40px #ff5a00,0 0 70px #ff1e00;
 filter:brightness(1.08)
 }
 }
-
 @keyframes glitchLeft{
 0%{transform:translate(-2px,0)}
 25%{transform:translate(-4px,-1px)}
@@ -338,7 +242,6 @@ filter:brightness(1.08)
 75%{transform:translate(-3px,0)}
 100%{transform:translate(-2px,-1px)}
 }
-
 @keyframes glitchRight{
 0%{transform:translate(2px,0)}
 25%{transform:translate(5px,1px)}
@@ -346,7 +249,6 @@ filter:brightness(1.08)
 75%{transform:translate(3px,0)}
 100%{transform:translate(2px,1px)}
 }
-
 @keyframes tremer{
 0%{transform:translate(0,0)}
 25%{transform:translate(.6px,-.3px)}
@@ -363,7 +265,6 @@ padding:20px;
 position:relative;
 z-index:3;
 }
-
 .card{
 background:rgba(17,17,17,.9);
 border:1px solid rgba(255,122,0,.35);
@@ -371,7 +272,6 @@ border-radius:12px;
 padding:20px;
 box-shadow:0 0 30px rgba(255,122,0,.08);
 }
-
 .info{
 background:#1d0d00;
 padding:12px;
@@ -380,118 +280,94 @@ margin-bottom:14px;
 border:1px solid rgba(255,122,0,.16);
 line-height:1.7;
 }
-
+.contador{
+margin-bottom:14px;
+padding:14px;
+border-radius:12px;
+background:rgba(255,140,0,.08);
+border:1px solid rgba(255,140,0,.2);
+font-size:20px;
+font-weight:bold;
+}
+.contador span{
+color:#ffb347;
+font-size:28px;
+text-shadow:0 0 10px rgba(255,140,0,.5);
+}
 input,textarea,button{
 width:100%;
 padding:12px;
 margin:7px 0;
 border:none;
 border-radius:8px;
-box-sizing:border-box;
-font-size:15px;
+font-size:16px;
 }
-
 input,textarea{
 background:#1a1a1a;
 color:#fff;
-border:1px solid rgba(255,122,0,.15);
-outline:none;
 }
-
-input:focus,textarea:focus{
-border-color:#ff7a00;
-box-shadow:0 0 0 2px rgba(255,122,0,.12);
-}
-
 button{
-background:linear-gradient(180deg,#ff8c00,#ff5e00);
-color:#fff;
+background:#ff8c00;
+color:#000;
 font-weight:bold;
 cursor:pointer;
 }
-
-.vagas{
-margin-top:14px;
-background:#1d0d00;
-border-radius:10px;
-padding:12px;
-border:1px solid rgba(255,122,0,.16);
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
 }
-
-.vagas b{font-size:28px}
-
-footer{
-padding:16px;
-border-top:1px solid #ff7a00;
-background:rgba(0,0,0,.4);
-margin-top:16px;
-position:relative;
-z-index:3;
-}
-
-.erro-box{
-margin-top:14px;
-background:rgba(255,0,0,.08);
-border:1px solid rgba(255,80,80,.35);
-color:#ffd6d6;
-border-radius:10px;
-padding:12px;
+.msg{
 display:none;
+color:#ff6b6b;
+margin-top:10px;
+font-weight:bold;
+}
+#erroBox{
+margin-top:12px;
+}
+.ok{
+display:none;
+color:#7dff9a;
+margin-top:12px;
+font-weight:bold;
 }
 
-@media(max-width:700px){
+@media(max-width:600px){
 header{height:82px}
 .glitch{font-size:26px;letter-spacing:2px}
 .fogo-topo{width:120%;height:88%}
 }
 </style>
 </head>
-
 <body>
 
 <div class="embers">
-<span style="left:10%;animation-duration:9s"></span>
-<span style="left:30%;animation-duration:11s"></span>
-<span style="left:55%;animation-duration:8s"></span>
-<span style="left:75%;animation-duration:12s"></span>
-<span style="left:90%;animation-duration:9s"></span>
-</div>
-
-<div class="overlay" id="overlay" onclick="fecharMenu()"></div>
-
-<div class="sidebar" id="side">
-<a href="index.html">INÍCIO</a>
-<a href="ademar.html">ADM</a>
-<a href="inscrição.html">INSCRIÇÃO</a>
+<span style="left:5%;animation-duration:9s"></span>
+<span style="left:15%;animation-duration:11s"></span>
+<span style="left:25%;animation-duration:8s"></span>
+<span style="left:35%;animation-duration:12s"></span>
+<span style="left:45%;animation-duration:9s"></span>
+<span style="left:55%;animation-duration:10s"></span>
+<span style="left:65%;animation-duration:11s"></span>
+<span style="left:75%;animation-duration:9s"></span>
+<span style="left:85%;animation-duration:12s"></span>
+<span style="left:95%;animation-duration:10s"></span>
 </div>
 
 <header>
-<button class="menu-btn" onclick="m()" aria-label="Abrir menu">
-<span></span>
-<span></span>
-</button>
-
 <div class="titulo-wrap">
-
 <div class="fogo-topo">
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
-<span></span>
+<span></span><span></span><span></span><span></span>
+<span></span><span></span><span></span><span></span>
 </div>
 
-<h1 class="glitch" id="titulo" data-text="ZONA CASUAL">ZONA CASUAL</h1>
+<h1 id="titulo" class="glitch" data-text="ZONA CASUAL">ZONA CASUAL</h1>
 
 <div class="brasas-titulo">
 <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
 </div>
 
 <div class="reflexo-fogo"></div>
-
 </div>
 </header>
 
@@ -499,124 +375,119 @@ header{height:82px}
 <div class="card">
 
 <div class="info" id="infoTxt">
-<b>Somente o líder da equipe</b> deve fazer a inscrição.
+Preencha corretamente os dados do seu time para participar.
+</div>
+
+<div class="contador">
+Vagas restantes: <span id="v">0</span> / <span id="totalTxt">0</span>
 </div>
 
 <form id="f" action="https://formspree.io/f/myknkqyb" method="POST">
-<input name="Equipe" placeholder="Nome da Equipe" required>
-<input name="Lider" placeholder="Nome do Líder" required>
-<input name="Whatsapp" placeholder="WhatsApp do Líder" required>
-<input name="Jogador1" placeholder="Jogador 1" required>
-<input name="Jogador2" placeholder="Jogador 2">
-<input name="Jogador3" placeholder="Jogador 3">
-<input name="Jogador4" placeholder="Jogador 4">
-<textarea name="Observacoes" placeholder="Observações"></textarea>
-<button id="enviar" type="submit">Enviar Inscrição</button>
+<input type="text" name="Nome do Clã (Time)" placeholder="NOME DO CLÃ (TIME)" required>
+<input type="text" name="Capitão" placeholder="CAPITÃO" required>
+<input type="text" name="Integrante 1" placeholder="INTEGRANTE 1" required>
+<input type="text" name="Integrante 2" placeholder="INTEGRANTE 2" required>
+<input type="text" name="Integrante 3" placeholder="INTEGRANTE 3" required>
+<input type="text" name="Integrante 4" placeholder="INTEGRANTE 4" required>
+<input type="hidden" name="_subject" value="Nova inscrição - Zona Casual">
+<button id="enviar" type="submit">Enviar inscrição</button>
+<div id="msg" class="msg">As vagas acabaram.</div>
+<div id="okMsg" class="ok">Inscrição enviada com sucesso.</div>
 </form>
 
-<div class="vagas">
-Vagas Disponíveis<br><br>
-<b id="v">12</b> / <span id="totalTxt">12</span>
-<div id="msg" style="display:none;color:#ff9b6b;margin-top:8px">Vagas esgotadas</div>
-</div>
-
-<div class="erro-box" id="erroBox"></div>
+<div id="erroBox" class="msg"></div>
 
 </div>
 </div>
-
-<footer>© 2026 Zona Casual</footer>
 
 <script>
-let T = 12;
-let u = parseInt(localStorage.getItem("vagasUsadas") || "0", 10);
-
-function m(){
-  document.getElementById("side").classList.toggle("active");
-  document.getElementById("overlay").classList.toggle("active");
-}
-
-function fecharMenu(){
-  document.getElementById("side").classList.remove("active");
-  document.getElementById("overlay").classList.remove("active");
-}
+let u=parseInt(localStorage.getItem("vagasUsadas")||0,10)
+let T=12
 
 function upd(){
-  if(T < 1) T = 1;
-  if(u < 0) u = 0;
-  if(u > T) u = T;
+let r=T-u
+if(r<0) r=0
 
-  let r = T - u;
-  if(r < 0) r = 0;
+document.getElementById("v").innerText=r
+document.getElementById("totalTxt").innerText=T
 
-  document.getElementById("v").innerText = r;
-  document.getElementById("totalTxt").innerText = T;
-
-  if(r <= 0){
-    document.getElementById("enviar").disabled = true;
-    document.getElementById("enviar").style.opacity = ".6";
-    document.getElementById("msg").style.display = "block";
-  }else{
-    document.getElementById("enviar").disabled = false;
-    document.getElementById("enviar").style.opacity = "1";
-    document.getElementById("msg").style.display = "none";
-  }
+if(r<=0){
+document.getElementById("enviar").disabled=true
+document.getElementById("msg").style.display="block"
+}else{
+document.getElementById("enviar").disabled=false
+document.getElementById("msg").style.display="none"
+}
 }
 
 function mostrarErro(msg){
-  const box = document.getElementById("erroBox");
-  box.style.display = "block";
-  box.textContent = msg;
+const box=document.getElementById("erroBox")
+box.style.display="block"
+box.textContent=msg
 }
 
 async function carregarDados(){
-  try{
-    const res = await fetch("dados.json?nocache=" + Date.now());
-    if(!res.ok) throw new Error("Não foi possível carregar dados.json");
-    const dados = await res.json();
+try{
+const res=await fetch("dados.json?nocache="+Date.now())
+if(!res.ok) throw new Error("Erro ao carregar dados.json")
 
-    const titulo = dados.titulo || "ZONA CASUAL";
-    const tituloEl = document.getElementById("titulo");
-    tituloEl.textContent = titulo;
-    tituloEl.setAttribute("data-text", titulo);
+const dados=await res.json()
 
-    document.title = "Inscrição - " + titulo;
+const titulo=dados.titulo||"ZONA CASUAL"
+const tituloEl=document.getElementById("titulo")
+tituloEl.textContent=titulo
+tituloEl.setAttribute("data-text",titulo)
 
-    if(dados.infoInscricao){
-      document.getElementById("infoTxt").innerHTML = dados.infoInscricao;
-    }
+document.title="Inscrição - "+titulo
 
-    if(dados.formAction){
-      document.getElementById("f").action = dados.formAction;
-    }
-
-    if(dados.totalTimes){
-      T = parseInt(dados.totalTimes,10);
-    }else{
-      T = 12;
-    }
-
-    upd();
-  }catch(e){
-    console.error(e);
-    T = 12;
-    upd();
-    mostrarErro("Erro ao carregar dados.json. A página usou valores padrão.");
-  }
+if(dados.infoInscricao){
+document.getElementById("infoTxt").innerHTML=dados.infoInscricao
 }
 
-document.getElementById("f").addEventListener("submit", function(e){
-  if(u >= T){
-    e.preventDefault();
-    upd();
-    return;
-  }
+if(dados.formAction){
+document.getElementById("f").action=dados.formAction
+}
 
-  u++;
-  localStorage.setItem("vagasUsadas", u);
-});
+if(dados.inscricao && dados.inscricao.totalVagas!=null){
+T=parseInt(dados.inscricao.totalVagas,10)||12
+}else if(dados.totalTimes!=null){
+T=parseInt(dados.totalTimes,10)||12
+}else{
+T=12
+}
 
-window.addEventListener("DOMContentLoaded", carregarDados);
+let ocupadas=0
+if(dados.inscricao && Array.isArray(dados.inscricao.times)){
+ocupadas=dados.inscricao.times.length
+}else if(dados.inscricao && dados.inscricao.vagasOcupadas!=null){
+ocupadas=parseInt(dados.inscricao.vagasOcupadas,10)||0
+}else if(dados.vagasOcupadas!=null){
+ocupadas=parseInt(dados.vagasOcupadas,10)||0
+}else{
+ocupadas=parseInt(localStorage.getItem("vagasUsadas")||0,10)
+}
+
+u=ocupadas
+localStorage.setItem("vagasUsadas",u)
+upd()
+
+}catch(e){
+console.error(e)
+T=12
+upd()
+mostrarErro("Erro ao carregar dados.json. A página usou valores padrão.")
+}
+}
+
+document.getElementById("f").addEventListener("submit",function(e){
+if(u>=T){
+e.preventDefault()
+upd()
+return
+}
+})
+
+window.addEventListener("DOMContentLoaded",carregarDados)
 </script>
 
 </body>
