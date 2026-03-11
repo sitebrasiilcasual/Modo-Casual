@@ -17,6 +17,7 @@ text-align:center;
 position:relative
 }
 
+/* fundo */
 body:before{
 content:"";
 position:fixed;
@@ -28,8 +29,7 @@ radial-gradient(circle at 80% 30%,rgba(255,180,0,.10),transparent 30%),
 linear-gradient(to bottom,rgba(25,12,0,.82),rgba(0,0,0,.96))
 }
 
-/* brasas */
-
+/* partículas do fundo */
 .embers{
 position:fixed;
 inset:0;
@@ -41,52 +41,102 @@ z-index:-2
 .embers span{
 position:absolute;
 bottom:-20px;
-width:5px;
-height:5px;
+width:6px;
+height:6px;
 border-radius:50%;
 background:#ff9a1f;
-box-shadow:0 0 12px #ff8c00;
+box-shadow:0 0 12px #ff8c00,0 0 25px rgba(255,140,0,.8);
 animation:e linear infinite
 }
 
 @keyframes e{
 0%{transform:translateY(0);opacity:0}
 10%{opacity:.9}
-100%{transform:translateY(-120vh) translateX(35px);opacity:0}
+100%{transform:translateY(-120vh) translateX(40px);opacity:0}
 }
 
 /* header */
-
 header{
 background:rgba(20,10,0,.9);
 border-bottom:2px solid #ff8c00;
-height:64px;
+height:88px;
 display:flex;
 align-items:center;
-justify-content:center
+justify-content:center;
+position:relative;
+overflow:visible
 }
 
-/* glitch fogo */
+/* botão config */
+.config-btn{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+font-size:20px;
+text-decoration:none;
+color:#fff;
+background:rgba(255,140,0,.15);
+border:1px solid rgba(255,140,0,.4);
+padding:6px 10px;
+border-radius:6px;
+transition:.2s;
+z-index:6
+}
+
+.config-btn:hover{
+background:#ff8c00;
+color:#000
+}
+
+/* título absurdo */
+.titulo-wrap{
+position:relative;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+padding:8px 18px;
+filter:drop-shadow(0 0 10px rgba(255,120,0,.35)) drop-shadow(0 0 25px rgba(255,80,0,.25))
+}
+
+.titulo-wrap:before{
+content:"";
+position:absolute;
+left:-5%;
+right:-5%;
+top:50%;
+height:120%;
+transform:translateY(-50%);
+background:
+radial-gradient(circle at 20% 50%,rgba(255,140,0,.22),transparent 22%),
+radial-gradient(circle at 50% 40%,rgba(255,90,0,.18),transparent 30%),
+radial-gradient(circle at 80% 50%,rgba(255,180,0,.18),transparent 22%);
+filter:blur(18px);
+z-index:0;
+animation:auraFogo 2.4s ease-in-out infinite alternate
+}
+
+@keyframes auraFogo{
+0%{transform:translateY(-50%) scale(1)}
+100%{transform:translateY(-50%) scale(1.06)}
+}
 
 .glitch{
 position:relative;
-display:inline-block;
-font-size:28px;
+z-index:3;
+font-size:34px;
 font-weight:900;
-letter-spacing:2px;
+letter-spacing:3px;
 text-transform:uppercase;
-color:#fff;
-
+color:#fff4db;
+line-height:1;
 text-shadow:
-0 0 5px #ff6a00,
-0 0 10px #ff8c00,
-0 0 20px #ff8c00,
-0 0 40px #ff4500,
-0 0 70px rgba(255,120,0,.6);
-
-animation:
-fireGlow 1.6s infinite alternate,
-fireFlicker .25s infinite;
+0 0 4px #fff3d6,
+0 0 8px #ffcf66,
+0 0 16px #ff8c00,
+0 0 28px #ff5a00,
+0 0 52px #ff2a00;
+animation:fogoMain .12s infinite alternate,tremer .9s infinite steps(2,end)
 }
 
 .glitch:before,
@@ -97,91 +147,189 @@ left:0;
 top:0;
 width:100%;
 overflow:hidden;
-pointer-events:none;
+pointer-events:none
 }
-
-/* camada superior */
 
 .glitch:before{
-color:#ff8c00;
-transform:translate(-2px,0);
-text-shadow:-2px 0 #ff4500;
-animation:
-glitchTop 2s infinite linear alternate-reverse,
-fireShift 3s infinite;
+color:rgba(255,60,0,.85);
+z-index:-1;
+transform:translate(-2px,-1px);
+text-shadow:
+0 0 8px #ff2a00,
+0 0 18px #ff5a00,
+0 0 30px #ff8c00;
+animation:glitchLeft .18s infinite steps(2,end)
 }
-
-/* camada inferior */
 
 .glitch:after{
-color:#ff4500;
-transform:translate(2px,0);
-text-shadow:2px 0 #ff8c00;
-animation:
-glitchBottom 1.8s infinite linear alternate-reverse,
-fireShift 2.5s infinite;
+color:rgba(255,200,80,.9);
+z-index:-1;
+transform:translate(2px,1px);
+text-shadow:
+0 0 8px #ffae00,
+0 0 18px #ff8c00,
+0 0 34px #ff4500;
+animation:glitchRight .14s infinite steps(2,end)
 }
 
-/* brilho do fogo */
+.fogo-topo{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-58%);
+width:115%;
+height:95%;
+pointer-events:none;
+z-index:2;
+filter:blur(1.2px) saturate(1.25)
+}
 
-@keyframes fireGlow{
+.fogo-topo span{
+position:absolute;
+bottom:18%;
+width:16%;
+border-radius:50% 50% 45% 45%;
+background:linear-gradient(to top,rgba(255,60,0,.96),rgba(255,140,0,.92),rgba(255,220,140,.28),transparent);
+box-shadow:
+0 0 14px rgba(255,100,0,.7),
+0 0 28px rgba(255,140,0,.45);
+transform-origin:center bottom;
+animation:subirChama ease-in-out infinite alternate
+}
+
+.fogo-topo span:nth-child(1){left:2%;height:40px;animation-duration:1.0s}
+.fogo-topo span:nth-child(2){left:12%;height:52px;animation-duration:.8s}
+.fogo-topo span:nth-child(3){left:23%;height:42px;animation-duration:1.15s}
+.fogo-topo span:nth-child(4){left:35%;height:62px;animation-duration:.95s}
+.fogo-topo span:nth-child(5){left:48%;height:48px;animation-duration:1.1s}
+.fogo-topo span:nth-child(6){left:59%;height:60px;animation-duration:.78s}
+.fogo-topo span:nth-child(7){left:71%;height:44px;animation-duration:1.05s}
+.fogo-topo span:nth-child(8){left:83%;height:54px;animation-duration:.9s}
+
+@keyframes subirChama{
+0%{
+transform:translateY(0) scaleY(.9) scaleX(.95) rotate(-2deg);
+opacity:.65
+}
+100%{
+transform:translateY(-8px) scaleY(1.25) scaleX(1.08) rotate(2deg);
+opacity:.98
+}
+}
+
+.brasas-titulo{
+position:absolute;
+inset:-18px -24px -10px -24px;
+pointer-events:none;
+z-index:4
+}
+
+.brasas-titulo i{
+position:absolute;
+bottom:10px;
+width:5px;
+height:5px;
+border-radius:50%;
+background:#ffb347;
+box-shadow:0 0 10px #ff8c00,0 0 20px rgba(255,90,0,.85);
+animation:brasasTitulo linear infinite
+}
+
+.brasas-titulo i:nth-child(1){left:8%;animation-duration:1.8s;animation-delay:.1s}
+.brasas-titulo i:nth-child(2){left:16%;animation-duration:2.2s;animation-delay:.4s}
+.brasas-titulo i:nth-child(3){left:26%;animation-duration:1.7s;animation-delay:.2s}
+.brasas-titulo i:nth-child(4){left:38%;animation-duration:2.4s;animation-delay:.7s}
+.brasas-titulo i:nth-child(5){left:50%;animation-duration:1.9s;animation-delay:.3s}
+.brasas-titulo i:nth-child(6){left:60%;animation-duration:2.5s;animation-delay:.5s}
+.brasas-titulo i:nth-child(7){left:72%;animation-duration:1.6s;animation-delay:.1s}
+.brasas-titulo i:nth-child(8){left:82%;animation-duration:2.2s;animation-delay:.6s}
+.brasas-titulo i:nth-child(9){left:91%;animation-duration:1.75s;animation-delay:.2s}
+
+@keyframes brasasTitulo{
+0%{transform:translateY(0) translateX(0) scale(.7);opacity:0}
+12%{opacity:1}
+100%{transform:translateY(-38px) translateX(12px) scale(1.2);opacity:0}
+}
+
+.reflexo-fogo{
+position:absolute;
+left:8%;
+right:8%;
+bottom:-12px;
+height:18px;
+background:radial-gradient(ellipse at center,rgba(255,120,0,.42),rgba(255,80,0,.14),transparent 70%);
+filter:blur(8px);
+z-index:1;
+animation:reflexoPulso 1.3s ease-in-out infinite alternate
+}
+
+@keyframes reflexoPulso{
+0%{opacity:.5;transform:scaleX(.96)}
+100%{opacity:.95;transform:scaleX(1.04)}
+}
+
+@keyframes fogoMain{
 0%{
 text-shadow:
-0 0 5px #ff6a00,
-0 0 10px #ff8c00,
-0 0 20px #ff8c00,
-0 0 40px #ff4500;
+0 0 4px #fff3d6,
+0 0 8px #ffcf66,
+0 0 16px #ff8c00,
+0 0 28px #ff5a00,
+0 0 52px #ff2a00;
+filter:brightness(1)
 }
-
 100%{
 text-shadow:
-0 0 10px #ff6a00,
-0 0 25px #ff8c00,
-0 0 45px #ff4500,
-0 0 80px rgba(255,120,0,.6);
+0 0 5px #fff7ea,
+0 0 12px #ffd26c,
+0 0 24px #ff9a1f,
+0 0 40px #ff5a00,
+0 0 70px #ff1e00;
+filter:brightness(1.08)
 }
 }
 
-/* tremida do fogo */
+@keyframes glitchLeft{
+0%{transform:translate(-2px,0)}
+25%{transform:translate(-4px,-1px)}
+50%{transform:translate(-1px,1px)}
+75%{transform:translate(-3px,0)}
+100%{transform:translate(-2px,-1px)}
+}
 
-@keyframes fireFlicker{
+@keyframes glitchRight{
+0%{transform:translate(2px,0)}
+25%{transform:translate(5px,1px)}
+50%{transform:translate(1px,-1px)}
+75%{transform:translate(3px,0)}
+100%{transform:translate(2px,1px)}
+}
+
+@keyframes tremer{
 0%{transform:translate(0,0)}
-25%{transform:translate(.4px,-.3px)}
-50%{transform:translate(-.3px,.2px)}
-75%{transform:translate(.3px,.4px)}
+25%{transform:translate(.6px,-.3px)}
+50%{transform:translate(-.6px,.3px)}
+75%{transform:translate(.4px,.2px)}
 100%{transform:translate(0,0)}
 }
 
-/* mudança de cor */
-
-@keyframes fireShift{
-0%{filter:hue-rotate(0deg)}
-50%{filter:hue-rotate(10deg)}
-100%{filter:hue-rotate(0deg)}
+/* linha energia */
+.linha-energia{
+position:relative;
+height:3px;
+width:100%;
+background:linear-gradient(90deg,transparent,#ff6a00,#ff8c00,#ff4500,transparent);
+background-size:300% 100%;
+animation:energia 3s linear infinite;
+box-shadow:0 0 8px #ff6a00,0 0 20px #ff8c00,0 0 35px #ff4500
 }
 
-/* glitch topo */
-
-@keyframes glitchTop{
-0%{clip-path:inset(0 0 80% 0)}
-25%{clip-path:inset(20% 0 50% 0)}
-50%{clip-path:inset(40% 0 30% 0)}
-75%{clip-path:inset(10% 0 70% 0)}
-100%{clip-path:inset(0 0 80% 0)}
-}
-
-/* glitch baixo */
-
-@keyframes glitchBottom{
-0%{clip-path:inset(80% 0 0 0)}
-25%{clip-path:inset(60% 0 20% 0)}
-50%{clip-path:inset(70% 0 10% 0)}
-75%{clip-path:inset(85% 0 0 0)}
-100%{clip-path:inset(80% 0 0 0)}
+@keyframes energia{
+0%{background-position:-300% 0}
+100%{background-position:300% 0}
 }
 
 /* container */
-
 .container{
 max-width:860px;
 margin:auto;
@@ -199,7 +347,6 @@ margin-bottom:18px
 .card h2{margin-bottom:14px}
 
 /* botão */
-
 .btn{
 display:inline-block;
 padding:12px 20px;
@@ -211,8 +358,7 @@ font-weight:bold;
 margin-top:14px
 }
 
-/* barra vagas */
-
+/* vagas */
 .vaga-barra{
 width:100%;
 height:16px;
@@ -230,13 +376,10 @@ transition:.8s
 
 #vagaTexto{margin-top:6px;color:#ccc}
 
-/* slide times */
-
+/* slide */
 .slide-wrap{overflow:hidden}
 .slide-track{display:flex;gap:25px}
-
 .team{min-width:120px}
-
 .team img{
 width:80px;
 height:80px;
@@ -244,7 +387,6 @@ object-fit:contain
 }
 
 /* patrocinadores */
-
 .logo-grid{
 display:flex;
 justify-content:center;
@@ -258,7 +400,6 @@ height:80px
 }
 
 /* streamer */
-
 .streamer img{
 width:110px;
 height:110px;
@@ -267,7 +408,6 @@ border:2px solid rgba(255,140,0,.4)
 }
 
 /* sobre */
-
 .sobre-img{
 width:220px;
 height:220px;
@@ -279,25 +419,63 @@ footer{
 padding:16px;
 border-top:1px solid #ff8c00
 }
+
+@media(max-width:600px){
+header{height:82px}
+.glitch{font-size:26px;letter-spacing:2px}
+.fogo-topo{width:120%;height:88%}
+}
 </style>
 </head>
 
 <body>
 
+<!-- partículas -->
 <div class="embers">
-<span style="left:10%;animation-duration:9s"></span>
-<span style="left:30%;animation-duration:11s"></span>
-<span style="left:60%;animation-duration:8s"></span>
+<span style="left:5%;animation-duration:9s"></span>
+<span style="left:15%;animation-duration:11s"></span>
+<span style="left:25%;animation-duration:8s"></span>
+<span style="left:35%;animation-duration:12s"></span>
+<span style="left:45%;animation-duration:9s"></span>
+<span style="left:55%;animation-duration:10s"></span>
+<span style="left:65%;animation-duration:11s"></span>
+<span style="left:75%;animation-duration:9s"></span>
+<span style="left:85%;animation-duration:12s"></span>
+<span style="left:95%;animation-duration:10s"></span>
 </div>
 
 <header>
+<div class="titulo-wrap">
+
+<div class="fogo-topo">
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+<span></span>
+</div>
+
 <h1 id="titulo" class="glitch" data-text="ZONA CASUAL">ZONA CASUAL</h1>
+
+<div class="brasas-titulo">
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+</div>
+
+<div class="reflexo-fogo"></div>
+</div>
+
+<a href="ademar.html" class="config-btn">⚙</a>
 </header>
+
+<div class="linha-energia"></div>
 
 <div class="container">
 
 <div class="card" id="patroCard" style="display:none">
-<h2 id="patroTitulo">Patrocinadores</h2>
+<h2>Patrocinadores</h2>
 <div class="logo-grid" id="patroGrid"></div>
 </div>
 
@@ -316,10 +494,13 @@ border-top:1px solid #ff8c00
 
 <div class="card">
 <h2>Vagas Preenchidas</h2>
+
 <div class="vaga-barra">
 <div class="vaga-preenchida" id="vagaBarra"></div>
 </div>
+
 <p id="vagaTexto">0 / 0 vagas</p>
+
 <a class="btn" href="inscrição.html">INSCRIÇÃO PERSONALIZADA</a>
 </div>
 
@@ -341,20 +522,15 @@ border-top:1px solid #ff8c00
 <footer>© 2026 Zona Casual</footer>
 
 <script>
-
 let slideInterval=null
-
 const slide=document.getElementById("timesSlide")
 
 function iniciarSlide(){
-
 if(slideInterval) clearInterval(slideInterval)
 
 slideInterval=setInterval(()=>{
-
 const primeiro=slide.children[0]
-
-if(!primeiro || slide.children.length<=1) return
+if(!primeiro || slide.children.length<=1)return
 
 const largura=primeiro.offsetWidth+25
 
@@ -362,20 +538,15 @@ slide.style.transition="transform .6s ease"
 slide.style.transform=`translateX(-${largura}px)`
 
 setTimeout(()=>{
-
 slide.appendChild(primeiro)
-
 slide.style.transition="none"
 slide.style.transform="translateX(0)"
-
 },600)
 
 },2600)
-
 }
 
 function aplicarDados(d){
-
 document.getElementById("dataTxt").textContent=d.dataEvento||"-"
 document.getElementById("horaTxt").textContent=d.horaEvento||"-"
 
@@ -384,8 +555,6 @@ document.getElementById("sobre").innerHTML=d.sobre||""
 document.getElementById("streamerNome").textContent=d.streamerPrincipal?.nome||"@streamer"
 document.getElementById("streamerImg").src=d.streamerPrincipal?.img||"streamer.jpg"
 document.getElementById("streamerLink").href=d.streamerPrincipal?.link||"#"
-
-/* times */
 
 slide.innerHTML=""
 
@@ -400,15 +569,12 @@ slide.insertAdjacentHTML("beforeend",
 
 iniciarSlide()
 
-/* patrocinadores */
-
 const patroGrid=document.getElementById("patroGrid")
 const patroCard=document.getElementById("patroCard")
 
 patroGrid.innerHTML=""
 
 if(d.patrocinadores?.length){
-
 patroCard.style.display="block"
 
 d.patrocinadores.forEach(p=>{
@@ -419,36 +585,25 @@ patroGrid.insertAdjacentHTML("beforeend",
 </div>`
 )
 })
-
 }
-
-/* vagas */
 
 const total=d.vagasTotal||0
 const ocupadas=d.vagasOcupadas||0
 
 let porcentagem=0
-
 if(total>0)porcentagem=Math.round((ocupadas/total)*100)
 
 document.getElementById("vagaBarra").style.width=porcentagem+"%"
-
 document.getElementById("vagaTexto").textContent=ocupadas+" / "+total+" vagas"
-
 }
 
 async function carregarDados(){
-
 const res=await fetch("dados.json?"+Date.now())
-
 const dados=await res.json()
-
 aplicarDados(dados)
-
 }
 
 window.addEventListener("DOMContentLoaded",carregarDados)
-
 </script>
 
 </body>
