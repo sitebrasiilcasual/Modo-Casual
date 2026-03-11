@@ -663,6 +663,28 @@ function pegarFotoSobre(d){
 return d.fotoSobre || d.sobreImg || d.imagemSobre || d.sobreImagem || "zona.png"
 }
 
+function pegarTotalVagas(d){
+if(d.inscricao && d.inscricao.totalVagas!=null) return Number(d.inscricao.totalVagas)||0
+if(d.vagasTotal!=null) return Number(d.vagasTotal)||0
+return 0
+}
+
+function pegarTimesInscritos(d){
+if(d.inscricao && Array.isArray(d.inscricao.times)) return d.inscricao.times
+return []
+}
+
+function pegarOcupadas(d){
+const timesInscritos=pegarTimesInscritos(d)
+
+if(timesInscritos.length) return timesInscritos.length
+
+if(d.inscricao && d.inscricao.vagasOcupadas!=null) return Number(d.inscricao.vagasOcupadas)||0
+if(d.vagasOcupadas!=null) return Number(d.vagasOcupadas)||0
+
+return 0
+}
+
 function aplicarDados(d){
 document.getElementById("dataTxt").textContent=d.dataEvento||"-"
 document.getElementById("horaTxt").textContent=d.horaEvento||"-"
@@ -679,8 +701,8 @@ slide.innerHTML=""
 ;(d.times||[]).forEach(t=>{
 slide.insertAdjacentHTML("beforeend",
 `<div class="team">
-<img src="${t.img}">
-<p>${t.nome}</p>
+<img src="${t.img||''}">
+<p>${t.nome||''}</p>
 </div>`
 )
 })
@@ -696,8 +718,8 @@ patroCard.style.display="block"
 d.patrocinadores.forEach(p=>{
 patroGrid.insertAdjacentHTML("beforeend",
 `<div class="logo-box">
-<img src="${p.img}">
-<p>${p.nome}</p>
+<img src="${p.img||''}">
+<p>${p.nome||''}</p>
 </div>`
 )
 })
@@ -705,8 +727,8 @@ patroGrid.insertAdjacentHTML("beforeend",
 patroCard.style.display="none"
 }
 
-const total=d.vagasTotal||0
-const ocupadas=d.vagasOcupadas||0
+const total=pegarTotalVagas(d)
+const ocupadas=pegarOcupadas(d)
 const livres=Math.max(0,total-ocupadas)
 
 document.getElementById("vagaDisponivel").textContent=livres
@@ -715,12 +737,19 @@ document.getElementById("vagaTexto").textContent=livres+" disponíveis de "+tota
 }
 
 async function carregarDados(){
+try{
 const res=await fetch("dados.json?t="+Date.now())
 const dados=await res.json()
 aplicarDados(dados)
+}catch(e){
+console.error("Erro ao carregar dados.json",e)
+}
 }
 
-window.addEventListener("DOMContentLoaded",carregarDados)
+window.addEventListener("DOMContentLoaded",()=>{
+carregarDados()
+setInterval(carregarDados,5000)
+})
 </script>
 
 </body>
