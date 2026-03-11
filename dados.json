@@ -1,0 +1,35 @@
+{
+  "titulo": "ZONA CASUAL",
+  "dataEvento": "A definir",
+  "horaEvento": "A definir",
+  "sobre": "A Zona Casual reúne times para personalizadas e eventos competitivos.",
+  "fotoSobre": "zona.png",
+  "formAction": "https://formspree.io/f/myknkqyb",
+  "infoInscricao": "Preencha corretamente os dados do seu time: nome do clã, capitão e os 4 integrantes.",
+  "inscricao": {
+    "totalVagas": 12,
+    "vagasOcupadas": 0,
+    "times": []
+  },
+  "times": [
+    {
+      "nome": "TIME 1",
+      "img": "time1.png"
+    },
+    {
+      "nome": "TIME 2",
+      "img": "time2.png"
+    }
+  ],
+  "patrocinadores": [
+    {
+      "nome": "PATROCINADOR 1",
+      "img": "patro1.png"
+    }
+  ],
+  "streamerPrincipal": {
+    "nome": "@streamer",
+    "img": "streamer.jpg",
+    "link": "#"
+  }
+}
