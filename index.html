@@ -94,7 +94,7 @@ color:#000;
 transform:scale(1.08)
 }
 
-/* título absurdo */
+/* título */
 .titulo-wrap{
 position:relative;
 display:inline-flex;
@@ -212,14 +212,8 @@ animation:subirChama ease-in-out infinite alternate
 .fogo-topo span:nth-child(8){left:83%;height:54px;animation-duration:.9s}
 
 @keyframes subirChama{
-0%{
-transform:translateY(0) scaleY(.9) scaleX(.95) rotate(-2deg);
-opacity:.65
-}
-100%{
-transform:translateY(-8px) scaleY(1.25) scaleX(1.08) rotate(2deg);
-opacity:.98
-}
+0%{transform:translateY(0) scaleY(.9) scaleX(.95) rotate(-2deg);opacity:.65}
+100%{transform:translateY(-8px) scaleY(1.25) scaleX(1.08) rotate(2deg);opacity:.98}
 }
 
 .brasas-titulo{
@@ -363,23 +357,151 @@ font-weight:bold;
 margin-top:14px
 }
 
-/* vagas */
-.vaga-barra{
-width:100%;
-height:16px;
-background:#2a2a2a;
-border-radius:999px;
-overflow:hidden
+/* círculo hyper tech */
+.vaga-tech{
+display:flex;
+justify-content:center;
+align-items:center;
+margin:10px 0 6px
 }
 
-.vaga-preenchida{
-height:100%;
-width:0%;
-background:linear-gradient(90deg,#ff8c00,#ffb347);
-transition:.8s
+.tech-circle{
+position:relative;
+width:210px;
+height:210px;
+display:flex;
+align-items:center;
+justify-content:center;
+filter:drop-shadow(0 0 18px rgba(255,140,0,.28))
 }
 
-#vagaTexto{margin-top:6px;color:#ccc}
+.tech-circle svg{
+width:210px;
+height:210px;
+transform:rotate(-90deg)
+}
+
+.tech-bg{
+fill:none;
+stroke:rgba(255,255,255,.07);
+stroke-width:10
+}
+
+.tech-progress{
+fill:none;
+stroke:url(#gradOrange);
+stroke-width:10;
+stroke-linecap:round;
+stroke-dasharray:565;
+stroke-dashoffset:565;
+transition:stroke-dashoffset 1s ease;
+filter:drop-shadow(0 0 8px #ff8c00) drop-shadow(0 0 16px rgba(255,140,0,.6))
+}
+
+.tech-ring-2{
+fill:none;
+stroke:rgba(255,140,0,.2);
+stroke-width:2;
+stroke-dasharray:6 8;
+animation:ringSpin 10s linear infinite
+}
+
+.tech-ring-3{
+fill:none;
+stroke:rgba(255,180,71,.35);
+stroke-width:2;
+stroke-dasharray:2 10;
+animation:ringSpinRev 8s linear infinite
+}
+
+.tech-center{
+position:absolute;
+width:124px;
+height:124px;
+border-radius:50%;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+background:
+radial-gradient(circle at 30% 30%,rgba(255,170,70,.16),rgba(0,0,0,.78) 58%),
+linear-gradient(145deg,rgba(255,140,0,.12),rgba(255,80,0,.04));
+border:1px solid rgba(255,140,0,.28);
+box-shadow:
+inset 0 0 18px rgba(255,140,0,.14),
+0 0 20px rgba(255,140,0,.16)
+}
+
+.tech-center:before,
+.tech-center:after{
+content:"";
+position:absolute;
+inset:-8px;
+border-radius:50%;
+border:1px solid rgba(255,140,0,.12)
+}
+
+.tech-center:after{
+inset:-16px;
+border-style:dashed;
+opacity:.6;
+animation:ringPulse 2s ease-in-out infinite
+}
+
+.tech-percent{
+font-size:34px;
+font-weight:900;
+color:#ffd8a3;
+text-shadow:0 0 8px #ff8c00,0 0 18px rgba(255,90,0,.8)
+}
+
+.tech-label{
+font-size:11px;
+letter-spacing:2px;
+color:#ffb347;
+margin-top:4px
+}
+
+.tech-points{
+position:absolute;
+inset:0;
+pointer-events:none
+}
+
+.tech-points span{
+position:absolute;
+width:8px;
+height:8px;
+border-radius:50%;
+background:#ff9a1f;
+box-shadow:0 0 10px #ff8c00,0 0 20px rgba(255,140,0,.7);
+animation:pulseDot 1.8s ease-in-out infinite
+}
+
+.tech-points span:nth-child(1){top:12px;left:50%;transform:translateX(-50%)}
+.tech-points span:nth-child(2){right:22px;top:50%;transform:translateY(-50%);animation-delay:.3s}
+.tech-points span:nth-child(3){bottom:12px;left:50%;transform:translateX(-50%);animation-delay:.6s}
+.tech-points span:nth-child(4){left:22px;top:50%;transform:translateY(-50%);animation-delay:.9s}
+
+@keyframes ringSpin{
+from{transform:rotate(0)}
+to{transform:rotate(360deg)}
+}
+
+@keyframes ringSpinRev{
+from{transform:rotate(360deg)}
+to{transform:rotate(0)}
+}
+
+@keyframes ringPulse{
+0%{transform:scale(.97);opacity:.35}
+100%{transform:scale(1.03);opacity:.8}
+}
+
+@keyframes pulseDot{
+0%,100%{transform:scale(.8);opacity:.55}
+50%{transform:scale(1.25);opacity:1}
+}
 
 /* slide */
 .slide-wrap{overflow:hidden}
@@ -445,6 +567,21 @@ bottom:10px;
 width:34px;
 height:34px;
 font-size:14px
+}
+.tech-circle{
+width:180px;
+height:180px
+}
+.tech-circle svg{
+width:180px;
+height:180px
+}
+.tech-center{
+width:108px;
+height:108px
+}
+.tech-percent{
+font-size:28px
 }
 }
 </style>
@@ -516,8 +653,31 @@ font-size:14px
 <div class="card">
 <h2>Vagas Preenchidas</h2>
 
-<div class="vaga-barra">
-<div class="vaga-preenchida" id="vagaBarra"></div>
+<div class="vaga-tech">
+<div class="tech-circle">
+<svg viewBox="0 0 220 220">
+<defs>
+<linearGradient id="gradOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#ff5a00"/>
+<stop offset="50%" stop-color="#ff8c00"/>
+<stop offset="100%" stop-color="#ffd16e"/>
+</linearGradient>
+</defs>
+<circle class="tech-ring-3" cx="110" cy="110" r="100"></circle>
+<circle class="tech-ring-2" cx="110" cy="110" r="90"></circle>
+<circle class="tech-bg" cx="110" cy="110" r="90"></circle>
+<circle class="tech-progress" id="techProgress" cx="110" cy="110" r="90"></circle>
+</svg>
+
+<div class="tech-center">
+<div class="tech-percent" id="percentualTxt">0%</div>
+<div class="tech-label">OCUPAÇÃO</div>
+</div>
+
+<div class="tech-points">
+<span></span><span></span><span></span><span></span>
+</div>
+</div>
 </div>
 
 <p id="vagaTexto">0 / 0 vagas</p>
@@ -554,7 +714,6 @@ const primeiro=slide.children[0]
 if(!primeiro || slide.children.length<=1)return
 
 const largura=primeiro.offsetWidth+25
-
 slide.style.transition="transform .6s ease"
 slide.style.transform=`translateX(-${largura}px)`
 
@@ -569,6 +728,19 @@ slide.style.transform="translateX(0)"
 
 function pegarFotoSobre(d){
 return d.fotoSobre || d.sobreImg || d.imagemSobre || d.sobreImagem || "zona.png"
+}
+
+function setCircularProgress(percent){
+const circle=document.getElementById("techProgress")
+const txt=document.getElementById("percentualTxt")
+const radius=90
+const circumference=2*Math.PI*radius
+const safe=Math.max(0,Math.min(100,percent||0))
+const offset=circumference-(safe/100)*circumference
+
+circle.style.strokeDasharray=circumference
+circle.style.strokeDashoffset=offset
+txt.textContent=safe+"%"
 }
 
 function aplicarDados(d){
@@ -597,12 +769,10 @@ iniciarSlide()
 
 const patroGrid=document.getElementById("patroGrid")
 const patroCard=document.getElementById("patroCard")
-
 patroGrid.innerHTML=""
 
 if(d.patrocinadores?.length){
 patroCard.style.display="block"
-
 d.patrocinadores.forEach(p=>{
 patroGrid.insertAdjacentHTML("beforeend",
 `<div class="logo-box">
@@ -617,21 +787,20 @@ patroCard.style.display="none"
 
 const total=d.vagasTotal||0
 const ocupadas=d.vagasOcupadas||0
-
 let porcentagem=0
-if(total>0)porcentagem=Math.round((ocupadas/total)*100)
+if(total>0) porcentagem=Math.round((ocupadas/total)*100)
 
-document.getElementById("vagaBarra").style.width=porcentagem+"%"
+setCircularProgress(porcentagem)
 document.getElementById("vagaTexto").textContent=ocupadas+" / "+total+" vagas"
 }
 
 async function carregarDados(){
-  const res = await fetch("dados.json?t=" + Date.now())
-  const dados = await res.json()
-  aplicarDados(dados)
+const res=await fetch("dados.json?t="+Date.now())
+const dados=await res.json()
+aplicarDados(dados)
 }
 
-window.addEventListener("DOMContentLoaded", carregarDados)
+window.addEventListener("DOMContentLoaded",carregarDados)
 </script>
 
 </body>
