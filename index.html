@@ -417,7 +417,17 @@ border:2px solid rgba(255,140,0,.4)
 width:220px;
 height:220px;
 border-radius:50%;
-border:3px solid #ff8c00
+border:3px solid #ff8c00;
+object-fit:cover;
+display:block;
+margin:0 auto 14px;
+background:#111;
+box-shadow:0 0 18px rgba(255,140,0,.35)
+}
+
+#sobre{
+line-height:1.7;
+color:#ddd
 }
 
 footer{
@@ -442,7 +452,6 @@ font-size:14px
 
 <body>
 
-<!-- partículas -->
 <div class="embers">
 <span style="left:5%;animation-duration:9s"></span>
 <span style="left:15%;animation-duration:11s"></span>
@@ -558,11 +567,16 @@ slide.style.transform="translateX(0)"
 },2600)
 }
 
+function pegarFotoSobre(d){
+return d.fotoSobre || d.sobreImg || d.imagemSobre || d.sobreImagem || "zona.png"
+}
+
 function aplicarDados(d){
 document.getElementById("dataTxt").textContent=d.dataEvento||"-"
 document.getElementById("horaTxt").textContent=d.horaEvento||"-"
 
 document.getElementById("sobre").innerHTML=d.sobre||""
+document.getElementById("sobreImg").src=pegarFotoSobre(d)
 
 document.getElementById("streamerNome").textContent=d.streamerPrincipal?.nome||"@streamer"
 document.getElementById("streamerImg").src=d.streamerPrincipal?.img||"streamer.jpg"
@@ -597,6 +611,8 @@ patroGrid.insertAdjacentHTML("beforeend",
 </div>`
 )
 })
+}else{
+patroCard.style.display="none"
 }
 
 const total=d.vagasTotal||0
