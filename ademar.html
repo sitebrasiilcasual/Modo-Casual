@@ -137,7 +137,7 @@ color:#999;
 <div class="login-box">
 <h2>Admin Zona Casual</h2>
 <input type="password" id="senha" placeholder="Senha do painel">
-<button onclick="entrarPainel()">Entrar no painel</button>
+<button type="button" onclick="entrarPainel()">Entrar no painel</button>
 </div>
 </div>
 
@@ -151,8 +151,8 @@ color:#999;
 <input id="token" placeholder="Cole seu token GitHub">
 
 <div class="grid">
-<button onclick="salvarToken()">Salvar token</button>
-<button class="sec" onclick="usarToken()">Usar token salvo</button>
+<button type="button" onclick="salvarToken()">Salvar token</button>
+<button type="button" class="sec" onclick="usarToken()">Usar token salvo</button>
 </div>
 
 <small>O token fica salvo só no seu aparelho.</small>
@@ -208,14 +208,16 @@ color:#999;
 <input type="number" id="maxParticipantes" value="100">
 
 <label>Número de times</label>
-<input type="number" id="numeroTimes" value="10">
+<input type="number" id="numeroTimes" value="10" min="0" onchange="atualizarNumeroTimes()">
+
+<small>Ao alterar esse número, a lista de times abaixo será ajustada automaticamente.</small>
 
 </div>
 
 <div class="card">
 
 <h2>Times</h2>
-<button onclick="addTime()">Adicionar Time</button>
+<button type="button" onclick="addTime()">Adicionar Time</button>
 <div id="times"></div>
 
 </div>
@@ -223,7 +225,7 @@ color:#999;
 <div class="card">
 
 <h2>Patrocinadores</h2>
-<button onclick="addPat()">Adicionar Patrocinador</button>
+<button type="button" onclick="addPat()">Adicionar Patrocinador</button>
 <div id="pats"></div>
 
 </div>
@@ -231,7 +233,7 @@ color:#999;
 <div class="card">
 
 <h2>Streamers Extras</h2>
-<button onclick="addStreamer()">Adicionar Streamer</button>
+<button type="button" onclick="addStreamer()">Adicionar Streamer</button>
 <div id="streamers"></div>
 
 </div>
@@ -239,13 +241,13 @@ color:#999;
 <div class="card">
 
 <div class="grid">
-<button onclick="salvarNoSite()">SALVAR NO SITE</button>
-<button onclick="salvarGithub()">SALVAR NO GITHUB</button>
+<button type="button" onclick="salvarNoSite()">SALVAR NO SITE</button>
+<button type="button" onclick="salvarGithub()">SALVAR NO GITHUB</button>
 </div>
 
 <div class="grid">
-<button class="sec" onclick="carregarDoSite()">CARREGAR DO SITE</button>
-<button class="sec" onclick="carregarDoGithub()">CARREGAR DO GITHUB</button>
+<button type="button" class="sec" onclick="carregarDoSite()">CARREGAR DO SITE</button>
+<button type="button" class="sec" onclick="carregarDoGithub()">CARREGAR DO GITHUB</button>
 </div>
 
 <div class="status" id="status"></div>
@@ -298,8 +300,30 @@ const t=localStorage.getItem(TOKEN_KEY)||""
 document.getElementById("token").value=t
 }
 
+function atualizarNumeroTimes(){
+const numero = Number(document.getElementById("numeroTimes").value) || 0
+
+if(numero < 0){
+document.getElementById("numeroTimes").value = 0
+times = []
+render()
+return
+}
+
+while(times.length < numero){
+times.push({nome:`Time ${times.length + 1}`,img:""})
+}
+
+while(times.length > numero){
+times.pop()
+}
+
+render()
+}
+
 function addTime(){
-times.push({nome:"Novo Time",img:""})
+times.push({nome:`Time ${times.length + 1}`,img:""})
+document.getElementById("numeroTimes").value = times.length
 render()
 }
 
@@ -317,7 +341,10 @@ function uploadImg(input,cb){
 const f=input.files[0]
 if(!f)return
 const r=new FileReader()
-r.onload=()=>{cb(r.result);render()}
+r.onload=()=>{
+cb(r.result)
+render()
+}
 r.readAsDataURL(f)
 }
 
@@ -347,31 +374,65 @@ r.readAsDataURL(f)
 
 function removerFotoSobre(){
 fotoSobre=""
-document.getElementById("fotoSobreInput").value=""
-document.getElementById("fotoSobrePreview").src=""
-document.getElementById("fotoSobrePreview").style.display="none"
+const input=document.getElementById("fotoSobreInput")
+const preview=document.getElementById("fotoSobrePreview")
+input.value=""
+preview.removeAttribute("src")
+preview.style.display="none"
+render()
 }
 
 function removerFotoStreamerPrincipal(){
 streamerPrincipal.img=""
-document.getElementById("streamerImgInput").value=""
-document.getElementById("streamerPreview").src=""
-document.getElementById("streamerPreview").style.display="none"
+const input=document.getElementById("streamerImgInput")
+const preview=document.getElementById("streamerPreview")
+input.value=""
+preview.removeAttribute("src")
+preview.style.display="none"
+render()
 }
 
 function removerFotoTime(i){
+if(!times[i])return
 times[i].img=""
 render()
 }
 
 function removerFotoPat(i){
+if(!pats[i])return
 pats[i].img=""
 render()
 }
 
 function removerFotoStreamer(i){
+if(!streamers[i])return
 streamers[i].img=""
 render()
+}
+
+function removerTime(i){
+times.splice(i,1)
+document.getElementById("numeroTimes").value = times.length
+render()
+}
+
+function removerPat(i){
+pats.splice(i,1)
+render()
+}
+
+function removerStreamer(i){
+streamers.splice(i,1)
+render()
+}
+
+function escaparHtml(txt){
+return String(txt || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#39;")
 }
 
 function render(){
@@ -383,7 +444,7 @@ if(fotoSobre){
 document.getElementById("fotoSobrePreview").src=fotoSobre
 document.getElementById("fotoSobrePreview").style.display="block"
 }else{
-document.getElementById("fotoSobrePreview").src=""
+document.getElementById("fotoSobrePreview").removeAttribute("src")
 document.getElementById("fotoSobrePreview").style.display="none"
 }
 
@@ -391,7 +452,7 @@ if(streamerPrincipal.img){
 document.getElementById("streamerPreview").src=streamerPrincipal.img
 document.getElementById("streamerPreview").style.display="block"
 }else{
-document.getElementById("streamerPreview").src=""
+document.getElementById("streamerPreview").removeAttribute("src")
 document.getElementById("streamerPreview").style.display="none"
 }
 
@@ -400,11 +461,11 @@ let h=""
 times.forEach((x,i)=>{
 h+=`
 <div class="item">
-<input placeholder="Título do time" value="${x.nome||""}" onchange="times[${i}].nome=this.value">
+<input placeholder="Título do time" value="${escaparHtml(x.nome||"")}" onchange="times[${i}].nome=this.value">
 <input type="file" accept="image/*" onchange="uploadImg(this,function(img){times[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
-${x.img?`<button class="sec" onclick="removerFotoTime(${i})">Remover só a foto</button>`:""}
-<button class="red" onclick="times.splice(${i},1);render()">Remover</button>
+${x.img?`<button type="button" class="sec" onclick="removerFotoTime(${i})">Remover só a foto</button>`:""}
+<button type="button" class="red" onclick="removerTime(${i})">Remover</button>
 </div>`
 })
 
@@ -414,11 +475,11 @@ h=""
 pats.forEach((x,i)=>{
 h+=`
 <div class="item">
-<input placeholder="Título patrocinador" value="${x.nome||""}" onchange="pats[${i}].nome=this.value">
+<input placeholder="Título patrocinador" value="${escaparHtml(x.nome||"")}" onchange="pats[${i}].nome=this.value">
 <input type="file" accept="image/*" onchange="uploadImg(this,function(img){pats[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
-${x.img?`<button class="sec" onclick="removerFotoPat(${i})">Remover só a foto</button>`:""}
-<button class="red" onclick="pats.splice(${i},1);render()">Remover</button>
+${x.img?`<button type="button" class="sec" onclick="removerFotoPat(${i})">Remover só a foto</button>`:""}
+<button type="button" class="red" onclick="removerPat(${i})">Remover</button>
 </div>`
 })
 
@@ -428,12 +489,12 @@ h=""
 streamers.forEach((x,i)=>{
 h+=`
 <div class="item">
-<input placeholder="Nome streamer" value="${x.nome||""}" onchange="streamers[${i}].nome=this.value">
-<input placeholder="Link streamer" value="${x.link||""}" onchange="streamers[${i}].link=this.value">
+<input placeholder="Nome streamer" value="${escaparHtml(x.nome||"")}" onchange="streamers[${i}].nome=this.value">
+<input placeholder="Link streamer" value="${escaparHtml(x.link||"")}" onchange="streamers[${i}].link=this.value">
 <input type="file" accept="image/*" onchange="uploadImg(this,function(img){streamers[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
-${x.img?`<button class="sec" onclick="removerFotoStreamer(${i})">Remover só a foto</button>`:""}
-<button class="red" onclick="streamers.splice(${i},1);render()">Remover</button>
+${x.img?`<button type="button" class="sec" onclick="removerFotoStreamer(${i})">Remover só a foto</button>`:""}
+<button type="button" class="red" onclick="removerStreamer(${i})">Remover</button>
 </div>`
 })
 
@@ -475,9 +536,18 @@ document.getElementById("numeroTimes").value=d.numeroTimes||""
 
 streamerPrincipal=d.streamerPrincipal||{nome:"",img:"",link:""}
 
-times=d.times||[]
-pats=d.patrocinadores||[]
-streamers=d.streamers||[]
+times=Array.isArray(d.times)?d.times:[]
+pats=Array.isArray(d.patrocinadores)?d.patrocinadores:[]
+streamers=Array.isArray(d.streamers)?d.streamers:[]
+
+const numero = Number(document.getElementById("numeroTimes").value) || 0
+
+while(times.length < numero){
+times.push({nome:`Time ${times.length + 1}`,img:""})
+}
+while(times.length > numero){
+times.pop()
+}
 
 render()
 }
