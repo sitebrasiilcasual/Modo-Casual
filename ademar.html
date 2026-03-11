@@ -176,6 +176,7 @@ color:#999;
 <label>Foto do Sobre</label>
 <input type="file" id="fotoSobreInput" accept="image/*" onchange="uploadFotoSobre(this)">
 <img id="fotoSobrePreview" class="preview-sobre" style="display:none">
+<button class="red" type="button" onclick="removerFotoSobre()">Remover foto do Sobre</button>
 
 <label>Chamada</label>
 <textarea id="chamada">Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível.</textarea>
@@ -195,6 +196,7 @@ color:#999;
 <label>Foto do streamer</label>
 <input type="file" id="streamerImgInput" accept="image/*" onchange="uploadStreamerPrincipal(this)">
 <img id="streamerPreview" class="preview-streamer" style="display:none">
+<button class="red" type="button" onclick="removerFotoStreamerPrincipal()">Remover foto do streamer principal</button>
 
 </div>
 
@@ -343,6 +345,35 @@ document.getElementById("streamerPreview").style.display="block"
 r.readAsDataURL(f)
 }
 
+function removerFotoSobre(){
+fotoSobre=""
+document.getElementById("fotoSobreInput").value=""
+document.getElementById("fotoSobrePreview").src=""
+document.getElementById("fotoSobrePreview").style.display="none"
+}
+
+function removerFotoStreamerPrincipal(){
+streamerPrincipal.img=""
+document.getElementById("streamerImgInput").value=""
+document.getElementById("streamerPreview").src=""
+document.getElementById("streamerPreview").style.display="none"
+}
+
+function removerFotoTime(i){
+times[i].img=""
+render()
+}
+
+function removerFotoPat(i){
+pats[i].img=""
+render()
+}
+
+function removerFotoStreamer(i){
+streamers[i].img=""
+render()
+}
+
 function render(){
 
 document.getElementById("streamerNomePrincipal").value=streamerPrincipal.nome||""
@@ -351,11 +382,17 @@ document.getElementById("streamerLinkPrincipal").value=streamerPrincipal.link||"
 if(fotoSobre){
 document.getElementById("fotoSobrePreview").src=fotoSobre
 document.getElementById("fotoSobrePreview").style.display="block"
+}else{
+document.getElementById("fotoSobrePreview").src=""
+document.getElementById("fotoSobrePreview").style.display="none"
 }
 
 if(streamerPrincipal.img){
 document.getElementById("streamerPreview").src=streamerPrincipal.img
 document.getElementById("streamerPreview").style.display="block"
+}else{
+document.getElementById("streamerPreview").src=""
+document.getElementById("streamerPreview").style.display="none"
 }
 
 let h=""
@@ -366,6 +403,7 @@ h+=`
 <input placeholder="Título do time" value="${x.nome||""}" onchange="times[${i}].nome=this.value">
 <input type="file" accept="image/*" onchange="uploadImg(this,function(img){times[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
+${x.img?`<button class="sec" onclick="removerFotoTime(${i})">Remover só a foto</button>`:""}
 <button class="red" onclick="times.splice(${i},1);render()">Remover</button>
 </div>`
 })
@@ -379,6 +417,7 @@ h+=`
 <input placeholder="Título patrocinador" value="${x.nome||""}" onchange="pats[${i}].nome=this.value">
 <input type="file" accept="image/*" onchange="uploadImg(this,function(img){pats[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
+${x.img?`<button class="sec" onclick="removerFotoPat(${i})">Remover só a foto</button>`:""}
 <button class="red" onclick="pats.splice(${i},1);render()">Remover</button>
 </div>`
 })
@@ -393,6 +432,7 @@ h+=`
 <input placeholder="Link streamer" value="${x.link||""}" onchange="streamers[${i}].link=this.value">
 <input type="file" accept="image/*" onchange="uploadImg(this,function(img){streamers[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
+${x.img?`<button class="sec" onclick="removerFotoStreamer(${i})">Remover só a foto</button>`:""}
 <button class="red" onclick="streamers.splice(${i},1);render()">Remover</button>
 </div>`
 })
