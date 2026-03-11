@@ -24,6 +24,7 @@ border:1px solid rgba(255,140,0,.25);
 border-radius:12px;
 padding:18px;
 margin-bottom:18px;
+box-shadow:0 0 0 1px rgba(255,140,0,.06),0 8px 22px rgba(0,0,0,.35);
 }
 h1,h2{
 text-align:center;
@@ -45,6 +46,7 @@ font-size:16px;
 input,textarea{
 background:#1a1a1a;
 color:#fff;
+outline:none;
 }
 button{
 background:#ff8c00;
@@ -121,6 +123,7 @@ font-size:14px;
 color:#aaa;
 word-break:break-word;
 min-height:20px;
+white-space:pre-wrap;
 }
 small{
 color:#999;
@@ -146,7 +149,6 @@ color:#999;
 <h1>Painel Admin</h1>
 
 <div class="card">
-
 <label>Token GitHub</label>
 <input id="token" placeholder="Cole seu token GitHub">
 
@@ -156,7 +158,6 @@ color:#999;
 </div>
 
 <small>O token fica salvo só no seu aparelho.</small>
-
 </div>
 
 <div class="card">
@@ -215,27 +216,21 @@ color:#999;
 </div>
 
 <div class="card">
-
 <h2>Times</h2>
 <button type="button" onclick="addTime()">Adicionar Time</button>
 <div id="times"></div>
-
 </div>
 
 <div class="card">
-
 <h2>Patrocinadores</h2>
 <button type="button" onclick="addPat()">Adicionar Patrocinador</button>
 <div id="pats"></div>
-
 </div>
 
 <div class="card">
-
 <h2>Streamers Extras</h2>
 <button type="button" onclick="addStreamer()">Adicionar Streamer</button>
 <div id="streamers"></div>
-
 </div>
 
 <div class="card">
@@ -257,13 +252,12 @@ color:#999;
 </div>
 
 <script>
-
 const SENHA="zona1326"
 const TOKEN_KEY="zc_token"
 const SITE_KEY="zc_dados"
 
 const REPO="sitebrasiilcasual/Modo-Casual"
-const BRANCH="main"
+const BRANCH="principal"
 const PATH="dados.json"
 
 let times=[]
@@ -301,20 +295,20 @@ document.getElementById("token").value=t
 }
 
 function atualizarNumeroTimes(){
-const numero = Number(document.getElementById("numeroTimes").value) || 0
+const numero=Number(document.getElementById("numeroTimes").value)||0
 
-if(numero < 0){
-document.getElementById("numeroTimes").value = 0
-times = []
+if(numero<0){
+document.getElementById("numeroTimes").value=0
+times=[]
 render()
 return
 }
 
-while(times.length < numero){
-times.push({nome:`Time ${times.length + 1}`,img:""})
+while(times.length<numero){
+times.push({nome:`Time ${times.length+1}`,img:""})
 }
 
-while(times.length > numero){
+while(times.length>numero){
 times.pop()
 }
 
@@ -322,8 +316,8 @@ render()
 }
 
 function addTime(){
-times.push({nome:`Time ${times.length + 1}`,img:""})
-document.getElementById("numeroTimes").value = times.length
+times.push({nome:`Time ${times.length+1}`,img:""})
+document.getElementById("numeroTimes").value=times.length
 render()
 }
 
@@ -412,7 +406,7 @@ render()
 
 function removerTime(i){
 times.splice(i,1)
-document.getElementById("numeroTimes").value = times.length
+document.getElementById("numeroTimes").value=times.length
 render()
 }
 
@@ -427,7 +421,7 @@ render()
 }
 
 function escaparHtml(txt){
-return String(txt || "")
+return String(txt||"")
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -436,7 +430,6 @@ return String(txt || "")
 }
 
 function render(){
-
 document.getElementById("streamerNomePrincipal").value=streamerPrincipal.nome||""
 document.getElementById("streamerLinkPrincipal").value=streamerPrincipal.link||""
 
@@ -465,10 +458,9 @@ h+=`
 <input type="file" accept="image/*" onchange="uploadImg(this,function(img){times[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
 ${x.img?`<button type="button" class="sec" onclick="removerFotoTime(${i})">Remover só a foto</button>`:""}
-<button type="button" class="red" onclick="removerTime(${i})">Remover</button>
+<button type="button" class="red" onclick="removerTime(${i})">Remover time</button>
 </div>`
 })
-
 document.getElementById("times").innerHTML=h
 
 h=""
@@ -479,10 +471,9 @@ h+=`
 <input type="file" accept="image/*" onchange="uploadImg(this,function(img){pats[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
 ${x.img?`<button type="button" class="sec" onclick="removerFotoPat(${i})">Remover só a foto</button>`:""}
-<button type="button" class="red" onclick="removerPat(${i})">Remover</button>
+<button type="button" class="red" onclick="removerPat(${i})">Remover patrocinador</button>
 </div>`
 })
-
 document.getElementById("pats").innerHTML=h
 
 h=""
@@ -494,16 +485,13 @@ h+=`
 <input type="file" accept="image/*" onchange="uploadImg(this,function(img){streamers[${i}].img=img})">
 ${x.img?`<img class="preview" src="${x.img}">`:""}
 ${x.img?`<button type="button" class="sec" onclick="removerFotoStreamer(${i})">Remover só a foto</button>`:""}
-<button type="button" class="red" onclick="removerStreamer(${i})">Remover</button>
+<button type="button" class="red" onclick="removerStreamer(${i})">Remover streamer</button>
 </div>`
 })
-
 document.getElementById("streamers").innerHTML=h
-
 }
 
 function dados(){
-
 streamerPrincipal.nome=document.getElementById("streamerNomePrincipal").value
 streamerPrincipal.link=document.getElementById("streamerLinkPrincipal").value
 
@@ -524,7 +512,6 @@ streamers:streamers
 }
 
 function aplicarDados(d){
-
 document.getElementById("titulo").value=d.titulo||""
 document.getElementById("dataEvento").value=d.dataEvento||""
 document.getElementById("horaEvento").value=d.horaEvento||""
@@ -535,17 +522,16 @@ document.getElementById("maxParticipantes").value=d.maxParticipantes||""
 document.getElementById("numeroTimes").value=d.numeroTimes||""
 
 streamerPrincipal=d.streamerPrincipal||{nome:"",img:"",link:""}
-
 times=Array.isArray(d.times)?d.times:[]
 pats=Array.isArray(d.patrocinadores)?d.patrocinadores:[]
 streamers=Array.isArray(d.streamers)?d.streamers:[]
 
-const numero = Number(document.getElementById("numeroTimes").value) || 0
+const numero=Number(document.getElementById("numeroTimes").value)||0
 
-while(times.length < numero){
-times.push({nome:`Time ${times.length + 1}`,img:""})
+while(times.length<numero){
+times.push({nome:`Time ${times.length+1}`,img:""})
 }
-while(times.length > numero){
+while(times.length>numero){
 times.pop()
 }
 
@@ -569,30 +555,42 @@ if(!raw)return
 aplicarDados(JSON.parse(raw))
 }
 
-async function salvarGithub(){
+async function pegarShaAtual(token){
+const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BRANCH}`,{
+headers:{
+"Authorization":"token "+token,
+"Accept":"application/vnd.github+json"
+}
+})
 
+if(!r.ok){
+if(r.status===404)return null
+throw new Error(await r.text())
+}
+
+const j=await r.json()
+return j.sha||null
+}
+
+async function salvarGithub(){
 const token=document.getElementById("token").value.trim()
-if(!token){alert("Coloque o token GitHub");return}
+if(!token){
+alert("Coloque o token GitHub")
+return
+}
 
 statusTxt("Salvando no GitHub...")
 
 try{
-
-let sha=null
-
-const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BRANCH}`)
-if(r.ok){
-const j=await r.json()
-sha=j.sha
-}
-
+let sha=await pegarShaAtual(token)
 const conteudo=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))))
 
-const resp=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
+let resp=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
 method:"PUT",
 headers:{
 "Authorization":"token "+token,
-"Content-Type":"application/json"
+"Content-Type":"application/json",
+"Accept":"application/vnd.github+json"
 },
 body:JSON.stringify({
 message:"Atualizar dados.json",
@@ -601,6 +599,26 @@ branch:BRANCH,
 sha:sha
 })
 })
+
+if(resp.status===409){
+statusTxt("Conflito detectado, tentando novamente...")
+sha=await pegarShaAtual(token)
+
+resp=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
+method:"PUT",
+headers:{
+"Authorization":"token "+token,
+"Content-Type":"application/json",
+"Accept":"application/vnd.github+json"
+},
+body:JSON.stringify({
+message:"Atualizar dados.json",
+content:conteudo,
+branch:BRANCH,
+sha:sha
+})
+})
+}
 
 if(resp.ok){
 statusTxt("✅ Dados enviados para o GitHub")
@@ -615,11 +633,9 @@ statusTxt("Erro: "+e.message)
 }
 
 async function carregarDoGithub(){
-
 statusTxt("Carregando do GitHub...")
 
 try{
-
 const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now())
 
 if(!r.ok){
@@ -629,14 +645,12 @@ return
 
 const d=await r.json()
 aplicarDados(d)
-
 statusTxt("✅ Dados carregados do GitHub")
 
 }catch(e){
 statusTxt("Erro: "+e.message)
 }
 }
-
 </script>
 
 </body>
