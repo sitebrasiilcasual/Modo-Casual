@@ -1,0 +1,53 @@
+{
+  "titulo": "ZONA CASUAL",
+
+  "dataEvento": "2026-03-25",
+  "horaEvento": "21:00",
+
+  "vagasTotal": 100,
+  "vagasOcupadas": 42,
+
+  "sobre": "<b>Zona Casual</b> é um projeto criado para reunir jogadores e equipes em partidas personalizadas competitivas. Nosso objetivo é oferecer um ambiente organizado, competitivo e divertido para toda a comunidade gamer.",
+
+  "fotoSobre": "zona.png",
+
+  "streamerPrincipal": {
+    "nome": "@zonacasual",
+    "img": "streamer.jpg",
+    "link": "https://kick.com/"
+  },
+
+  "times": [
+    {
+      "nome": "1ShotKill",
+      "img": "1shotkill.png"
+    },
+    {
+      "nome": "Vanguarda",
+      "img": "vanguarda.png"
+    },
+    {
+      "nome": "Ghost Squad",
+      "img": "ghost.png"
+    },
+    {
+      "nome": "War Legion",
+      "img": "warlegion.png"
+    }
+  ],
+
+  "patrocinadores": [
+    {
+      "nome": "Zona Casual",
+      "img": "zona.png"
+    },
+    {
+      "nome": "Energy Drink",
+      "img": "energy.png"
+    },
+    {
+      "nome": "Gaming Store",
+      "img": "store.png"
+    }
+  ]
+}
