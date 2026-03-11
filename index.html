@@ -545,6 +545,9 @@ font-size:14px
 <script>
 let slideInterval=null
 const slide=document.getElementById("timesSlide")
+let ultimoJson=""
+let carregandoAgora=false
+let versaoMidia=Date.now()
 
 function iniciarSlide(){
 if(slideInterval) clearInterval(slideInterval)
@@ -571,15 +574,21 @@ function pegarFotoSobre(d){
 return d.fotoSobre || d.sobreImg || d.imagemSobre || d.sobreImagem || "zona.png"
 }
 
+function urlSemCache(url){
+if(!url)return ""
+if(url.startsWith("data:"))return url
+return url + (url.includes("?") ? "&" : "?") + "v=" + versaoMidia
+}
+
 function aplicarDados(d){
 document.getElementById("dataTxt").textContent=d.dataEvento||"-"
 document.getElementById("horaTxt").textContent=d.horaEvento||"-"
 
 document.getElementById("sobre").innerHTML=d.sobre||""
-document.getElementById("sobreImg").src=pegarFotoSobre(d)
+document.getElementById("sobreImg").src=urlSemCache(pegarFotoSobre(d))
 
 document.getElementById("streamerNome").textContent=d.streamerPrincipal?.nome||"@streamer"
-document.getElementById("streamerImg").src=d.streamerPrincipal?.img||"streamer.jpg"
+document.getElementById("streamerImg").src=urlSemCache(d.streamerPrincipal?.img||"streamer.jpg")
 document.getElementById("streamerLink").href=d.streamerPrincipal?.link||"#"
 
 slide.innerHTML=""
@@ -587,7 +596,7 @@ slide.innerHTML=""
 ;(d.times||[]).forEach(t=>{
 slide.insertAdjacentHTML("beforeend",
 `<div class="team">
-<img src="${t.img}">
+<img src="${urlSemCache(t.img||"")}">
 <p>${t.nome}</p>
 </div>`
 )
@@ -606,7 +615,7 @@ patroCard.style.display="block"
 d.patrocinadores.forEach(p=>{
 patroGrid.insertAdjacentHTML("beforeend",
 `<div class="logo-box">
-<img src="${p.img}">
+<img src="${urlSemCache(p.img||"")}">
 <p>${p.nome}</p>
 </div>`
 )
@@ -615,7 +624,7 @@ patroGrid.insertAdjacentHTML("beforeend",
 patroCard.style.display="none"
 }
 
-const total=d.vagasTotal||0
+const total=d.vagasTotal || d.maxParticipantes || 0
 const ocupadas=d.vagasOcupadas||0
 
 let porcentagem=0
@@ -625,13 +634,39 @@ document.getElementById("vagaBarra").style.width=porcentagem+"%"
 document.getElementById("vagaTexto").textContent=ocupadas+" / "+total+" vagas"
 }
 
-async function carregarDados(){
-const res=await fetch("dados.json?"+Date.now())
-const dados=await res.json()
-aplicarDados(dados)
+async function carregarDados(forcar=false){
+if(carregandoAgora)return
+carregandoAgora=true
+
+try{
+const res=await fetch("dados.json?t="+Date.now(),{
+cache:"no-store"
+})
+
+if(!res.ok){
+carregandoAgora=false
+return
 }
 
-window.addEventListener("DOMContentLoaded",carregarDados)
+const dados=await res.json()
+const jsonAtual=JSON.stringify(dados)
+
+if(forcar || jsonAtual!==ultimoJson){
+ultimoJson=jsonAtual
+versaoMidia=Date.now()
+aplicarDados(dados)
+}
+}catch(e){
+console.log("Erro ao carregar dados",e)
+}
+
+carregandoAgora=false
+}
+
+window.addEventListener("DOMContentLoaded",()=>{
+carregarDados(true)
+setInterval(()=>carregarDados(false),2000)
+})
 </script>
 
 </body>
