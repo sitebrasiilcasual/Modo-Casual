@@ -115,19 +115,19 @@ small{color:#999}
 
   <div class="card">
     <h2>Times</h2>
-    <button onclick="addTime()">Adicionar time</button>
+    <button type="button" onclick="addTime()">Adicionar time</button>
     <div id="times"></div>
   </div>
 
   <div class="card">
     <h2>Patrocinadores</h2>
-    <button onclick="addPat()">Adicionar patrocinador</button>
+    <button type="button" onclick="addPat()">Adicionar patrocinador</button>
     <div id="pats"></div>
   </div>
 
   <div class="card">
     <h2>Streamers extras</h2>
-    <button onclick="addStreamer()">Adicionar streamer</button>
+    <button type="button" onclick="addStreamer()">Adicionar streamer</button>
     <div id="streamers"></div>
   </div>
 
@@ -145,101 +145,120 @@ small{color:#999}
 </div>
 
 <script>
-const SENHA="zona1326",TOKEN_KEY="zc_token",SITE_KEY="zc_dados",REPO="sitebrasiilcasual/Modo-Casual",BRANCH="principal",PATH="dados.json";
-let fotoSobre="",times=[],pats=[],streamers=[],sp={nome:"",img:"",link:""};
+const SENHA="zona1326"
+const TOKEN_KEY="zc_token"
+const SITE_KEY="zc_dados"
+const REPO="sitebrasiilcasual/Modo-Casual"
+const BRANCH="principal"
+const PATH="dados.json"
+
+let fotoSobre=""
+let times=[]
+let pats=[]
+let streamers=[]
+let sp={nome:"",img:"",link:""}
 
 function entrar(){
-  if(document.getElementById("senha").value.trim()!==SENHA)return alert("Senha incorreta");
-  document.getElementById("login").style.display="none";
-  document.getElementById("painel").style.display="block";
-  usarToken();
-  carregarAuto();
-  render();
+  if(document.getElementById("senha").value.trim()!==SENHA)return alert("Senha incorreta")
+  document.getElementById("login").style.display="none"
+  document.getElementById("painel").style.display="block"
+  usarToken()
+  carregarAuto()
+  render()
 }
 
-function salvarToken(){localStorage.setItem(TOKEN_KEY,document.getElementById("token").value.trim());alert("Token salvo")}
-function usarToken(){document.getElementById("token").value=localStorage.getItem(TOKEN_KEY)||""}
-function txt(t){document.getElementById("status").innerText=t||""}
+function salvarToken(){
+  localStorage.setItem(TOKEN_KEY,document.getElementById("token").value.trim())
+  alert("Token salvo")
+}
+
+function usarToken(){
+  document.getElementById("token").value=localStorage.getItem(TOKEN_KEY)||""
+}
+
+function txt(t){
+  document.getElementById("status").innerText=t||""
+}
 
 function esc(s){
   return String(s||"")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;");
+    .replace(/"/g,"&quot;")
 }
 
 function up(inp,cb){
-  let f=inp.files[0];
-  if(!f)return;
-  let r=new FileReader();
-  r.onload=()=>cb(r.result);
-  r.readAsDataURL(f);
+  let f=inp.files[0]
+  if(!f)return
+  let r=new FileReader()
+  r.onload=()=>cb(r.result)
+  r.readAsDataURL(f)
 }
 
 function syncVagas(){
-  document.getElementById("maxParticipantes").value=document.getElementById("vagasTotais").value;
-  limitarVagas();
+  document.getElementById("maxParticipantes").value=document.getElementById("vagasTotais").value
+  limitarVagas()
 }
 
 function syncMax(){
-  document.getElementById("vagasTotais").value=document.getElementById("maxParticipantes").value;
-  limitarVagas();
+  document.getElementById("vagasTotais").value=document.getElementById("maxParticipantes").value
+  limitarVagas()
 }
 
 function limitarVagas(){
-  let t=+document.getElementById("vagasTotais").value||0;
-  let d=+document.getElementById("vagasDisponiveis").value||0;
-  if(d<0)d=0;
-  if(d>t)d=t;
-  document.getElementById("vagasDisponiveis").value=d;
+  let t=+document.getElementById("vagasTotais").value||0
+  let d=+document.getElementById("vagasDisponiveis").value||0
+  if(d<0)d=0
+  if(d>t)d=t
+  document.getElementById("vagasDisponiveis").value=d
 }
 
 function ajustarTimes(){
-  let n=+document.getElementById("numeroTimes").value||0;
-  while(times.length<n)times.push({nome:"Time "+(times.length+1),img:""});
-  while(times.length>n)times.pop();
-  render();
+  let n=+document.getElementById("numeroTimes").value||0
+  while(times.length<n)times.push({nome:"Time "+(times.length+1),img:""})
+  while(times.length>n)times.pop()
+  render()
 }
 
 function addTime(){
-  times.push({nome:"Time "+(times.length+1),img:""});
-  document.getElementById("numeroTimes").value=times.length;
-  render();
+  times.push({nome:"Time "+(times.length+1),img:""})
+  document.getElementById("numeroTimes").value=times.length
+  render()
 }
 
 function addPat(){
-  pats.push({nome:"Patrocinador",img:""});
-  render();
+  pats.push({nome:"Patrocinador",img:""})
+  render()
 }
 
 function addStreamer(){
-  streamers.push({nome:"Streamer",img:"",link:"https://twitch.tv/"});
-  render();
+  streamers.push({nome:"Streamer",img:"",link:"https://twitch.tv/"})
+  render()
 }
 
 function del(arr,i){
-  arr.splice(i,1);
-  if(arr===times)document.getElementById("numeroTimes").value=times.length;
-  render();
+  arr.splice(i,1)
+  if(arr===times)document.getElementById("numeroTimes").value=times.length
+  render()
 }
 
 function render(){
-  sp.nome=sp.nome||"";
-  sp.link=sp.link||"";
+  sp.nome=sp.nome||""
+  sp.link=sp.link||""
 
-  document.getElementById("spNome").value=sp.nome;
-  document.getElementById("spLink").value=sp.link;
+  document.getElementById("spNome").value=sp.nome
+  document.getElementById("spLink").value=sp.link
 
   document.getElementById("verFotoSobre").innerHTML = fotoSobre ? `
     <img src="${fotoSobre}">
     <button type="button" class="red" onclick="fotoSobre='';render()">Remover foto</button>
-  ` : "";
+  ` : ""
 
   document.getElementById("verSp").innerHTML = sp.img ? `
     <img src="${sp.img}" class="preview-circle">
     <button type="button" class="red" onclick="sp.img='';render()">Remover foto</button>
-  ` : "";
+  ` : ""
 
   document.getElementById("times").innerHTML = times.map((x,i)=>`
     <div class="item">
@@ -256,7 +275,7 @@ function render(){
 
       <button type="button" class="red" onclick="del(times,${i})">Remover time</button>
     </div>
-  `).join("");
+  `).join("")
 
   document.getElementById("pats").innerHTML = pats.map((x,i)=>`
     <div class="item">
@@ -273,7 +292,7 @@ function render(){
 
       <button type="button" class="red" onclick="del(pats,${i})">Remover patrocinador</button>
     </div>
-  `).join("");
+  `).join("")
 
   document.getElementById("streamers").innerHTML = streamers.map((x,i)=>`
     <div class="item">
@@ -293,16 +312,17 @@ function render(){
 
       <button type="button" class="red" onclick="del(streamers,${i})">Remover streamer</button>
     </div>
-  `).join("");
+  `).join("")
 }
 
 function dados(){
-  sp.nome=document.getElementById("spNome").value;
-  sp.link=document.getElementById("spLink").value;
-  limitarVagas();
+  sp.nome=document.getElementById("spNome").value
+  sp.link=document.getElementById("spLink").value
+  limitarVagas()
 
-  let total=+document.getElementById("vagasTotais").value||0;
-  let disp=+document.getElementById("vagasDisponiveis").value||0;
+  let total=+document.getElementById("vagasTotais").value||0
+  let disp=+document.getElementById("vagasDisponiveis").value||0
+  let ocupadas=Math.max(0,total-disp)
 
   return{
     titulo:document.getElementById("titulo").value,
@@ -311,74 +331,85 @@ function dados(){
     sobre:document.getElementById("sobre").value,
     fotoSobre:fotoSobre,
     chamada:document.getElementById("chamada").value,
+
     vagasTotais:total,
     vagasDisponiveis:disp,
     maxParticipantes:total,
     numeroTimes:+document.getElementById("numeroTimes").value||0,
+
+    inscricao:{
+      totalVagas:total,
+      vagasOcupadas:ocupadas,
+      times:[]
+    },
+
     streamerPrincipal:sp,
     times:times,
     patrocinadores:pats,
     streamers:streamers
-  };
+  }
 }
 
 function aplicar(d){
-  document.getElementById("titulo").value=d.titulo||"";
-  document.getElementById("dataEvento").value=d.dataEvento||"";
-  document.getElementById("horaEvento").value=d.horaEvento||"";
-  document.getElementById("sobre").value=d.sobre||"";
-  fotoSobre=d.fotoSobre||"";
-  document.getElementById("chamada").value=d.chamada||"";
+  document.getElementById("titulo").value=d.titulo||""
+  document.getElementById("dataEvento").value=d.dataEvento||""
+  document.getElementById("horaEvento").value=d.horaEvento||""
+  document.getElementById("sobre").value=d.sobre||""
+  fotoSobre=d.fotoSobre||""
+  document.getElementById("chamada").value=d.chamada||""
 
-  let total=d.vagasTotais ?? d.maxParticipantes ?? 0;
-  document.getElementById("vagasTotais").value=total;
-  document.getElementById("vagasDisponiveis").value=d.vagasDisponiveis ?? total;
-  document.getElementById("maxParticipantes").value=total;
-  document.getElementById("numeroTimes").value=d.numeroTimes||0;
+  let total=d.inscricao?.totalVagas ?? d.vagasTotais ?? d.maxParticipantes ?? 0
+  let ocupadas=d.inscricao?.vagasOcupadas ?? 0
+  let disponiveis=d.vagasDisponiveis ?? Math.max(0,total-ocupadas)
 
-  sp=d.streamerPrincipal||{nome:"",img:"",link:""};
-  times=Array.isArray(d.times)?d.times:[];
-  pats=Array.isArray(d.patrocinadores)?d.patrocinadores:[];
-  streamers=Array.isArray(d.streamers)?d.streamers:[];
+  document.getElementById("vagasTotais").value=total
+  document.getElementById("vagasDisponiveis").value=disponiveis
+  document.getElementById("maxParticipantes").value=total
+  document.getElementById("numeroTimes").value=d.numeroTimes||d.times?.length||0
 
-  ajustarTimes();
-  limitarVagas();
-  render();
+  sp=d.streamerPrincipal||{nome:"",img:"",link:""}
+  times=Array.isArray(d.times)?d.times:[]
+  pats=Array.isArray(d.patrocinadores)?d.patrocinadores:[]
+  streamers=Array.isArray(d.streamers)?d.streamers:[]
+
+  ajustarTimes()
+  limitarVagas()
+  render()
 }
 
 function salvarLocal(){
-  localStorage.setItem(SITE_KEY,JSON.stringify(dados()));
-  alert("Salvo no aparelho");
+  localStorage.setItem(SITE_KEY,JSON.stringify(dados()))
+  alert("Salvo no aparelho")
 }
 
 function carregarLocal(){
-  let r=localStorage.getItem(SITE_KEY);
-  if(r)aplicar(JSON.parse(r));
+  let r=localStorage.getItem(SITE_KEY)
+  if(r)aplicar(JSON.parse(r))
 }
 
 function carregarAuto(){
-  let r=localStorage.getItem(SITE_KEY);
-  if(r)aplicar(JSON.parse(r));
+  let r=localStorage.getItem(SITE_KEY)
+  if(r)aplicar(JSON.parse(r))
 }
 
 async function sha(token){
   let r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BRANCH}`,{
     headers:{Authorization:"token "+token,Accept:"application/vnd.github+json"}
-  });
+  })
   if(!r.ok){
-    if(r.status===404)return null;
-    throw new Error(await r.text());
+    if(r.status===404)return null
+    throw new Error(await r.text())
   }
-  return (await r.json()).sha||null;
+  return (await r.json()).sha||null
 }
 
 async function salvarGithub(){
-  let t=document.getElementById("token").value.trim();
-  if(!t)return alert("Coloque o token GitHub");
-  txt("Salvando no GitHub...");
+  let t=document.getElementById("token").value.trim()
+  if(!t)return alert("Coloque o token GitHub")
+  txt("Salvando no GitHub...")
   try{
-    let s=await sha(t);
-    let c=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))));
+    let s=await sha(t)
+    let c=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))))
     let r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
       method:"PUT",
       headers:{
@@ -387,23 +418,23 @@ async function salvarGithub(){
         Accept:"application/vnd.github+json"
       },
       body:JSON.stringify({message:"Atualizar dados.json",content:c,branch:BRANCH,sha:s})
-    });
-    if(r.ok)txt("✅ Dados enviados para o GitHub");
-    else txt("❌ "+await r.text());
+    })
+    if(r.ok)txt("✅ Dados enviados para o GitHub")
+    else txt("❌ "+await r.text())
   }catch(e){
-    txt("Erro: "+e.message);
+    txt("Erro: "+e.message)
   }
 }
 
 async function carregarGithub(){
-  txt("Carregando do GitHub...");
+  txt("Carregando do GitHub...")
   try{
-    let r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now());
-    if(!r.ok)return txt("❌ Não foi possível carregar");
-    aplicar(await r.json());
-    txt("✅ Dados carregados do GitHub");
+    let r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now())
+    if(!r.ok)return txt("❌ Não foi possível carregar")
+    aplicar(await r.json())
+    txt("✅ Dados carregados do GitHub")
   }catch(e){
-    txt("Erro: "+e.message);
+    txt("Erro: "+e.message)
   }
 }
 </script>
