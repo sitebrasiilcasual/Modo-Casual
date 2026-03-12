@@ -1,5 +1,5 @@
 const GITHUB_TOKEN = "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"
-const REPO = "sitebrasilcasual/modo-casual"
+const REPO = "sitebrasilcasual/Modo-Casual"
 const FILE_PATH = "dados.json"
 const BRANCH = "main"
 
