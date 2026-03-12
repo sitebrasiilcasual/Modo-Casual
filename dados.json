@@ -8,7 +8,7 @@
   "vagasTotais": 12,
   "vagasDisponiveis": 10,
   "maxParticipantes": 12,
-  "totalTimes": 2,
+  "totalTimes": 3,
   "streamerPrincipal": {
     "nome": "@StreamerOficial",
     "img": "",
@@ -22,9 +22,13 @@
     {
       "nome": "1SHOTKILL ",
       "img": ""
+    },
+    {
+      "nome": "Time 3",
+      "img": ""
     }
   ],
   "patrocinadores": [],
   "streamers": [],
-  "updatedAt": "2026-03-12T18:09:26.440Z"
+  "updatedAt": "2026-03-12T18:09:28.530Z"
 }
