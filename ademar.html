@@ -6,312 +6,557 @@
 <title>Admin Zona Casual</title>
 
 <style>
-
+*{box-sizing:border-box}
 body{
-background:#000;
-color:#fff;
-font-family:Arial;
-text-align:center;
-padding:20px;
+  margin:0;
+  background:#000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  text-align:center;
+  padding:16px;
 }
-
+.wrap{max-width:980px;margin:auto}
 .card{
-background:#111;
-padding:20px;
-border-radius:10px;
-margin-top:20px;
+  background:#111;
+  border:1px solid rgba(255,140,0,.28);
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 8px 22px rgba(0,0,0,.35);
 }
-
-input,textarea{
-width:90%;
-padding:12px;
-margin:10px 0;
-background:#1a1a1a;
-border:none;
-border-radius:8px;
-color:#fff;
+h1,h2,h3{margin:0 0 12px;color:#ff8c00}
+input,textarea,button{
+  width:100%;
+  border:none;
+  border-radius:10px;
+  padding:14px;
+  font-size:16px;
+  margin:6px 0 10px;
 }
-
+input,textarea{background:#1a1a1a;color:#fff}
+textarea{min-height:110px;resize:vertical}
 button{
-width:90%;
-padding:14px;
-border:none;
-border-radius:8px;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
+  background:#ff8c00;
+  color:#000;
+  font-weight:700;
+  cursor:pointer;
 }
-
-.upload{
-background:#ff8c00;
-color:#000;
+button.sec{background:#2a2a2a;color:#fff}
+button.red{background:#a92f2f;color:#fff}
+button.green{background:#20a55a;color:#fff}
+button.blue{background:#2767d8;color:#fff}
+button.small{padding:10px 12px;font-size:14px}
+.preview{
+  width:120px;height:120px;object-fit:cover;border-radius:12px;
+  border:2px solid rgba(255,140,0,.35);background:#0d0d0d;display:block;margin:10px auto 0;
 }
-
-.salvar{
-background:#ff8c00;
-color:#000;
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.hidden{display:none}
+.muted{color:#bbb;font-size:14px}
+.box-list{display:grid;gap:12px}
+.dynamic-box{
+  background:#181818;
+  border:1px solid rgba(255,140,0,.18);
+  border-radius:12px;
+  padding:12px;
+  text-align:left;
 }
-
-.remover{
-background:#c62828;
-color:#fff;
+.dynamic-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:8px;
 }
-
-img{
-max-width:200px;
-margin-top:10px;
-border-radius:8px;
+.dynamic-head strong{color:#fff3d6}
+.row-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
-
+@media(max-width:760px){
+  .grid,.grid3,.row-actions{grid-template-columns:1fr}
+}
 </style>
-
 </head>
 <body>
 
-<h1>Painel Admin</h1>
+<div class="wrap">
+  <h1>Painel Admin Zona Casual</h1>
 
-<div id="login">
+  <div id="login" class="card">
+    <h2>Entrar</h2>
+    <input id="senha" type="password" placeholder="Senha">
+    <button onclick="entrar()">ENTRAR</button>
+  </div>
 
-<input id="senha" placeholder="Senha">
-<button onclick="entrar()">Entrar</button>
+  <div id="painel" class="hidden">
 
-</div>
+    <div class="card">
+      <h2>Token GitHub</h2>
+      <input id="tokenGithub" placeholder="Cole seu token aqui">
+      <div class="grid">
+        <button class="green" onclick="salvarTokenLocal()">SALVAR TOKEN NO NAVEGADOR</button>
+        <button class="red" onclick="apagarToken()">APAGAR TOKEN SALVO</button>
+      </div>
+      <div class="muted">O token fica salvo só no seu navegador.</div>
+    </div>
 
-<div id="painel" style="display:none">
+    <div class="card">
+      <h2>Data, Horário e Vagas</h2>
+      <div class="grid">
+        <input id="dataEvento" placeholder="Data">
+        <input id="horaEvento" placeholder="Horário">
+      </div>
+      <div class="grid">
+        <input id="total" type="number" placeholder="Vagas totais">
+        <input id="ocupadas" type="number" placeholder="Vagas ocupadas">
+      </div>
+    </div>
 
-<div class="card">
-<h2>Token GitHub</h2>
-<input id="tokenGithub" placeholder="Cole seu token aqui">
-</div>
+    <div class="card">
+      <h2>Sobre</h2>
+      <textarea id="textoSobre" placeholder="Texto do sobre"></textarea>
+    </div>
 
-<div class="card">
-<h2>Data e Horário</h2>
-<input id="dataEvento" placeholder="Data">
-<input id="horaEvento" placeholder="Horário">
-</div>
+    <div class="card">
+      <h2>Fotos Principais</h2>
+      <div class="grid3">
+        <div>
+          <input type="file" id="sobreUpload" accept="image/*">
+          <button onclick="uploadFotoPrincipal('sobre')">UPLOAD FOTO SOBRE</button>
+          <img id="previewSobre" class="preview" src="" alt="">
+        </div>
+        <div>
+          <input type="file" id="streamerUpload" accept="image/*">
+          <button onclick="uploadFotoPrincipal('streamer')">UPLOAD FOTO STREAMER</button>
+          <img id="previewStreamer" class="preview" src="" alt="">
+        </div>
+        <div>
+          <input type="file" id="adminUpload" accept="image/*">
+          <button onclick="uploadFotoPrincipal('admin')">UPLOAD FOTO ADMIN</button>
+          <img id="previewAdmin" class="preview" src="" alt="">
+        </div>
+      </div>
+      <button class="red" onclick="removerFotosPrincipais()">REMOVER TODAS AS FOTOS PRINCIPAIS</button>
+    </div>
 
-<div class="card">
-<h2>Vagas</h2>
-<input id="total" placeholder="Vagas totais">
-<input id="ocupadas" placeholder="Vagas ocupadas">
-</div>
+    <div class="card">
+      <div class="dynamic-head">
+        <h2 style="margin:0">Times</h2>
+        <button class="blue small" style="width:auto;padding:10px 16px" onclick="novoTime()">+ NOVO TIME</button>
+      </div>
+      <div id="listaTimes" class="box-list"></div>
+    </div>
 
-<div class="card">
-<h2>Texto Sobre</h2>
-<textarea id="textoSobre" placeholder="Texto do sobre"></textarea>
-</div>
+    <div class="card">
+      <div class="dynamic-head">
+        <h2 style="margin:0">Patrocinadores</h2>
+        <button class="blue small" style="width:auto;padding:10px 16px" onclick="novoPatrocinador()">+ NOVO PATROCINADOR</button>
+      </div>
+      <div id="listaPatrocinadores" class="box-list"></div>
+    </div>
 
-<div class="card">
+    <div class="card">
+      <div class="grid">
+        <button class="green" onclick="salvarDados()">ALTERAR NO GITHUB</button>
+        <button class="sec" onclick="carregarDadosPainel()">RECARREGAR DADOS</button>
+      </div>
+    </div>
 
-<h2>Upload Foto Sobre</h2>
-
-<input type="file" id="sobreUpload">
-<button class="upload" onclick="uploadSobre()">UPLOAD</button>
-
-<img id="previewSobre">
-
-</div>
-
-<div class="card">
-
-<h2>Upload Foto Streamer</h2>
-
-<input type="file" id="streamerUpload">
-<button class="upload" onclick="uploadStreamer()">UPLOAD</button>
-
-<img id="previewStreamer">
-
-</div>
-
-<div class="card">
-
-<h2>Upload Foto Admin</h2>
-
-<input type="file" id="adminUpload">
-<button class="upload" onclick="uploadAdmin()">UPLOAD</button>
-
-<img id="previewAdmin">
-
-</div>
-
-<button class="remover" onclick="removerFotos()">REMOVER TODAS AS FOTOS</button>
-
-<button class="salvar" onclick="salvarDados()">ALTERAR NO GITHUB</button>
-
+  </div>
 </div>
 
 <script>
+const REPO = "sitebrasiilcasual/Modo-Casual";
+const JSON_PATH = "dados.json";
 
-let dados={
-data:"",
-horario:"",
-vagas_total:20,
-vagas_ocupadas:0,
+let dados = {
+  data: "",
+  horario: "",
+  vagas_total: 20,
+  vagas_ocupadas: 0,
+  sobre: { texto: "", imagem: "" },
+  streamers: [{ nome: "@streamer", foto: "" }],
+  admins: [{ nome: "Admin", foto: "" }],
+  times: [],
+  patrocinadores: []
+};
 
-sobre:{
-texto:"",
-imagem:""
-},
-
-streamers:[
-{nome:"Streamer",foto:""}
-],
-
-admins:[
-{nome:"Admin",foto:""}
-]
+function garantirEstrutura(){
+  if(!dados || typeof dados !== "object") dados = {};
+  if(!dados.sobre || typeof dados.sobre !== "object") dados.sobre = { texto:"", imagem:"" };
+  if(!Array.isArray(dados.streamers)) dados.streamers = [{ nome:"@streamer", foto:"" }];
+  if(!dados.streamers[0]) dados.streamers[0] = { nome:"@streamer", foto:"" };
+  if(!Array.isArray(dados.admins)) dados.admins = [{ nome:"Admin", foto:"" }];
+  if(!dados.admins[0]) dados.admins[0] = { nome:"Admin", foto:"" };
+  if(!Array.isArray(dados.times)) dados.times = [];
+  if(!Array.isArray(dados.patrocinadores)) dados.patrocinadores = [];
+  if(dados.data == null) dados.data = "";
+  if(dados.horario == null) dados.horario = "";
+  if(dados.vagas_total == null) dados.vagas_total = 20;
+  if(dados.vagas_ocupadas == null) dados.vagas_ocupadas = 0;
 }
 
 function entrar(){
-
-let s=document.getElementById("senha").value
-
-if(s==="1326"){
-
-document.getElementById("login").style.display="none"
-document.getElementById("painel").style.display="block"
-
+  const s = document.getElementById("senha").value;
+  if(s !== "1326"){
+    alert("Senha errada");
+    return;
+  }
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("painel").classList.remove("hidden");
+  document.getElementById("tokenGithub").value = localStorage.getItem("github_token") || "";
+  carregarDadosPainel();
 }
 
-else{
-
-alert("Senha errada")
-
+function salvarTokenLocal(){
+  const token = document.getElementById("tokenGithub").value.trim();
+  if(!token){
+    alert("Cole seu token primeiro");
+    return;
+  }
+  localStorage.setItem("github_token", token);
+  alert("Token salvo no navegador");
 }
 
+function apagarToken(){
+  localStorage.removeItem("github_token");
+  document.getElementById("tokenGithub").value = "";
+  alert("Token apagado do navegador");
 }
 
-async function uploadGithub(file,nome){
+async function carregarDadosPainel(){
+  try{
+    const r = await fetch("dados.json?t=" + Date.now(), { cache:"no-store" });
+    const d = await r.json();
+    dados = d;
+    garantirEstrutura();
 
-let token=document.getElementById("tokenGithub").value
+    document.getElementById("dataEvento").value = dados.data || "";
+    document.getElementById("horaEvento").value = dados.horario || "";
+    document.getElementById("total").value = Number(dados.vagas_total) || 0;
+    document.getElementById("ocupadas").value = Number(dados.vagas_ocupadas) || 0;
+    document.getElementById("textoSobre").value = dados.sobre.texto || "";
 
-let repo="sitebrasiilcasual/Modo-Casual"
+    document.getElementById("previewSobre").src = dados.sobre.imagem || "";
+    document.getElementById("previewStreamer").src = dados.streamers[0].foto || "";
+    document.getElementById("previewAdmin").src = dados.admins[0].foto || "";
 
-let reader=new FileReader()
-
-reader.onload=async function(e){
-
-let base64=e.target.result.split(",")[1]
-
-await fetch("https://api.github.com/repos/"+repo+"/contents/imagens/"+nome,{
-
-method:"PUT",
-
-headers:{
-Authorization:"token "+token,
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-
-message:"upload imagem",
-content:base64
-
-})
-
-})
-
-alert("Imagem enviada para GitHub")
-
+    renderizarTimes();
+    renderizarPatrocinadores();
+  }catch(e){
+    console.error(e);
+    alert("Erro ao carregar dados.json");
+  }
 }
 
-reader.readAsDataURL(file)
-
+function nomeSeguro(txt){
+  return String(txt || "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "arquivo";
 }
 
-function uploadSobre(){
-
-let file=document.getElementById("sobreUpload").files[0]
-
-uploadGithub(file,"sobre.png")
-
-dados.sobre.imagem="imagens/sobre.png"
-
-document.getElementById("previewSobre").src="imagens/sobre.png"
-
+function gerarNomeArquivo(prefixo, originalName="img.png"){
+  const ext = (originalName.split(".").pop() || "png").toLowerCase().replace(/[^a-z0-9]/g, "") || "png";
+  return `${prefixo}-${Date.now()}.${ext}`;
 }
 
-function uploadStreamer(){
-
-let file=document.getElementById("streamerUpload").files[0]
-
-uploadGithub(file,"streamer.png")
-
-dados.streamers[0].foto="imagens/streamer.png"
-
-document.getElementById("previewStreamer").src="imagens/streamer.png"
-
+function fileToBase64SemPrefixo(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = e => resolve(String(e.target.result).split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
-function uploadAdmin(){
+async function uploadArquivoGithub(file, nomeArquivo){
+  const token = document.getElementById("tokenGithub").value.trim();
+  if(!token){
+    alert("Cole seu token do GitHub");
+    throw new Error("Token ausente");
+  }
 
-let file=document.getElementById("adminUpload").files[0]
+  localStorage.setItem("github_token", token);
+  const base64 = await fileToBase64SemPrefixo(file);
+  const path = `imagens/${nomeArquivo}`;
 
-uploadGithub(file,"admin.png")
+  const resp = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+    method:"PUT",
+    headers:{
+      "Authorization":`Bearer ${token}`,
+      "Accept":"application/vnd.github+json",
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      message:`upload ${nomeArquivo}`,
+      content:base64
+    })
+  });
 
-dados.admins[0].foto="imagens/admin.png"
+  const json = await resp.json();
+  if(!resp.ok){
+    console.error(json);
+    throw new Error(json.message || "Erro no upload da imagem");
+  }
 
-document.getElementById("previewAdmin").src="imagens/admin.png"
-
+  return path;
 }
 
-function removerFotos(){
+async function uploadFotoPrincipal(tipo){
+  try{
+    let inputId = "";
+    let nomeBase = "";
+    let previewId = "";
 
-dados.sobre.imagem=""
-dados.streamers[0].foto=""
-dados.admins[0].foto=""
+    if(tipo === "sobre"){
+      inputId = "sobreUpload"; nomeBase = "sobre"; previewId = "previewSobre";
+    }else if(tipo === "streamer"){
+      inputId = "streamerUpload"; nomeBase = "streamer"; previewId = "previewStreamer";
+    }else if(tipo === "admin"){
+      inputId = "adminUpload"; nomeBase = "admin"; previewId = "previewAdmin";
+    }
 
-document.getElementById("previewSobre").src=""
-document.getElementById("previewStreamer").src=""
-document.getElementById("previewAdmin").src=""
+    const file = document.getElementById(inputId).files[0];
+    if(!file){
+      alert("Escolha uma imagem primeiro");
+      return;
+    }
 
-alert("Fotos removidas")
+    const path = await uploadArquivoGithub(file, gerarNomeArquivo(nomeBase, file.name));
 
+    if(tipo === "sobre") dados.sobre.imagem = path;
+    if(tipo === "streamer") dados.streamers[0].foto = path;
+    if(tipo === "admin") dados.admins[0].foto = path;
+
+    document.getElementById(previewId).src = path;
+    alert("Imagem enviada para o GitHub");
+  }catch(e){
+    console.error(e);
+    alert("Erro ao enviar imagem: " + e.message);
+  }
+}
+
+function removerFotosPrincipais(){
+  garantirEstrutura();
+  dados.sobre.imagem = "";
+  dados.streamers[0].foto = "";
+  dados.admins[0].foto = "";
+
+  document.getElementById("previewSobre").src = "";
+  document.getElementById("previewStreamer").src = "";
+  document.getElementById("previewAdmin").src = "";
+
+  alert("Fotos principais removidas. Agora clique em ALTERAR NO GITHUB.");
+}
+
+function novoTime(){
+  garantirEstrutura();
+  dados.times.push({ nome:"", foto:"" });
+  renderizarTimes();
+}
+
+function novoPatrocinador(){
+  garantirEstrutura();
+  dados.patrocinadores.push({ nome:"", foto:"" });
+  renderizarPatrocinadores();
+}
+
+function atualizarNomeTime(index, valor){
+  dados.times[index].nome = valor;
+}
+
+function atualizarNomePatro(index, valor){
+  dados.patrocinadores[index].nome = valor;
+}
+
+async function uploadTime(index){
+  try{
+    const input = document.getElementById(`fotoTime_${index}`);
+    const file = input.files[0];
+
+    if(!file){
+      alert("Escolha uma foto do time");
+      return;
+    }
+
+    const nome = dados.times[index].nome || `time-${index+1}`;
+    const path = await uploadArquivoGithub(file, gerarNomeArquivo(`time-${nomeSeguro(nome)}`, file.name));
+
+    dados.times[index].foto = path;
+    renderizarTimes();
+    alert("Foto do time enviada");
+  }catch(e){
+    console.error(e);
+    alert("Erro ao enviar foto do time: " + e.message);
+  }
+}
+
+async function uploadPatro(index){
+  try{
+    const input = document.getElementById(`fotoPatro_${index}`);
+    const file = input.files[0];
+
+    if(!file){
+      alert("Escolha uma foto do patrocinador");
+      return;
+    }
+
+    const nome = dados.patrocinadores[index].nome || `patro-${index+1}`;
+    const path = await uploadArquivoGithub(file, gerarNomeArquivo(`patro-${nomeSeguro(nome)}`, file.name));
+
+    dados.patrocinadores[index].foto = path;
+    renderizarPatrocinadores();
+    alert("Foto do patrocinador enviada");
+  }catch(e){
+    console.error(e);
+    alert("Erro ao enviar foto do patrocinador: " + e.message);
+  }
+}
+
+function removerTime(index){
+  dados.times.splice(index, 1);
+  renderizarTimes();
+}
+
+function removerPatrocinador(index){
+  dados.patrocinadores.splice(index, 1);
+  renderizarPatrocinadores();
+}
+
+function renderizarTimes(){
+  const box = document.getElementById("listaTimes");
+  box.innerHTML = "";
+
+  if(!dados.times.length){
+    box.innerHTML = `<div class="muted">Nenhum time adicionado. Clique em + NOVO TIME.</div>`;
+    return;
+  }
+
+  dados.times.forEach((t, i)=>{
+    box.insertAdjacentHTML("beforeend", `
+      <div class="dynamic-box">
+        <div class="dynamic-head">
+          <strong>Time ${i+1}</strong>
+          <button class="red small" style="width:auto" onclick="removerTime(${i})">REMOVER</button>
+        </div>
+
+        <input value="${(t.nome || "").replace(/"/g,'&quot;')}" placeholder="Nome do time" oninput="atualizarNomeTime(${i}, this.value)">
+        <input type="file" id="fotoTime_${i}" accept="image/*">
+
+        <div class="row-actions">
+          <button onclick="uploadTime(${i})">UPLOAD FOTO DO TIME</button>
+          <button class="sec" type="button" onclick="document.getElementById('fotoTime_${i}').click()">ESCOLHER FOTO</button>
+        </div>
+
+        <img class="preview" src="${t.foto || ""}" alt="">
+        <div class="muted">${t.foto || ""}</div>
+      </div>
+    `);
+  });
+}
+
+function renderizarPatrocinadores(){
+  const box = document.getElementById("listaPatrocinadores");
+  box.innerHTML = "";
+
+  if(!dados.patrocinadores.length){
+    box.innerHTML = `<div class="muted">Nenhum patrocinador adicionado. Clique em + NOVO PATROCINADOR.</div>`;
+    return;
+  }
+
+  dados.patrocinadores.forEach((p, i)=>{
+    box.insertAdjacentHTML("beforeend", `
+      <div class="dynamic-box">
+        <div class="dynamic-head">
+          <strong>Patrocinador ${i+1}</strong>
+          <button class="red small" style="width:auto" onclick="removerPatrocinador(${i})">REMOVER</button>
+        </div>
+
+        <input value="${(p.nome || "").replace(/"/g,'&quot;')}" placeholder="Nome do patrocinador" oninput="atualizarNomePatro(${i}, this.value)">
+        <input type="file" id="fotoPatro_${i}" accept="image/*">
+
+        <div class="row-actions">
+          <button onclick="uploadPatro(${i})">UPLOAD FOTO DO PATROCINADOR</button>
+          <button class="sec" type="button" onclick="document.getElementById('fotoPatro_${i}').click()">ESCOLHER FOTO</button>
+        </div>
+
+        <img class="preview" src="${p.foto || ""}" alt="">
+        <div class="muted">${p.foto || ""}</div>
+      </div>
+    `);
+  });
+}
+
+async function buscarShaArquivo(token, path){
+  const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
+    headers:{
+      "Authorization":`Bearer ${token}`,
+      "Accept":"application/vnd.github+json"
+    }
+  });
+
+  const j = await r.json();
+  if(!r.ok){
+    throw new Error(j.message || "Erro ao buscar SHA");
+  }
+  return j.sha;
 }
 
 async function salvarDados(){
+  try{
+    garantirEstrutura();
 
-let token=document.getElementById("tokenGithub").value
+    const token = document.getElementById("tokenGithub").value.trim();
+    if(!token){
+      alert("Cole seu token do GitHub");
+      return;
+    }
 
-let repo="sitebrasiilcasual/Modo-Casual"
+    localStorage.setItem("github_token", token);
 
-dados.data=document.getElementById("dataEvento").value
-dados.horario=document.getElementById("horaEvento").value
+    dados.data = document.getElementById("dataEvento").value.trim();
+    dados.horario = document.getElementById("horaEvento").value.trim();
+    dados.vagas_total = Number(document.getElementById("total").value) || 0;
+    dados.vagas_ocupadas = Number(document.getElementById("ocupadas").value) || 0;
+    dados.sobre.texto = document.getElementById("textoSobre").value.trim();
 
-dados.vagas_total=parseInt(document.getElementById("total").value)
-dados.vagas_ocupadas=parseInt(document.getElementById("ocupadas").value)
+    if(!dados.streamers[0].nome) dados.streamers[0].nome = "@streamer";
+    if(!dados.admins[0].nome) dados.admins[0].nome = "Admin";
 
-dados.sobre.texto=document.getElementById("textoSobre").value
+    const sha = await buscarShaArquivo(token, JSON_PATH);
+    const conteudo = btoa(unescape(encodeURIComponent(JSON.stringify(dados, null, 2))));
 
-let conteudo=btoa(unescape(encodeURIComponent(JSON.stringify(dados,null,2))))
+    const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${JSON_PATH}`, {
+      method:"PUT",
+      headers:{
+        "Authorization":`Bearer ${token}`,
+        "Accept":"application/vnd.github+json",
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        message:"update dados.json",
+        content:conteudo,
+        sha
+      })
+    });
 
-let path="dados.json"
+    const j = await r.json();
+    if(!r.ok){
+      console.error(j);
+      throw new Error(j.message || "Erro ao salvar dados.json");
+    }
 
-let r=await fetch("https://api.github.com/repos/"+repo+"/contents/"+path)
-
-let j=await r.json()
-
-await fetch("https://api.github.com/repos/"+repo+"/contents/"+path,{
-
-method:"PUT",
-
-headers:{
-Authorization:"token "+token,
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-message:"update dados",
-content:conteudo,
-sha:j.sha
-})
-
-})
-
-alert("Dados salvos no GitHub")
-
+    alert("Dados salvos no GitHub");
+  }catch(e){
+    console.error(e);
+    alert("Erro ao salvar: " + e.message);
+  }
 }
-
 </script>
 
 </body>
