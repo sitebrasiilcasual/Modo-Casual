@@ -8,57 +8,111 @@
 
 <style>
 
+*{box-sizing:border-box}
+
 body{
+margin:0;
 background:#000;
 color:#fff;
-font-family:Arial;
-margin:0;
-padding:20px;
+font-family:Arial,sans-serif
+}
+
+.wrap{
+max-width:760px;
+margin:auto;
+padding:14px
 }
 
 .card{
 background:#111;
 border:1px solid rgba(255,140,0,.25);
-border-radius:12px;
-padding:20px;
-margin-bottom:20px;
+border-radius:14px;
+padding:16px;
+margin-bottom:14px
 }
 
 h1,h2{
-color:#ff8c00;
 text-align:center;
+color:#ff8c00;
+margin:0 0 12px
 }
 
-input,button{
+label{
+display:block;
+margin:10px 0 6px;
+font-weight:bold
+}
+
+input,textarea,button{
 width:100%;
-padding:12px;
-margin-top:10px;
 border:none;
-border-radius:8px;
+border-radius:10px;
+padding:14px;
+font-size:16px;
+margin-bottom:10px
 }
 
-input{
+input,textarea{
 background:#1a1a1a;
-color:#fff;
+color:#fff
 }
 
 button{
 background:#ff8c00;
-font-weight:bold;
-cursor:pointer;
+color:#000;
+font-weight:700;
+cursor:pointer
+}
+
+button.sec{
+background:#222;
+color:#fff
+}
+
+button.red{
+background:#8f2b2b;
+color:#fff
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
 }
 
 .item{
-border:1px solid rgba(255,255,255,.1);
-padding:10px;
+border:1px solid rgba(255,255,255,.08);
+border-radius:12px;
+padding:12px;
 margin-top:10px;
-border-radius:10px;
+background:#0d0d0d
 }
 
 .preview{
-width:110px;
-margin-top:10px;
+max-width:110px;
+max-height:110px;
 border-radius:10px;
+display:block;
+margin:8px 0;
+object-fit:cover;
+background:#1a1a1a
+}
+
+.preview-circle{
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+display:block;
+margin:8px 0;
+background:#1a1a1a
+}
+
+.count{
+text-align:center;
+color:#ffb15a;
+font-weight:bold;
+margin-bottom:12px
 }
 
 </style>
@@ -67,32 +121,15 @@ border-radius:10px;
 
 <body>
 
+<div class="wrap">
+
 <h1>Painel Admin</h1>
 
-<div class="card">
-
-<h2>GitHub</h2>
-
-<input id="token" placeholder="Token GitHub">
-
-<button onclick="salvarGithub()">SALVAR NO GITHUB</button>
-
-</div>
-
 
 <div class="card">
 
-<h2>Informações do site</h2>
+<h2>Foto do Sobre</h2>
 
-<input id="titulo" placeholder="Título do site">
-
-<label>Data evento</label>
-<input id="dataEvento" type="date">
-
-<label>Hora evento</label>
-<input id="horaEvento" type="time">
-
-<label>Foto do sobre</label>
 <input type="file" accept="image/*" onchange="upload(this,'sobre')">
 
 <img id="previewSobre" class="preview">
@@ -102,27 +139,15 @@ border-radius:10px;
 
 <div class="card">
 
-<h2>Vagas do campeonato</h2>
-
-<input id="vagasTotal" type="number" placeholder="Vagas totais">
-
-<input id="vagasDisponiveis" type="number" placeholder="Vagas disponíveis">
-
-</div>
-
-
-<div class="card">
-
 <h2>Streamer principal</h2>
 
-<input id="spNome" placeholder="Nome streamer">
+<input id="spNome" placeholder="Nome do streamer">
 
 <input id="spLink" placeholder="Link Twitch">
 
-<label>Foto streamer</label>
 <input type="file" accept="image/*" onchange="upload(this,'streamer')">
 
-<img id="previewStreamer" class="preview">
+<img id="previewStreamer" class="preview-circle">
 
 </div>
 
@@ -131,7 +156,9 @@ border-radius:10px;
 
 <h2>Times</h2>
 
-<button onclick="addTime()">Adicionar time</button>
+<div class="count">Total de times: <span id="contadorTimes">0</span></div>
+
+<button onclick="addTime()">+ Adicionar time</button>
 
 <div id="times"></div>
 
@@ -142,24 +169,46 @@ border-radius:10px;
 
 <h2>Patrocinadores</h2>
 
-<button onclick="addPat()">Adicionar patrocinador</button>
+<button onclick="addPat()">+ Adicionar patrocinador</button>
 
 <div id="pats"></div>
 
 </div>
 
 
+<div class="card">
+
+<h2>Streamers extras</h2>
+
+<button onclick="addStreamer()">+ Adicionar streamer</button>
+
+<div id="streamers"></div>
+
+</div>
+
+
+<div class="card">
+
+<h2>Ações rápidas</h2>
+
+<button class="red" onclick="removerTodasAsFotos()">
+REMOVER TODAS AS IMAGENS
+</button>
+
+</div>
+
+
+</div>
+
+
 <script>
-
-const REPO="sitebrasilcasual/Modo-Casual"
-const BRANCH="main"
-const PATH="dados.json"
-
-let times=[]
-let pats=[]
 
 let fotoSobre=""
 let fotoStreamer=""
+
+let times=[]
+let pats=[]
+let streamers=[]
 
 function upload(input,tipo){
 
@@ -172,13 +221,19 @@ const reader=new FileReader()
 reader.onload=e=>{
 
 if(tipo==="sobre"){
+
 fotoSobre=e.target.result
+
 document.getElementById("previewSobre").src=fotoSobre
+
 }
 
 if(tipo==="streamer"){
+
 fotoStreamer=e.target.result
+
 document.getElementById("previewStreamer").src=fotoStreamer
+
 }
 
 }
@@ -186,6 +241,8 @@ document.getElementById("previewStreamer").src=fotoStreamer
 reader.readAsDataURL(file)
 
 }
+
+
 
 function addTime(){
 
@@ -195,6 +252,8 @@ render()
 
 }
 
+
+
 function addPat(){
 
 pats.push({nome:"",img:""})
@@ -203,7 +262,21 @@ render()
 
 }
 
+
+
+function addStreamer(){
+
+streamers.push({nome:"",img:"",link:""})
+
+render()
+
+}
+
+
+
 function render(){
+
+document.getElementById("contadorTimes").innerText=times.length
 
 const t=document.getElementById("times")
 
@@ -222,12 +295,15 @@ oninput="times[${i}].nome=this.value">
 value="${x.img}"
 oninput="times[${i}].img=this.value">
 
-<button onclick="remTime(${i})">Remover</button>
+<button class="red" onclick="delTime(${i})">
+Remover
+</button>
 
 </div>
 `
 
 })
+
 
 const p=document.getElementById("pats")
 
@@ -246,7 +322,40 @@ oninput="pats[${i}].nome=this.value">
 value="${x.img}"
 oninput="pats[${i}].img=this.value">
 
-<button onclick="remPat(${i})">Remover</button>
+<button class="red" onclick="delPat(${i})">
+Remover
+</button>
+
+</div>
+`
+
+})
+
+
+const s=document.getElementById("streamers")
+
+s.innerHTML=""
+
+streamers.forEach((x,i)=>{
+
+s.innerHTML+=`
+<div class="item">
+
+<input placeholder="Nome streamer"
+value="${x.nome}"
+oninput="streamers[${i}].nome=this.value">
+
+<input placeholder="Link streamer"
+value="${x.link}"
+oninput="streamers[${i}].link=this.value">
+
+<input placeholder="Foto streamer"
+value="${x.img}"
+oninput="streamers[${i}].img=this.value">
+
+<button class="red" onclick="delStreamer(${i})">
+Remover
+</button>
 
 </div>
 `
@@ -255,7 +364,9 @@ oninput="pats[${i}].img=this.value">
 
 }
 
-function remTime(i){
+
+
+function delTime(i){
 
 times.splice(i,1)
 
@@ -263,7 +374,9 @@ render()
 
 }
 
-function remPat(i){
+
+
+function delPat(i){
 
 pats.splice(i,1)
 
@@ -271,111 +384,49 @@ render()
 
 }
 
-function dados(){
 
-return{
 
-titulo:document.getElementById("titulo").value,
+function delStreamer(i){
 
-dataEvento:document.getElementById("dataEvento").value,
+streamers.splice(i,1)
 
-horaEvento:document.getElementById("horaEvento").value,
-
-fotoSobre:fotoSobre,
-
-vagasTotal:Number(document.getElementById("vagasTotal").value),
-
-vagasDisponiveis:Number(document.getElementById("vagasDisponiveis").value),
-
-streamerPrincipal:{
-nome:document.getElementById("spNome").value,
-link:document.getElementById("spLink").value,
-img:fotoStreamer
-},
-
-times:times,
-
-patrocinadores:pats
+render()
 
 }
 
-}
 
-async function salvarGithub(){
 
-const token=document.getElementById("token").value.trim()
+function removerTodasAsFotos(){
 
-if(!token){
-alert("Coloque o token GitHub")
-return
-}
+if(!confirm("Tem certeza que deseja remover TODAS as imagens do site?")) return
 
-const url=`https://api.github.com/repos/${REPO}/contents/${PATH}`
+fotoSobre=""
 
-let sha=""
+fotoStreamer=""
 
-try{
+times=times.map(t=>({
+nome:t.nome,
+img:""
+}))
 
-const r=await fetch(url)
+pats=pats.map(p=>({
+nome:p.nome,
+img:""
+}))
 
-if(r.ok){
+streamers=streamers.map(s=>({
+nome:s.nome,
+img:"",
+link:s.link
+}))
 
-const j=await r.json()
+document.getElementById("previewSobre").src=""
 
-sha=j.sha
+document.getElementById("previewStreamer").src=""
 
-}
+render()
 
-}catch(e){}
-
-const content=btoa(
-
-unescape(
-
-encodeURIComponent(JSON.stringify(dados(),null,2))
-
-)
-
-)
-
-const body={
-
-message:"Atualizando dados do site",
-
-content:content,
-
-branch:BRANCH
-
-}
-
-if(sha) body.sha=sha
-
-const r=await fetch(url,{
-
-method:"PUT",
-
-headers:{
-Authorization:`Bearer ${token}`,
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify(body)
-
-})
-
-const j=await r.json()
-
-if(j.commit){
-
-alert("Dados salvos no GitHub")
-
-}else{
-
-alert("Erro ao salvar")
-
-console.log(j)
-
-}
+alert("Todas as imagens foram removidas")
 
 }
 
@@ -384,4 +435,4 @@ render()
 </script>
 
 </body>
-  </html>
+</html>
