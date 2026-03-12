@@ -1,9 +1,25 @@
 {
-  "titulo": "",
-  "dataEvento": "",
-  "horaEvento": "",
-  "vagasTotais": 0,
-  "vagasDisponiveis": 0,
-  "times": [],
-  "patrocinadores": []
+  "data": "20/04/2026",
+  "horario": "20:00",
+  "vagas_total": 20,
+  "vagas_ocupadas": 0,
+
+  "sobre": {
+    "texto": "Campeonato Zona Casual",
+    "imagem": ""
+  },
+
+  "streamers": [
+    {
+      "nome": "Streamer",
+      "foto": ""
+    }
+  ],
+
+  "admins": [
+    {
+      "nome": "Admin",
+      "foto": ""
+    }
+  ]
 }
