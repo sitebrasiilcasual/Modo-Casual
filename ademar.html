@@ -6,33 +6,146 @@
 <title>Admin Zona Casual</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#000;color:#fff;font-family:Arial}
-.wrap{max-width:900px;margin:auto;padding:16px}
-.card{background:#111;border:1px solid rgba(255,140,0,.25);border-radius:12px;padding:16px;margin-bottom:14px}
-h1,h2{color:#ff8c00;text-align:center}
-label{display:block;margin:8px 0 4px}
-input,textarea,button{width:100%;padding:12px;border:none;border-radius:8px;margin:5px 0 10px;font-size:15px}
-input,textarea{background:#1a1a1a;color:#fff}
-button{background:#ff8c00;color:#000;font-weight:700;cursor:pointer}
-.sec{background:#222;color:#fff}
-.red{background:#8f2b2b;color:#fff}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.item{border:1px solid rgba(255,255,255,.08);padding:10px;border-radius:10px;margin-top:10px}
-img{max-width:100px;border-radius:8px;display:block;margin:8px 0;background:#1a1a1a}
-.status{font-size:14px;color:#bbb;white-space:pre-wrap}
-.login{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;padding:20px}
-.box{width:100%;max-width:330px;background:#111;border:1px solid rgba(255,140,0,.25);border-radius:12px;padding:20px}
-small{color:#999}
-.preview-circle{width:120px;height:120px;object-fit:cover;border-radius:50%}
-@media(max-width:700px){.grid{grid-template-columns:1fr}}
+body{
+  margin:0;
+  background:#000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+.wrap{
+  max-width:760px;
+  margin:auto;
+  padding:14px;
+}
+.card{
+  background:#111;
+  border:1px solid rgba(255,140,0,.25);
+  border-radius:14px;
+  padding:16px;
+  margin-bottom:14px;
+}
+h1,h2{
+  text-align:center;
+  color:#ff8c00;
+  margin:0 0 12px;
+}
+p{
+  color:#bbb;
+  font-size:14px;
+  margin:0 0 10px;
+}
+label{
+  display:block;
+  margin:10px 0 6px;
+  font-weight:bold;
+}
+input,textarea,button{
+  width:100%;
+  border:none;
+  border-radius:10px;
+  padding:14px;
+  font-size:16px;
+  margin-bottom:10px;
+}
+input,textarea{
+  background:#1a1a1a;
+  color:#fff;
+}
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+button{
+  background:#ff8c00;
+  color:#000;
+  font-weight:700;
+  cursor:pointer;
+}
+button.sec{
+  background:#222;
+  color:#fff;
+}
+button.red{
+  background:#8f2b2b;
+  color:#fff;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.item{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:12px;
+  margin-top:10px;
+  background:#0d0d0d;
+}
+.preview{
+  max-width:100px;
+  border-radius:10px;
+  display:block;
+  margin:8px 0;
+  background:#1a1a1a;
+}
+.preview-circle{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+  margin:8px 0;
+  background:#1a1a1a;
+}
+.status{
+  white-space:pre-wrap;
+  color:#ccc;
+  font-size:14px;
+}
+.login{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#000;
+  padding:20px;
+}
+.login-box{
+  width:100%;
+  max-width:340px;
+  background:#111;
+  border:1px solid rgba(255,140,0,.25);
+  border-radius:14px;
+  padding:20px;
+}
+.topinfo{
+  background:#1b1208;
+  border:1px solid rgba(255,140,0,.25);
+  color:#ffcf9c;
+  border-radius:12px;
+  padding:12px;
+  font-size:14px;
+  margin-bottom:14px;
+}
+.count{
+  text-align:center;
+  color:#ffb15a;
+  font-weight:bold;
+  margin-top:-2px;
+  margin-bottom:12px;
+}
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
 
 <div class="login" id="login">
-  <div class="box">
-    <h2>Admin Zona Casual</h2>
-    <input type="password" id="senha" placeholder="Senha">
+  <div class="login-box">
+    <h2>Entrar no painel</h2>
+    <input type="password" id="senha" placeholder="Digite a senha">
     <button onclick="entrar()">Entrar</button>
   </div>
 </div>
@@ -40,27 +153,34 @@ small{color:#999}
 <div class="wrap" id="painel" style="display:none">
   <h1>Painel Admin</h1>
 
+  <div class="topinfo">
+    Mude o que quiser e depois clique em <b>SALVAR NO APARELHO</b> ou <b>SALVAR NO GITHUB</b>.
+  </div>
+
   <div class="card">
+    <h2>GitHub</h2>
+    <p>Cola seu token aqui. Ele fica salvo só no seu aparelho.</p>
     <label>Token GitHub</label>
-    <input id="token" placeholder="Cole seu token GitHub">
+    <input id="token" placeholder="Cole aqui seu token">
     <div class="grid">
       <button onclick="salvarToken()">Salvar token</button>
       <button class="sec" onclick="usarToken()">Usar token salvo</button>
     </div>
-    <small>O token fica salvo só no aparelho.</small>
   </div>
 
   <div class="card">
-    <label>Título do site</label>
+    <h2>Informações do site</h2>
+
+    <label>Nome do site</label>
     <input id="titulo" value="ZONA CASUAL">
 
     <div class="grid">
       <div>
-        <label>Data do evento</label>
+        <label>Dia do evento</label>
         <input type="date" id="dataEvento" value="2026-03-20">
       </div>
       <div>
-        <label>Horário</label>
+        <label>Hora do evento</label>
         <input type="time" id="horaEvento" value="21:00">
       </div>
     </div>
@@ -77,15 +197,15 @@ small{color:#999}
   </div>
 
   <div class="card">
-    <h2>Vagas e Times</h2>
+    <h2>Vagas</h2>
 
     <div class="grid">
       <div>
-        <label>Vagas totais</label>
+        <label>Quantas vagas tem</label>
         <input type="number" id="vagasTotais" value="100" min="0" oninput="syncVagas()">
       </div>
       <div>
-        <label>Vagas disponíveis</label>
+        <label>Quantas ainda sobraram</label>
         <input type="number" id="vagasDisponiveis" value="100" min="0" oninput="limitarVagas()">
       </div>
     </div>
@@ -96,42 +216,48 @@ small{color:#999}
         <input type="number" id="maxParticipantes" value="100" min="0" oninput="syncMax()">
       </div>
       <div>
-        <label>Número de times</label>
-        <input type="number" id="numeroTimes" value="10" min="0" onchange="ajustarTimes()">
+        <label>Times cadastrados agora</label>
+        <input id="totalTimesMostrando" value="0" readonly>
       </div>
     </div>
   </div>
 
   <div class="card">
     <h2>Streamer principal</h2>
+
     <label>Nome</label>
     <input id="spNome" value="@StreamerOficial">
+
     <label>Link</label>
     <input id="spLink" value="https://twitch.tv/">
+
     <label>Foto</label>
     <input type="file" accept="image/*" onchange="up(this,v=>{sp.img=v;render()})">
+
     <div id="verSp"></div>
   </div>
 
   <div class="card">
     <h2>Times</h2>
-    <button type="button" onclick="addTime()">Adicionar time</button>
+    <div class="count">Total de times: <span id="contadorTimes">0</span></div>
+    <button type="button" onclick="addTime()">+ Adicionar time</button>
     <div id="times"></div>
   </div>
 
   <div class="card">
     <h2>Patrocinadores</h2>
-    <button type="button" onclick="addPat()">Adicionar patrocinador</button>
+    <button type="button" onclick="addPat()">+ Adicionar patrocinador</button>
     <div id="pats"></div>
   </div>
 
   <div class="card">
     <h2>Streamers extras</h2>
-    <button type="button" onclick="addStreamer()">Adicionar streamer</button>
+    <button type="button" onclick="addStreamer()">+ Adicionar streamer</button>
     <div id="streamers"></div>
   </div>
 
   <div class="card">
+    <h2>Salvar e carregar</h2>
     <div class="grid">
       <button onclick="salvarLocal()">SALVAR NO APARELHO</button>
       <button onclick="salvarGithub()">SALVAR NO GITHUB</button>
@@ -159,7 +285,10 @@ let streamers=[]
 let sp={nome:"",img:"",link:""}
 
 function entrar(){
-  if(document.getElementById("senha").value.trim()!==SENHA)return alert("Senha incorreta")
+  if(document.getElementById("senha").value.trim()!==SENHA){
+    alert("Senha incorreta")
+    return
+  }
   document.getElementById("login").style.display="none"
   document.getElementById("painel").style.display="block"
   usarToken()
@@ -169,7 +298,7 @@ function entrar(){
 
 function salvarToken(){
   localStorage.setItem(TOKEN_KEY,document.getElementById("token").value.trim())
-  alert("Token salvo")
+  alert("Token salvo no aparelho")
 }
 
 function usarToken(){
@@ -189,9 +318,9 @@ function esc(s){
 }
 
 function up(inp,cb){
-  let f=inp.files[0]
+  const f=inp.files[0]
   if(!f)return
-  let r=new FileReader()
+  const r=new FileReader()
   r.onload=()=>cb(r.result)
   r.readAsDataURL(f)
 }
@@ -207,23 +336,20 @@ function syncMax(){
 }
 
 function limitarVagas(){
-  let t=+document.getElementById("vagasTotais").value||0
-  let d=+document.getElementById("vagasDisponiveis").value||0
-  if(d<0)d=0
-  if(d>t)d=t
-  document.getElementById("vagasDisponiveis").value=d
+  let total=+document.getElementById("vagasTotais").value||0
+  let disp=+document.getElementById("vagasDisponiveis").value||0
+  if(disp<0)disp=0
+  if(disp>total)disp=total
+  document.getElementById("vagasDisponiveis").value=disp
 }
 
-function ajustarTimes(){
-  let n=+document.getElementById("numeroTimes").value||0
-  while(times.length<n)times.push({nome:"Time "+(times.length+1),img:""})
-  while(times.length>n)times.pop()
-  render()
+function atualizarContadores(){
+  document.getElementById("contadorTimes").innerText=times.length
+  document.getElementById("totalTimesMostrando").value=times.length
 }
 
 function addTime(){
   times.push({nome:"Time "+(times.length+1),img:""})
-  document.getElementById("numeroTimes").value=times.length
   render()
 }
 
@@ -239,7 +365,6 @@ function addStreamer(){
 
 function del(arr,i){
   arr.splice(i,1)
-  if(arr===times)document.getElementById("numeroTimes").value=times.length
   render()
 }
 
@@ -251,13 +376,13 @@ function render(){
   document.getElementById("spLink").value=sp.link
 
   document.getElementById("verFotoSobre").innerHTML = fotoSobre ? `
-    <img src="${fotoSobre}">
-    <button type="button" class="red" onclick="fotoSobre='';render()">Remover foto</button>
+    <img src="${fotoSobre}" class="preview">
+    <button type="button" class="red" onclick="fotoSobre='';render()">Remover foto do sobre</button>
   ` : ""
 
   document.getElementById("verSp").innerHTML = sp.img ? `
     <img src="${sp.img}" class="preview-circle">
-    <button type="button" class="red" onclick="sp.img='';render()">Remover foto</button>
+    <button type="button" class="red" onclick="sp.img='';render()">Remover foto do streamer principal</button>
   ` : ""
 
   document.getElementById("times").innerHTML = times.map((x,i)=>`
@@ -265,15 +390,15 @@ function render(){
       <label>Nome do time</label>
       <input value="${esc(x.nome)}" onchange="times[${i}].nome=this.value">
 
-      <label>Foto</label>
+      <label>Foto do time</label>
       <input type="file" accept="image/*" onchange="up(this,v=>{times[${i}].img=v;render()})">
 
       ${x.img ? `
-        <img src="${x.img}">
-        <button type="button" class="red" onclick="times[${i}].img='';render()">Remover foto</button>
+        <img src="${x.img}" class="preview">
+        <button type="button" class="red" onclick="times[${i}].img='';render()">Remover foto desse time</button>
       ` : ""}
 
-      <button type="button" class="red" onclick="del(times,${i})">Remover time</button>
+      <button type="button" class="red" onclick="del(times,${i})">Apagar esse time</button>
     </div>
   `).join("")
 
@@ -282,15 +407,15 @@ function render(){
       <label>Nome do patrocinador</label>
       <input value="${esc(x.nome)}" onchange="pats[${i}].nome=this.value">
 
-      <label>Imagem</label>
+      <label>Imagem do patrocinador</label>
       <input type="file" accept="image/*" onchange="up(this,v=>{pats[${i}].img=v;render()})">
 
       ${x.img ? `
-        <img src="${x.img}">
-        <button type="button" class="red" onclick="pats[${i}].img='';render()">Remover foto</button>
+        <img src="${x.img}" class="preview">
+        <button type="button" class="red" onclick="pats[${i}].img='';render()">Remover foto desse patrocinador</button>
       ` : ""}
 
-      <button type="button" class="red" onclick="del(pats,${i})">Remover patrocinador</button>
+      <button type="button" class="red" onclick="del(pats,${i})">Apagar esse patrocinador</button>
     </div>
   `).join("")
 
@@ -299,20 +424,22 @@ function render(){
       <label>Nome do streamer</label>
       <input value="${esc(x.nome)}" onchange="streamers[${i}].nome=this.value">
 
-      <label>Link</label>
+      <label>Link do streamer</label>
       <input value="${esc(x.link)}" onchange="streamers[${i}].link=this.value">
 
-      <label>Foto</label>
+      <label>Foto do streamer</label>
       <input type="file" accept="image/*" onchange="up(this,v=>{streamers[${i}].img=v;render()})">
 
       ${x.img ? `
-        <img src="${x.img}">
-        <button type="button" class="red" onclick="streamers[${i}].img='';render()">Remover foto</button>
+        <img src="${x.img}" class="preview">
+        <button type="button" class="red" onclick="streamers[${i}].img='';render()">Remover foto desse streamer</button>
       ` : ""}
 
-      <button type="button" class="red" onclick="del(streamers,${i})">Remover streamer</button>
+      <button type="button" class="red" onclick="del(streamers,${i})">Apagar esse streamer</button>
     </div>
   `).join("")
+
+  atualizarContadores()
 }
 
 function dados(){
@@ -320,26 +447,29 @@ function dados(){
   sp.link=document.getElementById("spLink").value
   limitarVagas()
 
-  let total=+document.getElementById("vagasTotais").value||0
-  let disp=+document.getElementById("vagasDisponiveis").value||0
-  let ocupadas=Math.max(0,total-disp)
+  const total=+document.getElementById("vagasTotais").value||0
+  const disp=+document.getElementById("vagasDisponiveis").value||0
+  const ocupadas=Math.max(0,total-disp)
 
-  return{
+  return {
     titulo:document.getElementById("titulo").value,
     dataEvento:document.getElementById("dataEvento").value,
     horaEvento:document.getElementById("horaEvento").value,
     sobre:document.getElementById("sobre").value,
     fotoSobre:fotoSobre,
     chamada:document.getElementById("chamada").value,
+
     vagasTotais:total,
     vagasDisponiveis:disp,
     maxParticipantes:total,
-    numeroTimes:+document.getElementById("numeroTimes").value||0,
+    numeroTimes:times.length,
+
     inscricao:{
       totalVagas:total,
       vagasOcupadas:ocupadas,
       times:[]
     },
+
     streamerPrincipal:sp,
     times:times,
     patrocinadores:pats,
@@ -355,21 +485,19 @@ function aplicar(d){
   fotoSobre=d.fotoSobre||""
   document.getElementById("chamada").value=d.chamada||""
 
-  let total=d.inscricao?.totalVagas ?? d.vagasTotais ?? d.maxParticipantes ?? 0
-  let ocupadas=d.inscricao?.vagasOcupadas ?? 0
-  let disponiveis=d.vagasDisponiveis ?? Math.max(0,total-ocupadas)
+  const total=d.inscricao?.totalVagas ?? d.vagasTotais ?? d.maxParticipantes ?? 0
+  const ocupadas=d.inscricao?.vagasOcupadas ?? 0
+  const disponiveis=d.vagasDisponiveis ?? Math.max(0,total-ocupadas)
 
   document.getElementById("vagasTotais").value=total
   document.getElementById("vagasDisponiveis").value=disponiveis
   document.getElementById("maxParticipantes").value=total
-  document.getElementById("numeroTimes").value=d.numeroTimes||d.times?.length||0
 
   sp=d.streamerPrincipal||{nome:"",img:"",link:""}
   times=Array.isArray(d.times)?d.times:[]
   pats=Array.isArray(d.patrocinadores)?d.patrocinadores:[]
   streamers=Array.isArray(d.streamers)?d.streamers:[]
 
-  ajustarTimes()
   limitarVagas()
   render()
 }
@@ -380,44 +508,65 @@ function salvarLocal(){
 }
 
 function carregarLocal(){
-  let r=localStorage.getItem(SITE_KEY)
+  const r=localStorage.getItem(SITE_KEY)
   if(r)aplicar(JSON.parse(r))
 }
 
 function carregarAuto(){
-  let r=localStorage.getItem(SITE_KEY)
+  const r=localStorage.getItem(SITE_KEY)
   if(r)aplicar(JSON.parse(r))
 }
 
 async function sha(token){
-  let r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BRANCH}`,{
-    headers:{Authorization:"token "+token,Accept:"application/vnd.github+json"}
+  const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BRANCH}`,{
+    headers:{
+      Authorization:"token "+token,
+      Accept:"application/vnd.github+json"
+    }
   })
+
   if(!r.ok){
     if(r.status===404)return null
     throw new Error(await r.text())
   }
-  return (await r.json()).sha||null
+
+  const j=await r.json()
+  return j.sha||null
 }
 
 async function salvarGithub(){
-  let t=document.getElementById("token").value.trim()
-  if(!t)return alert("Coloque o token GitHub")
+  const t=document.getElementById("token").value.trim()
+  if(!t){
+    alert("Coloque o token GitHub")
+    return
+  }
+
   txt("Salvando no GitHub...")
+
   try{
-    let s=await sha(t)
-    let c=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))))
-    let r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
+    const s=await sha(t)
+    const c=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))))
+
+    const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
       method:"PUT",
       headers:{
         Authorization:"token "+t,
         "Content-Type":"application/json",
         Accept:"application/vnd.github+json"
       },
-      body:JSON.stringify({message:"Atualizar dados.json",content:c,branch:BRANCH,sha:s})
+      body:JSON.stringify({
+        message:"Atualizar dados.json",
+        content:c,
+        branch:BRANCH,
+        sha:s
+      })
     })
-    if(r.ok)txt("✅ Dados enviados para o GitHub")
-    else txt("❌ "+await r.text())
+
+    if(r.ok){
+      txt("✅ Dados enviados para o GitHub")
+    }else{
+      txt("❌ "+await r.text())
+    }
   }catch(e){
     txt("Erro: "+e.message)
   }
@@ -425,9 +574,14 @@ async function salvarGithub(){
 
 async function carregarGithub(){
   txt("Carregando do GitHub...")
+
   try{
-    let r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now())
-    if(!r.ok)return txt("❌ Não foi possível carregar")
+    const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now())
+    if(!r.ok){
+      txt("❌ Não foi possível carregar")
+      return
+    }
+
     aplicar(await r.json())
     txt("✅ Dados carregados do GitHub")
   }catch(e){
