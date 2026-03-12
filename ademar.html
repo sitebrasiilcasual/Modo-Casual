@@ -154,8 +154,9 @@ button.red{
   <h1>Painel Admin</h1>
 
   <div class="topinfo">
-    Pra ver as imagens já salvas no site, clique em <b>CARREGAR DO GITHUB</b>.<br>
-    Pra apagar alguma foto antiga, clique em <b>Remover foto</b> e depois em <b>SALVAR NO GITHUB</b>.
+    O painel agora abre leve.<br>
+    Para puxar os dados já salvos no site, clique em <b>CARREGAR DO GITHUB</b>.<br>
+    Para apagar alguma foto antiga, clique em <b>Remover foto</b> e depois em <b>SALVAR NO GITHUB</b>.
   </div>
 
   <div class="card">
@@ -277,7 +278,7 @@ let fotoSobre=""
 let times=[]
 let pats=[]
 let streamers=[]
-let sp={nome:"",img:"",link:""}
+let sp={nome:"@StreamerOficial",img:"",link:"https://twitch.tv/"}
 
 async function entrar(){
   if(document.getElementById("senha").value.trim()!==SENHA){
@@ -289,8 +290,15 @@ async function entrar(){
   document.getElementById("painel").style.display="block"
 
   usarToken()
+
+  fotoSobre=""
+  times=[]
+  pats=[]
+  streamers=[]
+  sp={nome:"@StreamerOficial",img:"",link:"https://twitch.tv/"}
+
   render()
-  await carregarGithub(true)
+  txt("✅ Painel aberto. Clique em CARREGAR DO GITHUB para buscar os dados.")
 }
 
 function salvarToken(){
@@ -512,9 +520,9 @@ function aplicar(d){
   document.getElementById("maxParticipantes").value=d.maxParticipantes||d.vagasTotais||0
 
   sp={
-    nome:d.streamerPrincipal?.nome||"",
+    nome:d.streamerPrincipal?.nome||"@StreamerOficial",
     img:d.streamerPrincipal?.img||"",
-    link:d.streamerPrincipal?.link||""
+    link:d.streamerPrincipal?.link||"https://twitch.tv/"
   }
 
   times=Array.isArray(d.times)?d.times.map(x=>({
@@ -585,7 +593,6 @@ async function salvarGithub(){
 
     if(r.ok){
       txt("✅ Dados enviados para o GitHub")
-      await carregarGithub(true)
     }else{
       txt("❌ "+await r.text())
     }
@@ -598,6 +605,8 @@ async function carregarGithub(silencioso=false){
   if(!silencioso) txt("Carregando do GitHub...")
 
   try{
+    await new Promise(r=>setTimeout(r,80))
+
     const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now(),{
       cache:"no-store"
     })
@@ -608,6 +617,8 @@ async function carregarGithub(silencioso=false){
     }
 
     const j=await r.json()
+
+    await new Promise(r=>setTimeout(r,50))
     aplicar(j)
 
     if(!silencioso) txt("✅ Dados carregados do GitHub")
