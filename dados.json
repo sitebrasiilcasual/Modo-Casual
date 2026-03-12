@@ -1,36 +1,22 @@
 {
-  "titulo": "ZONA CASUAL",
-  "vagas_total": 20,
-  "vagas_ocupadas": 0,
+  "data": "22h",
+  "horario": "30",
+  "vagas_total": 50,
+  "vagas_ocupadas": 48,
   "sobre": {
-    "texto": "Campeonato Zona Casual.",
-    "imagem": ""
+    "texto": "Chegou a vez de jogar e você não quer que seja apenas um momento qualquer, né...  Então venha para a zona casual.",
+    "imagem": "imagens/sobre.png"
   },
   "streamers": [
     {
-      "nome": "Streamer 1",
+      "nome": "Streamer",
       "foto": ""
     }
   ],
   "admins": [
     {
-      "nome": "Admin 1",
+      "nome": "Admin",
       "foto": ""
     }
-  ],
-  "times": [
-    {
-      "nome": "TIME EXEMPLO",
-      "capitao": "Nome",
-      "integrantes": [
-        "Jogador1",
-        "Jogador2",
-        "Jogador3",
-        "Jogador4"
-      ],
-      "logo": ""
-    }
-  ],
-  "data": "undefined",
-  "horario": "undefined"
+  ]
 }
