@@ -7,7 +7,9 @@
   "chamada": "Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível.",
   "vagasTotais": 100,
   "vagasDisponiveis": 100,
+  "vagasRestantes": 100,
   "maxParticipantes": 100,
+  "totalTimes": 0,
   "streamerPrincipal": {
     "nome": "@StreamerOficial",
     "img": "",
