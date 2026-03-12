@@ -3,69 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
 <title>Admin Zona Casual</title>
 
 <style>
 
-*{box-sizing:border-box}
-
 body{
-margin:0;
 background:#000;
 color:#fff;
-font-family:Arial,sans-serif
-}
-
-.wrap{
-max-width:760px;
-margin:auto;
-padding:14px
+font-family:Arial;
+margin:0;
+padding:20px
 }
 
 .card{
 background:#111;
 border:1px solid rgba(255,140,0,.25);
-border-radius:14px;
-padding:16px;
-margin-bottom:14px
+border-radius:12px;
+padding:20px;
+margin-bottom:20px
 }
 
 h1,h2{
-text-align:center;
-color:#ff8c00
+color:#ff8c00;
+text-align:center
 }
 
-input,textarea,button{
+input,button{
 width:100%;
+padding:12px;
+margin-top:10px;
 border:none;
-border-radius:10px;
-padding:14px;
-font-size:16px;
-margin-bottom:10px
+border-radius:8px
 }
 
-input,textarea{
+input{
 background:#1a1a1a;
 color:#fff
 }
 
 button{
 background:#ff8c00;
-color:#000;
-font-weight:700;
+font-weight:bold;
 cursor:pointer
 }
 
 button.red{
 background:#8f2b2b;
 color:#fff
-}
-
-.preview{
-width:110px;
-border-radius:10px;
-margin-top:10px
 }
 
 .login{
@@ -80,15 +64,24 @@ background:#000
 .login-box{
 background:#111;
 padding:20px;
-border-radius:14px;
+border-radius:12px;
 border:1px solid rgba(255,140,0,.25);
 width:300px
+}
+
+.preview{
+width:110px;
+border-radius:10px;
+margin-top:10px
 }
 
 </style>
 </head>
 
 <body>
+
+
+<!-- LOGIN -->
 
 <div class="login" id="login">
 
@@ -105,10 +98,12 @@ width:300px
 </div>
 
 
-<div class="wrap" id="painel" style="display:none">
+
+<!-- PAINEL -->
+
+<div id="painel" style="display:none">
 
 <h1>Painel Admin</h1>
-
 
 <div class="card">
 
@@ -186,13 +181,15 @@ REMOVER TODAS AS IMAGENS
 </div>
 
 
+
 <script>
 
-const SENHA="zona1326"
+const SENHA="1326"
 
 const REPO="sitebrasilcasual/Modo-Casual"
 const BRANCH="main"
 const PATH="dados.json"
+
 
 let fotoSobre=""
 let fotoStreamer=""
@@ -201,9 +198,12 @@ let times=[]
 let pats=[]
 
 
+
 function entrar(){
 
-if(document.getElementById("senha").value!==SENHA){
+const senhaDigitada=document.getElementById("senha").value
+
+if(senhaDigitada!==SENHA){
 
 alert("Senha incorreta")
 
@@ -212,7 +212,6 @@ return
 }
 
 document.getElementById("login").style.display="none"
-
 document.getElementById("painel").style.display="block"
 
 }
@@ -254,7 +253,6 @@ reader.readAsDataURL(file)
 function addTime(){
 
 times.push({nome:"",img:""})
-
 render()
 
 }
@@ -264,7 +262,6 @@ render()
 function addPat(){
 
 pats.push({nome:"",img:""})
-
 render()
 
 }
@@ -291,9 +288,7 @@ oninput="times[${i}].nome=this.value">
 value="${x.img}"
 oninput="times[${i}].img=this.value">
 
-<button class="red" onclick="delTime(${i})">
-Remover
-</button>
+<button class="red" onclick="delTime(${i})">Remover</button>
 
 </div>
 
@@ -320,9 +315,7 @@ oninput="pats[${i}].nome=this.value">
 value="${x.img}"
 oninput="pats[${i}].img=this.value">
 
-<button class="red" onclick="delPat(${i})">
-Remover
-</button>
+<button class="red" onclick="delPat(${i})">Remover</button>
 
 </div>
 
@@ -337,7 +330,6 @@ Remover
 function delTime(i){
 
 times.splice(i,1)
-
 render()
 
 }
@@ -347,7 +339,6 @@ render()
 function delPat(i){
 
 pats.splice(i,1)
-
 render()
 
 }
@@ -388,7 +379,6 @@ img:fotoStreamer
 },
 
 times:times,
-
 patrocinadores:pats
 
 }
@@ -404,7 +394,6 @@ const token=document.getElementById("token").value.trim()
 if(!token){
 
 alert("Coloque o token GitHub")
-
 return
 
 }
@@ -420,12 +409,13 @@ const r=await fetch(url)
 if(r.ok){
 
 const j=await r.json()
-
 sha=j.sha
 
 }
 
 }catch(e){}
+
+
 
 const content=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))))
 
@@ -436,6 +426,7 @@ branch:BRANCH
 }
 
 if(sha) body.sha=sha
+
 
 const r=await fetch(url,{
 method:"PUT",
@@ -470,7 +461,6 @@ const token=document.getElementById("token").value.trim()
 if(!token){
 
 alert("Coloque o token GitHub")
-
 return
 
 }
@@ -478,9 +468,7 @@ return
 const r=await fetch(
 `https://api.github.com/repos/${REPO}/contents/${PATH}`,
 {
-headers:{
-Authorization:`Bearer ${token}`
-}
+headers:{Authorization:`Bearer ${token}`}
 })
 
 const j=await r.json()
