@@ -1,22 +1,40 @@
 {
-  "data": "",
-  "horario": "",
-  "vagas_total": null,
-  "vagas_ocupadas": null,
+  "data": "20/04/2026",
+  "horario": "20:00",
+  "vagas_total": 20,
+  "vagas_ocupadas": 5,
   "sobre": {
-    "texto": "",
+    "texto": "Campeonato Zona Casual.",
     "imagem": "imagens/sobre.png"
   },
   "streamers": [
     {
-      "nome": "Streamer",
-      "foto": ""
+      "nome": "@streamer",
+      "foto": "imagens/streamer.png"
     }
   ],
-  "admins": [
+  "patrocinadores": [
     {
-      "nome": "Admin",
-      "foto": ""
+      "nome": "Patro 1",
+      "foto": "imagens/patro1.png"
+    },
+    {
+      "nome": "Patro 2",
+      "foto": "imagens/patro2.png"
+    }
+  ],
+  "times": [
+    {
+      "nome": "Time 1",
+      "foto": "imagens/time1.png"
+    },
+    {
+      "nome": "Time 2",
+      "foto": "imagens/time2.png"
+    },
+    {
+      "nome": "Time 3",
+      "foto": "imagens/time3.png"
     }
   ]
 }
