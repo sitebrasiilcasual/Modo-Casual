@@ -1,12 +1,23 @@
 {
   "painel": {
-    "senha": "admin123"
+    "senha": "zona1326",
+    "titulo_admin": "Painel Zona Casual",
+    "mensagem": "Gerencie as informações do site por aqui."
   },
 
   "site": {
     "titulo": "Zona Casual",
-    "vagas_total": 20,
-    "vagas_preenchidas": 0
+    "subtitulo": "Campeonato oficial",
+    "descricao": "Monte seu time e participe do campeonato.",
+    "logo": "",
+    "banner": ""
+  },
+
+  "vagas": {
+    "total": 20,
+    "preenchidas": 0,
+    "disponiveis": 20,
+    "texto": "Vagas disponíveis"
   },
 
   "formspree": {
@@ -14,12 +25,21 @@
   },
 
   "sobre": {
+    "titulo": "Sobre",
     "texto": "Bem-vindo ao campeonato Zona Casual. Monte seu time e participe.",
     "imagem": ""
   },
 
+  "inscricao": {
+    "titulo": "Inscrição",
+    "descricao": "Preencha os dados do seu time para participar.",
+    "botao_texto": "Enviar inscrição",
+    "status": "aberto"
+  },
+
   "times": [
     {
+      "id": 1,
       "nome": "Time Exemplo",
       "logo": "",
       "capitao": "Capitão",
@@ -34,6 +54,7 @@
 
   "streamers": [
     {
+      "id": 1,
       "nome": "Streamer Oficial",
       "foto": "",
       "link": ""
@@ -42,6 +63,7 @@
 
   "patrocinadores": [
     {
+      "id": 1,
       "nome": "Patrocinador Exemplo",
       "logo": "",
       "link": ""
