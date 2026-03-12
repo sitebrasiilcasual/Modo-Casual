@@ -8,14 +8,19 @@
   "vagasTotais": 12,
   "vagasDisponiveis": 10,
   "maxParticipantes": 12,
-  "totalTimes": 0,
+  "totalTimes": 1,
   "streamerPrincipal": {
     "nome": "@StreamerOficial",
     "img": "",
     "link": "https://twitch.tv/"
   },
-  "times": [],
+  "times": [
+    {
+      "nome": "Time 1",
+      "img": ""
+    }
+  ],
   "patrocinadores": [],
   "streamers": [],
-  "updatedAt": "2026-03-12T18:09:13.385Z"
+  "updatedAt": "2026-03-12T18:09:15.735Z"
 }
