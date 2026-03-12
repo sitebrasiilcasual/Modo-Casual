@@ -1,0 +1,44 @@
+{
+  "titulo": "ZONA CASUAL",
+  "dataEvento": "2026-03-20",
+  "horaEvento": "21:00",
+
+  "sobre": "O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone.",
+  "fotoSobre": "",
+
+  "chamada": "Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível.",
+
+  "vagasTotais": 100,
+  "vagasDisponiveis": 100,
+  "maxParticipantes": 100,
+  "numeroTimes": 0,
+
+  "inscricao": {
+    "totalVagas": 100,
+    "vagasOcupadas": 0,
+    "times": []
+  },
+
+  "streamerPrincipal": {
+    "nome": "@StreamerOficial",
+    "link": "https://twitch.tv/",
+    "img": ""
+  },
+
+  "times": [],
+
+  "patrocinadores": [
+    {
+      "nome": "Patrocinador 1",
+      "img": ""
+    }
+  ],
+
+  "streamers": [
+    {
+      "nome": "Streamer 1",
+      "link": "https://twitch.tv/",
+      "img": ""
+    }
+  ]
+}
