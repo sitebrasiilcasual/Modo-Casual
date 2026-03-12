@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Painel Admin</title>
+<title>Admin Zona Casual</title>
 
 <style>
 
@@ -15,38 +15,46 @@ text-align:center;
 padding:20px;
 }
 
-input,textarea{
-width:90%;
-padding:12px;
-margin:10px 0;
-background:#111;
-color:#fff;
-border:none;
-border-radius:8px;
-}
-
-button{
-background:#ff8c00;
-color:#000;
-font-weight:bold;
-padding:14px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-width:90%;
-margin-top:10px;
-}
-
-.remover{
-background:#c62828;
-color:#fff;
-}
-
 .card{
 background:#111;
 padding:20px;
 border-radius:10px;
 margin-top:20px;
+}
+
+input,textarea{
+width:90%;
+padding:12px;
+margin:10px 0;
+background:#1a1a1a;
+border:none;
+border-radius:8px;
+color:#fff;
+}
+
+button{
+width:90%;
+padding:14px;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+}
+
+.upload{
+background:#ff8c00;
+color:#000;
+}
+
+.salvar{
+background:#ff8c00;
+color:#000;
+}
+
+.remover{
+background:#c62828;
+color:#fff;
 }
 
 img{
@@ -72,21 +80,25 @@ border-radius:8px;
 <div id="painel" style="display:none">
 
 <div class="card">
-
-<h2>Data e Horário</h2>
-
-<input id="dataEvento" placeholder="Data">
-<input id="horaEvento" placeholder="Horário">
-
+<h2>Token GitHub</h2>
+<input id="tokenGithub" placeholder="Cole seu token aqui">
 </div>
 
 <div class="card">
+<h2>Data e Horário</h2>
+<input id="dataEvento" placeholder="Data">
+<input id="horaEvento" placeholder="Horário">
+</div>
 
+<div class="card">
 <h2>Vagas</h2>
-
 <input id="total" placeholder="Vagas totais">
 <input id="ocupadas" placeholder="Vagas ocupadas">
+</div>
 
+<div class="card">
+<h2>Texto Sobre</h2>
+<textarea id="textoSobre" placeholder="Texto do sobre"></textarea>
 </div>
 
 <div class="card">
@@ -94,7 +106,7 @@ border-radius:8px;
 <h2>Upload Foto Sobre</h2>
 
 <input type="file" id="sobreUpload">
-<button onclick="uploadSobre()">UPLOAD</button>
+<button class="upload" onclick="uploadSobre()">UPLOAD</button>
 
 <img id="previewSobre">
 
@@ -105,7 +117,7 @@ border-radius:8px;
 <h2>Upload Foto Streamer</h2>
 
 <input type="file" id="streamerUpload">
-<button onclick="uploadStreamer()">UPLOAD</button>
+<button class="upload" onclick="uploadStreamer()">UPLOAD</button>
 
 <img id="previewStreamer">
 
@@ -116,29 +128,39 @@ border-radius:8px;
 <h2>Upload Foto Admin</h2>
 
 <input type="file" id="adminUpload">
-<button onclick="uploadAdmin()">UPLOAD</button>
+<button class="upload" onclick="uploadAdmin()">UPLOAD</button>
 
 <img id="previewAdmin">
 
 </div>
 
-<div class="card">
-
-<h2>Texto Sobre</h2>
-
-<textarea id="sobreTexto"></textarea>
-
-</div>
-
 <button class="remover" onclick="removerFotos()">REMOVER TODAS AS FOTOS</button>
 
-<button onclick="salvarGithub()">ALTERAR NO GITHUB</button>
+<button class="salvar" onclick="salvarDados()">ALTERAR NO GITHUB</button>
 
 </div>
 
 <script>
 
-let dados={}
+let dados={
+data:"",
+horario:"",
+vagas_total:20,
+vagas_ocupadas:0,
+
+sobre:{
+texto:"",
+imagem:""
+},
+
+streamers:[
+{nome:"Streamer",foto:""}
+],
+
+admins:[
+{nome:"Admin",foto:""}
+]
+}
 
 function entrar(){
 
@@ -149,9 +171,9 @@ if(s==="1326"){
 document.getElementById("login").style.display="none"
 document.getElementById("painel").style.display="block"
 
-carregar()
+}
 
-}else{
+else{
 
 alert("Senha errada")
 
@@ -159,23 +181,41 @@ alert("Senha errada")
 
 }
 
-async function carregar(){
+async function uploadGithub(file,nome){
 
-let r=await fetch("dados.json")
+let token=document.getElementById("tokenGithub").value
 
-dados=await r.json()
+let repo="sitebrasiilcasual/Modo-Casual"
 
-document.getElementById("dataEvento").value=dados.data
-document.getElementById("horaEvento").value=dados.horario
+let reader=new FileReader()
 
-document.getElementById("total").value=dados.vagas_total
-document.getElementById("ocupadas").value=dados.vagas_ocupadas
+reader.onload=async function(e){
 
-document.getElementById("sobreTexto").value=dados.sobre.texto
+let base64=e.target.result.split(",")[1]
 
-document.getElementById("previewSobre").src=dados.sobre.imagem
-document.getElementById("previewStreamer").src=dados.streamers[0].foto
-document.getElementById("previewAdmin").src=dados.admins[0].foto
+await fetch("https://api.github.com/repos/"+repo+"/contents/imagens/"+nome,{
+
+method:"PUT",
+
+headers:{
+Authorization:"token "+token,
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+message:"upload imagem",
+content:base64
+
+})
+
+})
+
+alert("Imagem enviada para GitHub")
+
+}
+
+reader.readAsDataURL(file)
 
 }
 
@@ -183,17 +223,11 @@ function uploadSobre(){
 
 let file=document.getElementById("sobreUpload").files[0]
 
-let reader=new FileReader()
+uploadGithub(file,"sobre.png")
 
-reader.onload=function(e){
+dados.sobre.imagem="imagens/sobre.png"
 
-dados.sobre.imagem=e.target.result
-
-document.getElementById("previewSobre").src=e.target.result
-
-}
-
-reader.readAsDataURL(file)
+document.getElementById("previewSobre").src="imagens/sobre.png"
 
 }
 
@@ -201,17 +235,11 @@ function uploadStreamer(){
 
 let file=document.getElementById("streamerUpload").files[0]
 
-let reader=new FileReader()
+uploadGithub(file,"streamer.png")
 
-reader.onload=function(e){
+dados.streamers[0].foto="imagens/streamer.png"
 
-dados.streamers[0].foto=e.target.result
-
-document.getElementById("previewStreamer").src=e.target.result
-
-}
-
-reader.readAsDataURL(file)
+document.getElementById("previewStreamer").src="imagens/streamer.png"
 
 }
 
@@ -219,17 +247,11 @@ function uploadAdmin(){
 
 let file=document.getElementById("adminUpload").files[0]
 
-let reader=new FileReader()
+uploadGithub(file,"admin.png")
 
-reader.onload=function(e){
+dados.admins[0].foto="imagens/admin.png"
 
-dados.admins[0].foto=e.target.result
-
-document.getElementById("previewAdmin").src=e.target.result
-
-}
-
-reader.readAsDataURL(file)
+document.getElementById("previewAdmin").src="imagens/admin.png"
 
 }
 
@@ -243,11 +265,15 @@ document.getElementById("previewSobre").src=""
 document.getElementById("previewStreamer").src=""
 document.getElementById("previewAdmin").src=""
 
-alert("Todas as fotos removidas. Agora clique em ALTERAR NO GITHUB.")
+alert("Fotos removidas")
 
 }
 
-async function salvarGithub(){
+async function salvarDados(){
+
+let token=document.getElementById("tokenGithub").value
+
+let repo="sitebrasiilcasual/Modo-Casual"
 
 dados.data=document.getElementById("dataEvento").value
 dados.horario=document.getElementById("horaEvento").value
@@ -255,13 +281,9 @@ dados.horario=document.getElementById("horaEvento").value
 dados.vagas_total=parseInt(document.getElementById("total").value)
 dados.vagas_ocupadas=parseInt(document.getElementById("ocupadas").value)
 
-dados.sobre.texto=document.getElementById("sobreTexto").value
+dados.sobre.texto=document.getElementById("textoSobre").value
 
 let conteudo=btoa(unescape(encodeURIComponent(JSON.stringify(dados,null,2))))
-
-let token="SEU_TOKEN_GITHUB"
-
-let repo="sitebrasiilcasual/Modo-Casual"
 
 let path="dados.json"
 
@@ -286,7 +308,7 @@ sha:j.sha
 
 })
 
-alert("SALVO NO GITHUB")
+alert("Dados salvos no GitHub")
 
 }
 
