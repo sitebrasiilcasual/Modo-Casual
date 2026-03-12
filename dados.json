@@ -6,7 +6,7 @@
   "fotoSobre": "",
   "chamada": "",
   "vagasTotais": 13,
-  "vagasDisponiveis": 13,
+  "vagasDisponiveis": 10,
   "maxParticipantes": 13,
   "totalTimes": 1,
   "streamerPrincipal": {
@@ -33,5 +33,5 @@
       "link": ""
     }
   ],
-  "updatedAt": "2026-03-12T18:31:50.881Z"
+  "updatedAt": "2026-03-12T18:31:52.329Z"
 }
