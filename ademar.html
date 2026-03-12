@@ -33,14 +33,7 @@ margin-bottom:14px
 
 h1,h2{
 text-align:center;
-color:#ff8c00;
-margin:0 0 12px
-}
-
-label{
-display:block;
-margin:10px 0 6px;
-font-weight:bold
+color:#ff8c00
 }
 
 input,textarea,button{
@@ -64,66 +57,70 @@ font-weight:700;
 cursor:pointer
 }
 
-button.sec{
-background:#222;
-color:#fff
-}
-
 button.red{
 background:#8f2b2b;
 color:#fff
 }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px
-}
-
-.item{
-border:1px solid rgba(255,255,255,.08);
-border-radius:12px;
-padding:12px;
-margin-top:10px;
-background:#0d0d0d
-}
-
 .preview{
-max-width:110px;
-max-height:110px;
-border-radius:10px;
-display:block;
-margin:8px 0;
-object-fit:cover;
-background:#1a1a1a
-}
-
-.preview-circle{
 width:110px;
-height:110px;
-border-radius:50%;
-object-fit:cover;
-display:block;
-margin:8px 0;
-background:#1a1a1a
+border-radius:10px;
+margin-top:10px
 }
 
-.count{
-text-align:center;
-color:#ffb15a;
-font-weight:bold;
-margin-bottom:12px
+.login{
+position:fixed;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#000
+}
+
+.login-box{
+background:#111;
+padding:20px;
+border-radius:14px;
+border:1px solid rgba(255,140,0,.25);
+width:300px
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="wrap">
+<div class="login" id="login">
+
+<div class="login-box">
+
+<h2>Entrar no painel</h2>
+
+<input type="password" id="senha" placeholder="Digite a senha">
+
+<button onclick="entrar()">Entrar</button>
+
+</div>
+
+</div>
+
+
+<div class="wrap" id="painel" style="display:none">
 
 <h1>Painel Admin</h1>
+
+
+<div class="card">
+
+<h2>GitHub</h2>
+
+<input id="token" placeholder="Token GitHub">
+
+<button onclick="salvarGithub()">SALVAR NO GITHUB</button>
+
+<button onclick="carregarGithub()">CARREGAR DO GITHUB</button>
+
+</div>
 
 
 <div class="card">
@@ -141,13 +138,13 @@ margin-bottom:12px
 
 <h2>Streamer principal</h2>
 
-<input id="spNome" placeholder="Nome do streamer">
+<input id="spNome" placeholder="Nome streamer">
 
 <input id="spLink" placeholder="Link Twitch">
 
 <input type="file" accept="image/*" onchange="upload(this,'streamer')">
 
-<img id="previewStreamer" class="preview-circle">
+<img id="previewStreamer" class="preview">
 
 </div>
 
@@ -156,9 +153,7 @@ margin-bottom:12px
 
 <h2>Times</h2>
 
-<div class="count">Total de times: <span id="contadorTimes">0</span></div>
-
-<button onclick="addTime()">+ Adicionar time</button>
+<button onclick="addTime()">Adicionar time</button>
 
 <div id="times"></div>
 
@@ -169,20 +164,9 @@ margin-bottom:12px
 
 <h2>Patrocinadores</h2>
 
-<button onclick="addPat()">+ Adicionar patrocinador</button>
+<button onclick="addPat()">Adicionar patrocinador</button>
 
 <div id="pats"></div>
-
-</div>
-
-
-<div class="card">
-
-<h2>Streamers extras</h2>
-
-<button onclick="addStreamer()">+ Adicionar streamer</button>
-
-<div id="streamers"></div>
 
 </div>
 
@@ -192,23 +176,48 @@ margin-bottom:12px
 <h2>Ações rápidas</h2>
 
 <button class="red" onclick="removerTodasAsFotos()">
+
 REMOVER TODAS AS IMAGENS
+
 </button>
 
 </div>
-
 
 </div>
 
 
 <script>
 
+const SENHA="zona1326"
+
+const REPO="sitebrasilcasual/Modo-Casual"
+const BRANCH="main"
+const PATH="dados.json"
+
 let fotoSobre=""
 let fotoStreamer=""
 
 let times=[]
 let pats=[]
-let streamers=[]
+
+
+function entrar(){
+
+if(document.getElementById("senha").value!==SENHA){
+
+alert("Senha incorreta")
+
+return
+
+}
+
+document.getElementById("login").style.display="none"
+
+document.getElementById("painel").style.display="block"
+
+}
+
+
 
 function upload(input,tipo){
 
@@ -223,7 +232,6 @@ reader.onload=e=>{
 if(tipo==="sobre"){
 
 fotoSobre=e.target.result
-
 document.getElementById("previewSobre").src=fotoSobre
 
 }
@@ -231,7 +239,6 @@ document.getElementById("previewSobre").src=fotoSobre
 if(tipo==="streamer"){
 
 fotoStreamer=e.target.result
-
 document.getElementById("previewStreamer").src=fotoStreamer
 
 }
@@ -264,19 +271,7 @@ render()
 
 
 
-function addStreamer(){
-
-streamers.push({nome:"",img:"",link:""})
-
-render()
-
-}
-
-
-
 function render(){
-
-document.getElementById("contadorTimes").innerText=times.length
 
 const t=document.getElementById("times")
 
@@ -285,7 +280,8 @@ t.innerHTML=""
 times.forEach((x,i)=>{
 
 t.innerHTML+=`
-<div class="item">
+
+<div class="card">
 
 <input placeholder="Nome do time"
 value="${x.nome}"
@@ -300,6 +296,7 @@ Remover
 </button>
 
 </div>
+
 `
 
 })
@@ -312,7 +309,8 @@ p.innerHTML=""
 pats.forEach((x,i)=>{
 
 p.innerHTML+=`
-<div class="item">
+
+<div class="card">
 
 <input placeholder="Nome patrocinador"
 value="${x.nome}"
@@ -327,37 +325,7 @@ Remover
 </button>
 
 </div>
-`
 
-})
-
-
-const s=document.getElementById("streamers")
-
-s.innerHTML=""
-
-streamers.forEach((x,i)=>{
-
-s.innerHTML+=`
-<div class="item">
-
-<input placeholder="Nome streamer"
-value="${x.nome}"
-oninput="streamers[${i}].nome=this.value">
-
-<input placeholder="Link streamer"
-value="${x.link}"
-oninput="streamers[${i}].link=this.value">
-
-<input placeholder="Foto streamer"
-value="${x.img}"
-oninput="streamers[${i}].img=this.value">
-
-<button class="red" onclick="delStreamer(${i})">
-Remover
-</button>
-
-</div>
 `
 
 })
@@ -386,47 +354,149 @@ render()
 
 
 
-function delStreamer(i){
-
-streamers.splice(i,1)
-
-render()
-
-}
-
-
-
 function removerTodasAsFotos(){
 
-if(!confirm("Tem certeza que deseja remover TODAS as imagens do site?")) return
+if(!confirm("Remover todas as imagens do site?")) return
 
 fotoSobre=""
-
 fotoStreamer=""
 
-times=times.map(t=>({
-nome:t.nome,
-img:""
-}))
-
-pats=pats.map(p=>({
-nome:p.nome,
-img:""
-}))
-
-streamers=streamers.map(s=>({
-nome:s.nome,
-img:"",
-link:s.link
-}))
+times=times.map(t=>({nome:t.nome,img:""}))
+pats=pats.map(p=>({nome:p.nome,img:""}))
 
 document.getElementById("previewSobre").src=""
-
 document.getElementById("previewStreamer").src=""
 
 render()
 
 alert("Todas as imagens foram removidas")
+
+}
+
+
+
+function dados(){
+
+return{
+
+fotoSobre:fotoSobre,
+
+streamerPrincipal:{
+nome:document.getElementById("spNome").value,
+link:document.getElementById("spLink").value,
+img:fotoStreamer
+},
+
+times:times,
+
+patrocinadores:pats
+
+}
+
+}
+
+
+
+async function salvarGithub(){
+
+const token=document.getElementById("token").value.trim()
+
+if(!token){
+
+alert("Coloque o token GitHub")
+
+return
+
+}
+
+const url=`https://api.github.com/repos/${REPO}/contents/${PATH}`
+
+let sha=""
+
+try{
+
+const r=await fetch(url)
+
+if(r.ok){
+
+const j=await r.json()
+
+sha=j.sha
+
+}
+
+}catch(e){}
+
+const content=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))))
+
+const body={
+message:"Atualizando dados do site",
+content:content,
+branch:BRANCH
+}
+
+if(sha) body.sha=sha
+
+const r=await fetch(url,{
+method:"PUT",
+headers:{
+Authorization:`Bearer ${token}`,
+"Content-Type":"application/json"
+},
+body:JSON.stringify(body)
+})
+
+const j=await r.json()
+
+if(j.commit){
+
+alert("Dados salvos no GitHub")
+
+}else{
+
+alert("Erro ao salvar")
+console.log(j)
+
+}
+
+}
+
+
+
+async function carregarGithub(){
+
+const token=document.getElementById("token").value.trim()
+
+if(!token){
+
+alert("Coloque o token GitHub")
+
+return
+
+}
+
+const r=await fetch(
+`https://api.github.com/repos/${REPO}/contents/${PATH}`,
+{
+headers:{
+Authorization:`Bearer ${token}`
+}
+})
+
+const j=await r.json()
+
+const dados=JSON.parse(atob(j.content))
+
+fotoSobre=dados.fotoSobre||""
+fotoStreamer=dados.streamerPrincipal?.img||""
+
+times=dados.times||[]
+pats=dados.patrocinadores||[]
+
+document.getElementById("previewSobre").src=fotoSobre
+document.getElementById("previewStreamer").src=fotoStreamer
+
+render()
 
 }
 
