@@ -3,201 +3,385 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin Zona Casual</title>
-<style>
-*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:Arial,sans-serif}.wrap{max-width:760px;margin:auto;padding:14px}.card{background:#111;border:1px solid rgba(255,140,0,.25);border-radius:14px;padding:16px;margin-bottom:14px}h1,h2{text-align:center;color:#ff8c00;margin:0 0 12px}label{display:block;margin:10px 0 6px;font-weight:bold}input,textarea,button{width:100%;border:none;border-radius:10px;padding:14px;font-size:16px;margin-bottom:10px}input,textarea{background:#1a1a1a;color:#fff}input[readonly]{opacity:.9}textarea{min-height:100px;resize:vertical}button{background:#ff8c00;color:#000;font-weight:700;cursor:pointer}button.sec{background:#222;color:#fff}button.red{background:#8f2b2b;color:#fff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.item{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;margin-top:10px;background:#0d0d0d}.preview{max-width:110px;max-height:110px;border-radius:10px;display:block;margin:8px 0;object-fit:cover;background:#1a1a1a}.preview-circle{width:110px;height:110px;border-radius:50%;object-fit:cover;display:block;margin:8px 0;background:#1a1a1a}.status{white-space:pre-wrap;color:#ccc;font-size:14px;line-height:1.45}.login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000;padding:20px}.login-box{width:100%;max-width:340px;background:#111;border:1px solid rgba(255,140,0,.25);border-radius:14px;padding:20px}.topinfo{background:#1b1208;border:1px solid rgba(255,140,0,.25);color:#ffcf9c;border-radius:12px;padding:12px;font-size:14px;margin-bottom:14px;line-height:1.45}.count{text-align:center;color:#ffb15a;font-weight:bold;margin-bottom:12px}.small{font-size:13px;color:#bbb}.line{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.badge{display:inline-block;padding:8px 10px;border-radius:999px;background:#1b1208;border:1px solid rgba(255,140,0,.25);color:#ffcf9c;font-size:13px}@media(max-width:700px){.grid{grid-template-columns:1fr}}
-</style>
-</head>
-<body>
-<div class="login" id="login"><div class="login-box"><h2>Entrar no painel</h2><input type="password" id="senha" placeholder="Digite a senha"><button onclick="entrar()">Entrar</button></div></div>
 
-<div class="wrap" id="painel" style="display:none">
+<title>Admin Zona Casual</title>
+
+<style>
+
+body{
+background:#000;
+color:#fff;
+font-family:Arial;
+margin:0;
+padding:20px;
+}
+
+.card{
+background:#111;
+border:1px solid rgba(255,140,0,.25);
+border-radius:12px;
+padding:20px;
+margin-bottom:20px;
+}
+
+h1,h2{
+color:#ff8c00;
+text-align:center;
+}
+
+input,button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:8px;
+}
+
+input{
+background:#1a1a1a;
+color:#fff;
+}
+
+button{
+background:#ff8c00;
+font-weight:bold;
+cursor:pointer;
+}
+
+.item{
+border:1px solid rgba(255,255,255,.1);
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+}
+
+.preview{
+width:110px;
+margin-top:10px;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
 <h1>Painel Admin</h1>
 
 <div class="card">
+
 <h2>GitHub</h2>
-<label>Token GitHub</label>
-<input id="token" placeholder="Cole seu token GitHub">
-<div class="grid">
-<button type="button" onclick="salvarToken()">Salvar token</button>
-<button type="button" class="sec" onclick="usarToken()">Usar token salvo</button>
-</div>
-<div class="line">
-<span class="badge" id="autoSaveBadge">Auto save: desligado</span>
-<span class="small" id="ultimaInfo">Último salvamento: ainda não salvo</span>
-</div>
+
+<input id="token" placeholder="Token GitHub">
+
+<button onclick="salvarGithub()">SALVAR NO GITHUB</button>
+
 </div>
 
+
 <div class="card">
+
 <h2>Informações do site</h2>
-<label>Título do site</label>
-<input id="titulo" value="ZONA CASUAL">
-<div class="grid">
-<div><label>Data do evento</label><input type="date" id="dataEvento" value="2026-03-20"></div>
-<div><label>Hora do evento</label><input type="time" id="horaEvento" value="21:00"></div>
-</div>
-<label>Texto sobre</label>
-<textarea id="sobre">O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone.</textarea>
-<label>Upload foto do sobre</label>
-<input type="file" accept="image/*" onchange="up(this,v=>{fotoSobre=v;render();mudou('Foto do sobre alterada')})">
-<div id="verFotoSobre"></div>
-<label>Texto de chamada</label>
-<textarea id="chamada">Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível.</textarea>
+
+<input id="titulo" placeholder="Título do site">
+
+<label>Data evento</label>
+<input id="dataEvento" type="date">
+
+<label>Hora evento</label>
+<input id="horaEvento" type="time">
+
+<label>Foto do sobre</label>
+<input type="file" accept="image/*" onchange="upload(this,'sobre')">
+
+<img id="previewSobre" class="preview">
+
 </div>
 
-<div class="card">
-<h2>Vagas</h2>
-<div class="grid">
-<div><label>Vagas totais</label><input type="number" id="vagasTotais" value="100" min="0"></div>
-<div><label>Vagas disponíveis</label><input type="number" id="vagasDisponiveis" value="100" min="0"></div>
-</div>
-<div class="grid">
-<div><label>Máximo de participantes</label><input type="number" id="maxParticipantes" value="100" min="0"></div>
-<div><label>Times cadastrados</label><input id="totalTimesMostrando" value="0" readonly></div>
-</div>
-</div>
 
 <div class="card">
+
+<h2>Vagas do campeonato</h2>
+
+<input id="vagasTotal" type="number" placeholder="Vagas totais">
+
+<input id="vagasDisponiveis" type="number" placeholder="Vagas disponíveis">
+
+</div>
+
+
+<div class="card">
+
 <h2>Streamer principal</h2>
-<label>Nome</label>
-<input id="spNome" value="@StreamerOficial">
-<label>Link</label>
-<input id="spLink" value="https://twitch.tv/">
-<label>Upload foto do streamer principal</label>
-<input type="file" accept="image/*" onchange="up(this,v=>{sp.img=v;render();mudou('Foto do streamer principal alterada')})">
-<div id="verSp"></div>
+
+<input id="spNome" placeholder="Nome streamer">
+
+<input id="spLink" placeholder="Link Twitch">
+
+<label>Foto streamer</label>
+<input type="file" accept="image/*" onchange="upload(this,'streamer')">
+
+<img id="previewStreamer" class="preview">
+
 </div>
 
-<div class="card"><h2>Times</h2><div class="count">Total de times: <span id="contadorTimes">0</span></div><button type="button" onclick="addTime()">+ Adicionar time</button><div id="times"></div></div>
-<div class="card"><h2>Patrocinadores</h2><button type="button" onclick="addPat()">+ Adicionar patrocinador</button><div id="pats"></div></div>
-<div class="card"><h2>Streamers extras</h2><button type="button" onclick="addStreamer()">+ Adicionar streamer</button><div id="streamers"></div></div>
-<div class="card"><h2>Ações rápidas</h2><button type="button" class="red" onclick="removerTodasAsFotos()">REMOVER TODAS AS FOTOS</button></div>
-<div class="card"><h2>Salvar e carregar</h2><div class="grid"><button type="button" onclick="salvarGithubManual()">SALVAR NO GITHUB</button><button type="button" class="sec" onclick="carregarGithub()">CARREGAR DO GITHUB</button></div><div class="status" id="status"></div></div>
+
+<div class="card">
+
+<h2>Times</h2>
+
+<button onclick="addTime()">Adicionar time</button>
+
+<div id="times"></div>
+
 </div>
+
+
+<div class="card">
+
+<h2>Patrocinadores</h2>
+
+<button onclick="addPat()">Adicionar patrocinador</button>
+
+<div id="pats"></div>
+
+</div>
+
 
 <script>
-const SENHA="zona1326",TOKEN_KEY="zc_token",REPO="sitebrasiilcasual/Modo-Casual",BRANCH="main",PATH="dados.json";
-let fotoSobre="",times=[],pats=[],streamers=[],sp={nome:"@StreamerOficial",img:"",link:"https://twitch.tv/"},currentSha="",saveTimer=null,isSaving=false,pendingSave=false,loadedOnce=false,lastSaveReason="",ev=false;
 
-const $=id=>document.getElementById(id);
-const txt=t=>$("status").innerText=t||"";
-const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-const agora=()=>new Date().toLocaleDateString("pt-BR")+" "+new Date().toLocaleTimeString("pt-BR");
+const REPO="sitebrasilcasual/Modo-Casual"
+const BRANCH="main"
+const PATH="dados.json"
 
-function autoUI(){$("autoSaveBadge").innerText="Auto save: "+($("token").value.trim()?"ligado":"desligado")}
-function ultimo(t){$("ultimaInfo").innerText=t||"Último salvamento: ainda não salvo"}
+let times=[]
+let pats=[]
 
-async function entrar(){
-if($("senha").value.trim()!=SENHA)return alert("Senha incorreta");
-$("login").style.display="none";$("painel").style.display="block";usarToken();
-fotoSobre="";times=[];pats=[];streamers=[];sp={nome:"@StreamerOficial",img:"",link:"https://twitch.tv/"};currentSha="";loadedOnce=false;
-ligar();render();autoUI();txt("Abrindo painel e buscando dados do GitHub...");await carregarGithub(1);
-if(!loadedOnce)txt("✅ Painel aberto. Se for o primeiro uso, preencha e salve.");
+let fotoSobre=""
+let fotoStreamer=""
+
+function upload(input,tipo){
+
+const file=input.files[0]
+
+if(!file) return
+
+const reader=new FileReader()
+
+reader.onload=e=>{
+
+if(tipo==="sobre"){
+fotoSobre=e.target.result
+document.getElementById("previewSobre").src=fotoSobre
 }
-function salvarToken(){localStorage.setItem(TOKEN_KEY,$("token").value.trim());autoUI();alert("Token salvo no aparelho")}
-function usarToken(){$("token").value=localStorage.getItem(TOKEN_KEY)||"";autoUI()}
-function on(id,fn){let e=$(id);if(!e)return;e.addEventListener("input",fn);e.addEventListener("change",fn)}
-function ligar(){
-if(ev)return;ev=true;
-on("token",autoUI);
-on("titulo",()=>mudou("Título alterado"));
-on("dataEvento",()=>mudou("Data do evento alterada"));
-on("horaEvento",()=>mudou("Hora do evento alterada"));
-on("sobre",()=>mudou("Texto sobre alterado"));
-on("chamada",()=>mudou("Texto de chamada alterado"));
-on("vagasTotais",()=>{syncVagas();mudou("Vagas totais alteradas")});
-on("vagasDisponiveis",()=>{limitarVagas();mudou("Vagas disponíveis alteradas")});
-on("maxParticipantes",()=>{syncMax();mudou("Máximo de participantes alterado")});
-on("spNome",()=>{sp.nome=$("spNome").value;mudou("Nome do streamer principal alterado")});
-on("spLink",()=>{sp.link=$("spLink").value;mudou("Link do streamer principal alterado")});
+
+if(tipo==="streamer"){
+fotoStreamer=e.target.result
+document.getElementById("previewStreamer").src=fotoStreamer
 }
-function syncVagas(){let t=+$("vagasTotais").value||0,d=+$("vagasDisponiveis").value||0;$("maxParticipantes").value=t;if(d<0)d=0;if(d>t)d=t;$("vagasDisponiveis").value=d}
-function syncMax(){let m=+$("maxParticipantes").value||0,d=+$("vagasDisponiveis").value||0;$("vagasTotais").value=m;if(d<0)d=0;if(d>m)d=m;$("vagasDisponiveis").value=d}
-function limitarVagas(){let t=+$("vagasTotais").value||0,d=+$("vagasDisponiveis").value||0;if(t<0)t=0;if(d<0)d=0;if(d>t)d=t;$("vagasTotais").value=t;$("vagasDisponiveis").value=d}
-function contadores(){$("contadorTimes").innerText=times.length;$("totalTimesMostrando").value=times.length}
-function addTime(){times.push({nome:"Time "+(times.length+1),img:""});render();mudou("Time adicionado")}
-function addPat(){pats.push({nome:"Patrocinador",img:""});render();mudou("Patrocinador adicionado")}
-function addStreamer(){streamers.push({nome:"Streamer",img:"",link:"https://twitch.tv/"});render();mudou("Streamer extra adicionado")}
-function del(arr,i,t){arr.splice(i,1);render();mudou(t+" removido")}
-function removerFotoSobre(){fotoSobre="";render();mudou("Foto do sobre removida")}
-function removerFotoSp(){sp.img="";render();mudou("Foto do streamer principal removida")}
-function removerFotoTime(i){times[i].img="";render();mudou("Foto do time removida")}
-function removerFotoPat(i){pats[i].img="";render();mudou("Foto do patrocinador removida")}
-function removerFotoStreamer(i){streamers[i].img="";render();mudou("Foto do streamer removida")}
-function removerTodasAsFotos(){
-if(!confirm("Tem certeza que deseja remover todas as fotos do site?"))return;
-fotoSobre="";sp.img="";times=times.map(x=>({nome:x.nome||"",img:""}));pats=pats.map(x=>({nome:x.nome||"",img:""}));streamers=streamers.map(x=>({nome:x.nome||"",img:"",link:x.link||""}));
-render();mudou("Todas as fotos foram removidas")
+
 }
+
+reader.readAsDataURL(file)
+
+}
+
+function addTime(){
+
+times.push({nome:"",img:""})
+
+render()
+
+}
+
+function addPat(){
+
+pats.push({nome:"",img:""})
+
+render()
+
+}
+
 function render(){
-$("spNome").value=sp.nome||"";$("spLink").value=sp.link||"";
-$("verFotoSobre").innerHTML=fotoSobre?`<img src="${fotoSobre}" class="preview"><button type="button" class="red" onclick="removerFotoSobre()">Remover foto do sobre</button>`:"";
-$("verSp").innerHTML=sp.img?`<img src="${sp.img}" class="preview-circle"><button type="button" class="red" onclick="removerFotoSp()">Remover foto do streamer principal</button>`:"";
-$("times").innerHTML=times.map((x,i)=>`<div class="item"><label>Nome do time</label><input value="${esc(x.nome)}" oninput="times[${i}].nome=this.value;mudou('Nome de time alterado')"><label>Upload foto do time</label><input type="file" accept="image/*" onchange="up(this,v=>{times[${i}].img=v;render();mudou('Foto de time alterada')})">${x.img?`<img src="${x.img}" class="preview"><button type="button" class="red" onclick="removerFotoTime(${i})">Remover foto desse time</button>`:""}<button type="button" class="red" onclick="del(times,${i},'Time')">Apagar esse time</button></div>`).join("");
-$("pats").innerHTML=pats.map((x,i)=>`<div class="item"><label>Nome do patrocinador</label><input value="${esc(x.nome)}" oninput="pats[${i}].nome=this.value;mudou('Nome de patrocinador alterado')"><label>Upload foto do patrocinador</label><input type="file" accept="image/*" onchange="up(this,v=>{pats[${i}].img=v;render();mudou('Foto de patrocinador alterada')})">${x.img?`<img src="${x.img}" class="preview"><button type="button" class="red" onclick="removerFotoPat(${i})">Remover foto desse patrocinador</button>`:""}<button type="button" class="red" onclick="del(pats,${i},'Patrocinador')">Apagar esse patrocinador</button></div>`).join("");
-$("streamers").innerHTML=streamers.map((x,i)=>`<div class="item"><label>Nome do streamer</label><input value="${esc(x.nome)}" oninput="streamers[${i}].nome=this.value;mudou('Nome de streamer alterado')"><label>Link do streamer</label><input value="${esc(x.link)}" oninput="streamers[${i}].link=this.value;mudou('Link de streamer alterado')"><label>Upload foto do streamer</label><input type="file" accept="image/*" onchange="up(this,v=>{streamers[${i}].img=v;render();mudou('Foto de streamer alterada')})">${x.img?`<img src="${x.img}" class="preview"><button type="button" class="red" onclick="removerFotoStreamer(${i})">Remover foto desse streamer</button>`:""}<button type="button" class="red" onclick="del(streamers,${i},'Streamer')">Apagar esse streamer</button></div>`).join("");
-contadores()
+
+const t=document.getElementById("times")
+
+t.innerHTML=""
+
+times.forEach((x,i)=>{
+
+t.innerHTML+=`
+<div class="item">
+
+<input placeholder="Nome do time"
+value="${x.nome}"
+oninput="times[${i}].nome=this.value">
+
+<input placeholder="Logo do time"
+value="${x.img}"
+oninput="times[${i}].img=this.value">
+
+<button onclick="remTime(${i})">Remover</button>
+
+</div>
+`
+
+})
+
+const p=document.getElementById("pats")
+
+p.innerHTML=""
+
+pats.forEach((x,i)=>{
+
+p.innerHTML+=`
+<div class="item">
+
+<input placeholder="Nome patrocinador"
+value="${x.nome}"
+oninput="pats[${i}].nome=this.value">
+
+<input placeholder="Logo patrocinador"
+value="${x.img}"
+oninput="pats[${i}].img=this.value">
+
+<button onclick="remPat(${i})">Remover</button>
+
+</div>
+`
+
+})
+
 }
-function up(inp,cb){const f=inp.files&&inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>cb(r.result);r.onerror=()=>alert("Erro ao ler a imagem");r.readAsDataURL(f);inp.value=""}
+
+function remTime(i){
+
+times.splice(i,1)
+
+render()
+
+}
+
+function remPat(i){
+
+pats.splice(i,1)
+
+render()
+
+}
+
 function dados(){
-sp.nome=$("spNome").value||"";sp.link=$("spLink").value||"";limitarVagas();
-let total=+$("vagasTotais").value||0,disp=+$("vagasDisponiveis").value||0,max=+$("maxParticipantes").value||total;
+
 return{
-titulo:$("titulo").value||"",dataEvento:$("dataEvento").value||"",horaEvento:$("horaEvento").value||"",sobre:$("sobre").value||"",fotoSobre:fotoSobre||"",chamada:$("chamada").value||"",
-vagasTotais:total,vagasDisponiveis:disp,maxParticipantes:max,totalTimes:times.length,
-streamerPrincipal:{nome:sp.nome||"",img:sp.img||"",link:sp.link||""},
-times:times.map(x=>({nome:x.nome||"",img:x.img||""})),
-patrocinadores:pats.map(x=>({nome:x.nome||"",img:x.img||""})),
-streamers:streamers.map(x=>({nome:x.nome||"",img:x.img||"",link:x.link||""})),
-updatedAt:new Date().toISOString()
-}}
-function aplicar(d){
-$("titulo").value=d.titulo||"ZONA CASUAL";$("dataEvento").value=d.dataEvento||"";$("horaEvento").value=d.horaEvento||"";$("sobre").value=d.sobre||"";fotoSobre=d.fotoSobre||"";$("chamada").value=d.chamada||"";
-$("vagasTotais").value=d.vagasTotais??d.maxParticipantes??0;
-$("vagasDisponiveis").value=d.vagasDisponiveis??d.vagasRestantes??0;
-$("maxParticipantes").value=d.maxParticipantes??d.vagasTotais??0;
-sp={nome:d.streamerPrincipal?.nome||"@StreamerOficial",img:d.streamerPrincipal?.img||"",link:d.streamerPrincipal?.link||"https://twitch.tv/"};
-times=Array.isArray(d.times)?d.times.map(x=>({nome:x.nome||"",img:x.img||""})):[];
-pats=Array.isArray(d.patrocinadores)?d.patrocinadores.map(x=>({nome:x.nome||"",img:x.img||""})):[];
-streamers=Array.isArray(d.streamers)?d.streamers.map(x=>({nome:x.nome||"",img:x.img||"",link:x.link||""})):[];
-limitarVagas();render()
+
+titulo:document.getElementById("titulo").value,
+
+dataEvento:document.getElementById("dataEvento").value,
+
+horaEvento:document.getElementById("horaEvento").value,
+
+fotoSobre:fotoSobre,
+
+vagasTotal:Number(document.getElementById("vagasTotal").value),
+
+vagasDisponiveis:Number(document.getElementById("vagasDisponiveis").value),
+
+streamerPrincipal:{
+nome:document.getElementById("spNome").value,
+link:document.getElementById("spLink").value,
+img:fotoStreamer
+},
+
+times:times,
+
+patrocinadores:pats
+
 }
-function bytesToBase64(bytes){let b="",c=0x8000;for(let i=0;i<bytes.length;i+=c)b+=String.fromCharCode(...bytes.subarray(i,i+c));return btoa(b)}
-function base64ToBytes(base64){let b=atob(base64),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u}
-function paraBase64UTF8(o){return bytesToBase64(new TextEncoder().encode(JSON.stringify(o,null,2)))}
-function deBase64UTF8(b){return new TextDecoder().decode(base64ToBytes((b||"").replace(/\n/g,"")))}
-async function obterArquivoGithub(token){
-const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}?ref=${BRANCH}`,{headers:{Authorization:`Bearer ${token}`,Accept:"application/vnd.github+json"}});
-if(r.status===404)return null;let j=null;try{j=await r.json()}catch(e){}
-if(!r.ok)throw new Error(j?.message||`Erro ${r.status}`);return j
+
 }
-function mudou(m){lastSaveReason=m||"Alteração";txt("Alteração detectada: "+lastSaveReason);clearTimeout(saveTimer);saveTimer=setTimeout(()=>salvarGithub(1),1200)}
-async function salvarGithubManual(){await salvarGithub(0)}
-async function salvarGithub(auto=0){
-const t=$("token").value.trim();
-if(!t){if(auto){txt("⚠️ Auto save parado: salve o token GitHub primeiro.");autoUI();return}return alert("Coloque o token GitHub")}
-if(isSaving){pendingSave=true;return}
-isSaving=true;autoUI();txt((auto?"Auto salvando":"Salvando")+" no GitHub...");
+
+async function salvarGithub(){
+
+const token=document.getElementById("token").value.trim()
+
+if(!token){
+alert("Coloque o token GitHub")
+return
+}
+
+const url=`https://api.github.com/repos/${REPO}/contents/${PATH}`
+
+let sha=""
+
 try{
-const content=paraBase64UTF8(dados());
-if(!currentSha){let a=await obterArquivoGithub(t);currentSha=a?.sha||""}
-let body={message:auto?"Auto atualizar dados.json":"Atualizar dados.json",content,branch:BRANCH};if(currentSha)body.sha=currentSha;
-const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{method:"PUT",headers:{Authorization:`Bearer ${t}`,Accept:"application/vnd.github+json","Content-Type":"application/json"},body:JSON.stringify(body)});
-let j=null;try{j=await r.json()}catch(e){}
-if(!r.ok)throw new Error(j?.message||`Erro ${r.status}`);
-currentSha=j?.content?.sha||currentSha;loadedOnce=true;ultimo("Último salvamento: "+agora()+" ("+lastSaveReason+")");txt("✅ "+(auto?"Auto save concluído":"Salvo com sucesso")+" no GitHub.")
-}catch(e){txt("❌ Erro ao salvar no GitHub:\n"+(e.message||e))}
-finally{isSaving=false;if(pendingSave){pendingSave=false;salvarGithub(1)}}
+
+const r=await fetch(url)
+
+if(r.ok){
+
+const j=await r.json()
+
+sha=j.sha
+
 }
-async function carregarGithub(s=0){
-const t=$("token").value.trim();
-if(!t){if(!s)alert("Coloque o token GitHub");txt("⚠️ Sem token para carregar do GitHub.");return}
-try{
-txt("Carregando dados do GitHub...");const a=await obterArquivoGithub(t);
-if(!a){txt("⚠️ dados.json ainda não existe no repositório. Preencha e salve.");return}
-currentSha=a.sha||"";aplicar(JSON.parse(deBase64UTF8(a.content||"")));loadedOnce=true;txt("✅ Dados carregados do GitHub com sucesso.")
-}catch(e){txt("❌ Erro ao carregar do GitHub:\n"+(e.message||e))}
+
+}catch(e){}
+
+const content=btoa(
+
+unescape(
+
+encodeURIComponent(JSON.stringify(dados(),null,2))
+
+)
+
+)
+
+const body={
+
+message:"Atualizando dados do site",
+
+content:content,
+
+branch:BRANCH
+
 }
+
+if(sha) body.sha=sha
+
+const r=await fetch(url,{
+
+method:"PUT",
+
+headers:{
+Authorization:`Bearer ${token}`,
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(body)
+
+})
+
+const j=await r.json()
+
+if(j.commit){
+
+alert("Dados salvos no GitHub")
+
+}else{
+
+alert("Erro ao salvar")
+
+console.log(j)
+
+}
+
+}
+
+render()
+
 </script>
+
 </body>
-</html>
+  </html>
