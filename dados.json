@@ -1,24 +1,37 @@
 {
-  "data": "23h",
-  "horario": "30",
+  "titulo": "ZONA CASUAL",
   "vagas_total": 20,
-  "vagas_ocupadas": 19,
+  "vagas_ocupadas": 0,
   "sobre": {
-    "texto": "",
+    "texto": "Campeonato Zona Casual.",
     "imagem": ""
   },
   "streamers": [
     {
-      "nome": "Streamer",
+      "nome": "Streamer 1",
       "foto": ""
     }
   ],
   "admins": [
     {
-      "nome": "Admin",
+      "nome": "Admin 1",
       "foto": ""
     }
   ],
-  "times": [],
-  "patrocinadores": []
+  "times": [
+    {
+      "nome": "TIME EXEMPLO",
+      "capitao": "Nome",
+      "integrantes": [
+        "Jogador1",
+        "Jogador2",
+        "Jogador3",
+        "Jogador4"
+      ],
+      "logo": ""
+    }
+  ],
+  "patrocinadores": [],
+  "data": "",
+  "horario": ""
 }
