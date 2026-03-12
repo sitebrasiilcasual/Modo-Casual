@@ -1,0 +1,36 @@
+{
+  "site": {
+    "titulo": "ZONA CASUAL",
+    "descricao": "Campeonato Zona Casual",
+    "banner": "",
+    "logo": ""
+  },
+
+  "vagas": {
+    "total": 12,
+    "ocupadas": 0
+  },
+
+  "sobre": {
+    "texto": "Bem vindo ao campeonato Zona Casual.",
+    "foto": ""
+  },
+
+  "inscricoes": {
+    "abertas": true,
+    "times": []
+  },
+
+  "galeria": {
+    "times": []
+  },
+
+  "patrocinadores": [],
+
+  "streamers": [],
+
+  "config": {
+    "formspree": "https://formspree.io/f/myknkqyb",
+    "ultima_atualizacao": ""
+  }
+}
