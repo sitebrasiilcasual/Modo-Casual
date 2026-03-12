@@ -9,9 +9,9 @@
   "vagasDisponiveis": 100,
   "maxParticipantes": 100,
   "streamerPrincipal": {
-    "nome": "",
+    "nome": "@StreamerOficial",
     "img": "",
-    "link": ""
+    "link": "https://twitch.tv/"
   },
   "times": [],
   "patrocinadores": [],
