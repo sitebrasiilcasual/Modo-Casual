@@ -51,6 +51,9 @@ input,textarea{
   background:#1a1a1a;
   color:#fff;
 }
+input[readonly]{
+  opacity:.85;
+}
 textarea{
   min-height:100px;
   resize:vertical;
@@ -83,10 +86,12 @@ button.red{
 }
 .preview{
   max-width:100px;
+  max-height:100px;
   border-radius:10px;
   display:block;
   margin:8px 0;
   background:#1a1a1a;
+  object-fit:cover;
 }
 .preview-circle{
   width:110px;
@@ -154,7 +159,8 @@ button.red{
   <h1>Painel Admin</h1>
 
   <div class="topinfo">
-    Mude o que quiser e depois clique em <b>SALVAR NO APARELHO</b> ou <b>SALVAR NO GITHUB</b>.
+    Pra ver as imagens atuais do site, clique em <b>CARREGAR DO GITHUB</b>.<br>
+    Pra apagar imagens do site, clique em <b>Remover foto</b> e depois em <b>SALVAR NO GITHUB</b>.
   </div>
 
   <div class="card">
@@ -368,6 +374,31 @@ function del(arr,i){
   render()
 }
 
+function removerFotoSobre(){
+  fotoSobre=""
+  render()
+}
+
+function removerFotoSp(){
+  sp.img=""
+  render()
+}
+
+function removerFotoTime(i){
+  times[i].img=""
+  render()
+}
+
+function removerFotoPat(i){
+  pats[i].img=""
+  render()
+}
+
+function removerFotoStreamer(i){
+  streamers[i].img=""
+  render()
+}
+
 function render(){
   sp.nome=sp.nome||""
   sp.link=sp.link||""
@@ -377,12 +408,12 @@ function render(){
 
   document.getElementById("verFotoSobre").innerHTML = fotoSobre ? `
     <img src="${fotoSobre}" class="preview">
-    <button type="button" class="red" onclick="fotoSobre='';render()">Remover foto do sobre</button>
+    <button type="button" class="red" onclick="removerFotoSobre()">Remover foto do sobre</button>
   ` : ""
 
   document.getElementById("verSp").innerHTML = sp.img ? `
     <img src="${sp.img}" class="preview-circle">
-    <button type="button" class="red" onclick="sp.img='';render()">Remover foto do streamer principal</button>
+    <button type="button" class="red" onclick="removerFotoSp()">Remover foto do streamer principal</button>
   ` : ""
 
   document.getElementById("times").innerHTML = times.map((x,i)=>`
@@ -395,7 +426,7 @@ function render(){
 
       ${x.img ? `
         <img src="${x.img}" class="preview">
-        <button type="button" class="red" onclick="times[${i}].img='';render()">Remover foto desse time</button>
+        <button type="button" class="red" onclick="removerFotoTime(${i})">Remover foto desse time</button>
       ` : ""}
 
       <button type="button" class="red" onclick="del(times,${i})">Apagar esse time</button>
@@ -412,7 +443,7 @@ function render(){
 
       ${x.img ? `
         <img src="${x.img}" class="preview">
-        <button type="button" class="red" onclick="pats[${i}].img='';render()">Remover foto desse patrocinador</button>
+        <button type="button" class="red" onclick="removerFotoPat(${i})">Remover foto desse patrocinador</button>
       ` : ""}
 
       <button type="button" class="red" onclick="del(pats,${i})">Apagar esse patrocinador</button>
@@ -432,7 +463,7 @@ function render(){
 
       ${x.img ? `
         <img src="${x.img}" class="preview">
-        <button type="button" class="red" onclick="streamers[${i}].img='';render()">Remover foto desse streamer</button>
+        <button type="button" class="red" onclick="removerFotoStreamer(${i})">Remover foto desse streamer</button>
       ` : ""}
 
       <button type="button" class="red" onclick="del(streamers,${i})">Apagar esse streamer</button>
@@ -470,10 +501,27 @@ function dados(){
       times:[]
     },
 
-    streamerPrincipal:sp,
-    times:times,
-    patrocinadores:pats,
-    streamers:streamers
+    streamerPrincipal:{
+      nome:sp.nome||"",
+      link:sp.link||"",
+      img:sp.img||""
+    },
+
+    times:times.map(t=>({
+      nome:t.nome||"",
+      img:t.img||""
+    })),
+
+    patrocinadores:pats.map(p=>({
+      nome:p.nome||"",
+      img:p.img||""
+    })),
+
+    streamers:streamers.map(s=>({
+      nome:s.nome||"",
+      link:s.link||"",
+      img:s.img||""
+    }))
   }
 }
 
@@ -493,10 +541,23 @@ function aplicar(d){
   document.getElementById("vagasDisponiveis").value=disponiveis
   document.getElementById("maxParticipantes").value=total
 
-  sp=d.streamerPrincipal||{nome:"",img:"",link:""}
-  times=Array.isArray(d.times)?d.times:[]
-  pats=Array.isArray(d.patrocinadores)?d.patrocinadores:[]
-  streamers=Array.isArray(d.streamers)?d.streamers:[]
+  sp={
+    nome:d.streamerPrincipal?.nome||"",
+    link:d.streamerPrincipal?.link||"",
+    img:d.streamerPrincipal?.img||""
+  }
+
+  times=Array.isArray(d.times)
+    ? d.times.map(x=>({nome:x.nome||"",img:x.img||""}))
+    : []
+
+  pats=Array.isArray(d.patrocinadores)
+    ? d.patrocinadores.map(x=>({nome:x.nome||"",img:x.img||""}))
+    : []
+
+  streamers=Array.isArray(d.streamers)
+    ? d.streamers.map(x=>({nome:x.nome||"",link:x.link||"",img:x.img||""}))
+    : []
 
   limitarVagas()
   render()
@@ -576,13 +637,17 @@ async function carregarGithub(){
   txt("Carregando do GitHub...")
 
   try{
-    const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now())
+    const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now(),{
+      cache:"no-store"
+    })
+
     if(!r.ok){
       txt("❌ Não foi possível carregar")
       return
     }
 
-    aplicar(await r.json())
+    const json=await r.json()
+    aplicar(json)
     txt("✅ Dados carregados do GitHub")
   }catch(e){
     txt("Erro: "+e.message)
