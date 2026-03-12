@@ -1,72 +1,44 @@
 {
-  "painel": {
-    "senha": "zona1326",
-    "titulo_admin": "Painel Zona Casual",
-    "mensagem": "Gerencie as informações do site por aqui."
-  },
+  "tituloSite": "ZONA CASUAL",
+  "dataEvento": "",
+  "horaEvento": "",
+  "textoSobre": "Bem-vindo ao campeonato Zona Casual. Monte seu time e participe.",
+  "fotoSobre": "",
+  "textoChamada": "As inscrições estão abertas. Garanta sua vaga agora.",
+  "formspree": "https://formspree.io/f/myknkqyb",
 
-  "site": {
-    "titulo": "Zona Casual",
-    "subtitulo": "Campeonato oficial",
-    "descricao": "Monte seu time e participe do campeonato.",
-    "logo": "",
-    "banner": ""
-  },
-
-  "vagas": {
-    "total": 20,
-    "preenchidas": 0,
-    "disponiveis": 20,
-    "texto": "Vagas disponíveis"
-  },
-
-  "formspree": {
-    "inscricao_url": "https://formspree.io/f/myknkqyb"
-  },
-
-  "sobre": {
-    "titulo": "Sobre",
-    "texto": "Bem-vindo ao campeonato Zona Casual. Monte seu time e participe.",
-    "imagem": ""
-  },
-
-  "inscricao": {
-    "titulo": "Inscrição",
-    "descricao": "Preencha os dados do seu time para participar.",
-    "botao_texto": "Enviar inscrição",
-    "status": "aberto"
-  },
+  "vagasTotal": 20,
+  "vagasPreenchidas": 0,
 
   "times": [
     {
-      "id": 1,
       "nome": "Time Exemplo",
       "logo": "",
       "capitao": "Capitão",
-      "integrantes": [
-        "Integrante 1",
-        "Integrante 2",
-        "Integrante 3",
-        "Integrante 4"
-      ]
-    }
-  ],
-
-  "streamers": [
-    {
-      "id": 1,
-      "nome": "Streamer Oficial",
-      "foto": "",
-      "link": ""
+      "integrante1": "Integrante 1",
+      "integrante2": "Integrante 2",
+      "integrante3": "Integrante 3",
+      "integrante4": "Integrante 4"
     }
   ],
 
   "patrocinadores": [
     {
-      "id": 1,
       "nome": "Patrocinador Exemplo",
       "logo": "",
       "link": ""
     }
-  ]
+  ],
+
+  "streamers": [
+    {
+      "nome": "Streamer Exemplo",
+      "foto": "",
+      "link": ""
+    }
+  ],
+
+  "painel": {
+    "senha": "admin123"
+  }
 }
