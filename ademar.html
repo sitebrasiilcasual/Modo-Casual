@@ -189,7 +189,7 @@ button.red{
     <textarea id="sobre">O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone.</textarea>
 
     <label>Upload foto do sobre</label>
-    <input type="file" accept="image/*" onchange="up(this,v=>{fotoSobre=v;render();autoSave()})">
+    <input type="file" accept="image/*" onchange="up(this,v=>{fotoSobre=v;render()})">
     <div id="verFotoSobre"></div>
 
     <label>Texto de chamada</label>
@@ -226,13 +226,13 @@ button.red{
     <h2>Streamer principal</h2>
 
     <label>Nome</label>
-    <input id="spNome" value="@StreamerOficial" oninput="sp.nome=this.value;autoSave()">
+    <input id="spNome" value="@StreamerOficial" oninput="sp.nome=this.value">
 
     <label>Link</label>
-    <input id="spLink" value="https://twitch.tv/" oninput="sp.link=this.value;autoSave()">
+    <input id="spLink" value="https://twitch.tv/" oninput="sp.link=this.value">
 
     <label>Upload foto do streamer principal</label>
-    <input type="file" accept="image/*" onchange="up(this,v=>{sp.img=v;render();autoSave()})">
+    <input type="file" accept="image/*" onchange="up(this,v=>{sp.img=v;render()})">
 
     <div id="verSp"></div>
   </div>
@@ -259,11 +259,7 @@ button.red{
   <div class="card">
     <h2>Salvar e carregar</h2>
     <div class="grid">
-      <button onclick="salvarLocal()">SALVAR NO APARELHO</button>
       <button onclick="salvarGithub()">SALVAR NO GITHUB</button>
-    </div>
-    <div class="grid">
-      <button class="sec" onclick="carregarLocal()">CARREGAR DO APARELHO</button>
       <button class="sec" onclick="carregarGithub()">CARREGAR DO GITHUB</button>
     </div>
     <div class="status" id="status"></div>
@@ -273,7 +269,6 @@ button.red{
 <script>
 const SENHA="zona1326"
 const TOKEN_KEY="zc_token"
-const SITE_KEY="zc_dados"
 const REPO="sitebrasiilcasual/Modo-Casual"
 const BRANCH="main"
 const PATH="dados.json"
@@ -295,8 +290,7 @@ async function entrar(){
 
   usarToken()
   render()
-  ativarAutoSave()
-  await carregarAuto()
+  await carregarGithub(true)
 }
 
 function salvarToken(){
@@ -328,52 +322,14 @@ function up(inp,cb){
   r.readAsDataURL(f)
 }
 
-function autoSave(){
-  try{
-    localStorage.setItem(SITE_KEY,JSON.stringify(dados()))
-  }catch(e){}
-}
-
-function salvarLocal(){
-  autoSave()
-  alert("Salvo no aparelho")
-}
-
-function carregarLocal(){
-  const r=localStorage.getItem(SITE_KEY)
-  if(!r){
-    alert("Não tem nada salvo no aparelho")
-    return
-  }
-
-  try{
-    aplicar(JSON.parse(r))
-    txt("✅ Dados carregados do aparelho")
-  }catch(e){
-    txt("Erro ao ler dados do aparelho")
-  }
-}
-
-async function carregarAuto(){
-  const r=localStorage.getItem(SITE_KEY)
-  if(r){
-    try{
-      aplicar(JSON.parse(r))
-    }catch(e){}
-  }
-  await carregarGithub(true)
-}
-
 function syncVagas(){
   document.getElementById("maxParticipantes").value=document.getElementById("vagasTotais").value
   limitarVagas()
-  autoSave()
 }
 
 function syncMax(){
   document.getElementById("vagasTotais").value=document.getElementById("maxParticipantes").value
   limitarVagas()
-  autoSave()
 }
 
 function limitarVagas(){
@@ -382,7 +338,6 @@ function limitarVagas(){
   if(disp<0)disp=0
   if(disp>total)disp=total
   document.getElementById("vagasDisponiveis").value=disp
-  autoSave()
 }
 
 function atualizarContadores(){
@@ -393,55 +348,46 @@ function atualizarContadores(){
 function addTime(){
   times.push({nome:"Time "+(times.length+1),img:""})
   render()
-  autoSave()
 }
 
 function addPat(){
   pats.push({nome:"Patrocinador",img:""})
   render()
-  autoSave()
 }
 
 function addStreamer(){
   streamers.push({nome:"Streamer",img:"",link:"https://twitch.tv/"})
   render()
-  autoSave()
 }
 
 function del(arr,i){
   arr.splice(i,1)
   render()
-  autoSave()
 }
 
 function removerFotoSobre(){
   fotoSobre=""
   render()
-  autoSave()
 }
 
 function removerFotoSp(){
   sp.img=""
   render()
-  autoSave()
 }
 
 function removerFotoTime(i){
   times[i].img=""
   render()
-  autoSave()
 }
 
 function removerFotoPat(i){
   pats[i].img=""
   render()
-  autoSave()
 }
 
 function removerFotoStreamer(i){
   streamers[i].img=""
   render()
-  autoSave()
 }
 
 function render(){
@@ -461,10 +407,10 @@ function render(){
   document.getElementById("times").innerHTML = times.map((x,i)=>`
     <div class="item">
       <label>Nome do time</label>
-      <input value="${esc(x.nome)}" oninput="times[${i}].nome=this.value;autoSave()">
+      <input value="${esc(x.nome)}" oninput="times[${i}].nome=this.value">
 
       <label>Upload foto do time</label>
-      <input type="file" accept="image/*" onchange="up(this,v=>{times[${i}].img=v;render();autoSave()})">
+      <input type="file" accept="image/*" onchange="up(this,v=>{times[${i}].img=v;render()})">
 
       ${x.img ? `
         <img src="${x.img}" class="preview">
@@ -478,10 +424,10 @@ function render(){
   document.getElementById("pats").innerHTML = pats.map((x,i)=>`
     <div class="item">
       <label>Nome do patrocinador</label>
-      <input value="${esc(x.nome)}" oninput="pats[${i}].nome=this.value;autoSave()">
+      <input value="${esc(x.nome)}" oninput="pats[${i}].nome=this.value">
 
       <label>Upload foto do patrocinador</label>
-      <input type="file" accept="image/*" onchange="up(this,v=>{pats[${i}].img=v;render();autoSave()})">
+      <input type="file" accept="image/*" onchange="up(this,v=>{pats[${i}].img=v;render()})">
 
       ${x.img ? `
         <img src="${x.img}" class="preview">
@@ -495,13 +441,13 @@ function render(){
   document.getElementById("streamers").innerHTML = streamers.map((x,i)=>`
     <div class="item">
       <label>Nome do streamer</label>
-      <input value="${esc(x.nome)}" oninput="streamers[${i}].nome=this.value;autoSave()">
+      <input value="${esc(x.nome)}" oninput="streamers[${i}].nome=this.value">
 
       <label>Link do streamer</label>
-      <input value="${esc(x.link)}" oninput="streamers[${i}].link=this.value;autoSave()">
+      <input value="${esc(x.link)}" oninput="streamers[${i}].link=this.value">
 
       <label>Upload foto do streamer</label>
-      <input type="file" accept="image/*" onchange="up(this,v=>{streamers[${i}].img=v;render();autoSave()})">
+      <input type="file" accept="image/*" onchange="up(this,v=>{streamers[${i}].img=v;render()})">
 
       ${x.img ? `
         <img src="${x.img}" class="preview">
@@ -513,7 +459,6 @@ function render(){
   `).join("")
 
   atualizarContadores()
-  ativarAutoSave()
 }
 
 function dados(){
@@ -620,8 +565,6 @@ async function salvarGithub(){
 
   try{
     const d=dados()
-    localStorage.setItem(SITE_KEY,JSON.stringify(d))
-
     const s=await sha(t)
     const c=btoa(unescape(encodeURIComponent(JSON.stringify(d,null,2))))
 
@@ -666,21 +609,11 @@ async function carregarGithub(silencioso=false){
 
     const j=await r.json()
     aplicar(j)
-    localStorage.setItem(SITE_KEY,JSON.stringify(j))
 
     if(!silencioso) txt("✅ Dados carregados do GitHub")
   }catch(e){
     if(!silencioso) txt("Erro: "+e.message)
   }
-}
-
-function ativarAutoSave(){
-  document.querySelectorAll("input,textarea").forEach(el=>{
-    if(el.dataset.autosave==="1") return
-    el.dataset.autosave="1"
-    el.addEventListener("input",autoSave)
-    el.addEventListener("change",autoSave)
-  })
 }
 </script>
 
