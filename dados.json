@@ -8,7 +8,7 @@
   "vagasTotais": 12,
   "vagasDisponiveis": 10,
   "maxParticipantes": 12,
-  "totalTimes": 1,
+  "totalTimes": 2,
   "streamerPrincipal": {
     "nome": "@StreamerOficial",
     "img": "",
@@ -16,11 +16,15 @@
   },
   "times": [
     {
-      "nome": "Time 1",
+      "nome": "BEGAMERS",
+      "img": ""
+    },
+    {
+      "nome": "Time 2",
       "img": ""
     }
   ],
   "patrocinadores": [],
   "streamers": [],
-  "updatedAt": "2026-03-12T18:09:15.735Z"
+  "updatedAt": "2026-03-12T18:09:20.711Z"
 }
