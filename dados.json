@@ -1,55 +1,48 @@
-      {
-  "tituloSite": "ZONA CASUAL",
-  "dataEvento": "20/03/2026",
-  "horaEvento": "20:00",
+{
+  "titulo": "ZONA CASUAL",
+  "dataEvento": "2026-03-20",
+  "horaEvento": "21:00",
 
-  "vagasTotal": 20,
-  "vagasPreenchidas": 5,
+  "sobre": "O Zona Casual é um projeto criado para reunir equipes da comunidade em partidas personalizadas de Warzone.",
+  "fotoSobre": "",
+
+  "chamada": "Aqui você encontra personalizadas estruturadas, participação de streamers e espaço para equipes mostrarem seu nível.",
+
+  "vagasTotais": 100,
+  "vagasDisponiveis": 100,
+  "vagasPreenchidas": 0,
+  "maxParticipantes": 100,
+
+  "totalTimes": 0,
+
+  "streamerPrincipal": {
+    "nome": "@StreamerOficial",
+    "img": "",
+    "link": "https://twitch.tv/"
+  },
 
   "times": [
     {
-      "nome": "Dragões",
-      "logo": "https://via.placeholder.com/120x120?text=Dragões",
-      "capitao": "Carlos",
-      "integrante1": "Player1",
-      "integrante2": "Player2",
-      "integrante3": "Player3",
-      "integrante4": "Player4"
-    },
-    {
-      "nome": "Fênix",
-      "logo": "https://via.placeholder.com/120x120?text=Fênix",
-      "capitao": "Lucas",
-      "integrante1": "PlayerA",
-      "integrante2": "PlayerB",
-      "integrante3": "PlayerC",
-      "integrante4": "PlayerD"
+      "nome": "Time Exemplo",
+      "img": ""
     }
   ],
 
   "patrocinadores": [
     {
-      "nome": "Empresa Alpha",
-      "logo": "https://via.placeholder.com/200x100?text=Alpha",
-      "link": "https://google.com"
-    },
-    {
-      "nome": "Empresa Beta",
-      "logo": "https://via.placeholder.com/200x100?text=Beta",
-      "link": "https://google.com"
+      "nome": "Patrocinador Exemplo",
+      "img": "",
+      "link": ""
     }
   ],
 
   "streamers": [
     {
-      "nome": "StreamerOficial",
-      "foto": "https://via.placeholder.com/120x120?text=Streamer",
+      "nome": "Streamer Extra",
+      "img": "",
       "link": "https://twitch.tv/"
     }
   ],
 
-  "textoSobre": "Bem-vindo ao campeonato Zona Casual. Monte seu time e participe.",
-  "textoChamada": "As inscrições estão abertas!",
-
-  "formspree": "https://formspree.io/f/myknkqyb"
-      }
+  "updatedAt": "2026-03-20T00:00:00.000Z"
+}
