@@ -1,24 +1,9 @@
 {
-  "titulo": "ZONA CASUAL",
-  "dataEvento": "2026-03-20",
-  "horaEvento": "21:00",
-
-  "sobre": "Evento da comunidade.",
-  "fotoSobre": "",
-
-  "chamada": "Inscrições abertas.",
-
-  "vagasTotais": 100,
-  "vagasDisponiveis": 100,
-  "maxParticipantes": 100,
-
-  "streamerPrincipal": {
-    "nome": "@StreamerOficial",
-    "img": "",
-    "link": "https://twitch.tv/"
-  },
-
+  "titulo": "",
+  "dataEvento": "",
+  "horaEvento": "",
+  "vagasTotais": 0,
+  "vagasDisponiveis": 0,
   "times": [],
-  "patrocinadores": [],
-  "streamers": []
+  "patrocinadores": []
 }
