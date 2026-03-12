@@ -1,0 +1,26 @@
+{
+  "site": {
+    "titulo": "ZONA CASUAL",
+    "subtitulo": "",
+    "descricao": ""
+  },
+  "contador": {
+    "timesTotal": 12,
+    "timesInscritos": 0
+  },
+  "inscricao": {
+    "ativa": true,
+    "linkForm": "https://formspree.io/f/myknkqyb",
+    "mensagem": ""
+  },
+  "sobre": {
+    "titulo": "",
+    "texto": "",
+    "imagem": ""
+  },
+  "streamers": [],
+  "administradores": [],
+  "patrocinadores": [],
+  "times": [],
+  "galeria": []
+}
