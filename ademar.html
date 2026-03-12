@@ -159,8 +159,8 @@ button.red{
   <h1>Painel Admin</h1>
 
   <div class="topinfo">
-    Pra ver as imagens atuais do site, clique em <b>CARREGAR DO GITHUB</b>.<br>
-    Pra apagar imagens do site, clique em <b>Remover foto</b> e depois em <b>SALVAR NO GITHUB</b>.
+    Pra ver as imagens e dados atuais do site, clique em <b>CARREGAR DO GITHUB</b>.<br>
+    Pra apagar foto antiga do site: clique em <b>Remover foto</b> e depois em <b>SALVAR NO GITHUB</b>.
   </div>
 
   <div class="card">
@@ -290,16 +290,18 @@ let pats=[]
 let streamers=[]
 let sp={nome:"",img:"",link:""}
 
-function entrar(){
+async function entrar(){
   if(document.getElementById("senha").value.trim()!==SENHA){
     alert("Senha incorreta")
     return
   }
+
   document.getElementById("login").style.display="none"
   document.getElementById("painel").style.display="block"
+
   usarToken()
-  carregarAuto()
   render()
+  await carregarAuto()
 }
 
 function salvarToken(){
@@ -474,8 +476,8 @@ function render(){
 }
 
 function dados(){
-  sp.nome=document.getElementById("spNome").value
-  sp.link=document.getElementById("spLink").value
+  sp.nome=document.getElementById("spNome").value || ""
+  sp.link=document.getElementById("spLink").value || ""
   limitarVagas()
 
   const total=+document.getElementById("vagasTotais").value||0
@@ -483,12 +485,12 @@ function dados(){
   const ocupadas=Math.max(0,total-disp)
 
   return {
-    titulo:document.getElementById("titulo").value,
-    dataEvento:document.getElementById("dataEvento").value,
-    horaEvento:document.getElementById("horaEvento").value,
-    sobre:document.getElementById("sobre").value,
-    fotoSobre:fotoSobre,
-    chamada:document.getElementById("chamada").value,
+    titulo:document.getElementById("titulo").value || "",
+    dataEvento:document.getElementById("dataEvento").value || "",
+    horaEvento:document.getElementById("horaEvento").value || "",
+    sobre:document.getElementById("sobre").value || "",
+    fotoSobre:fotoSobre || "",
+    chamada:document.getElementById("chamada").value || "",
 
     vagasTotais:total,
     vagasDisponiveis:disp,
@@ -502,25 +504,25 @@ function dados(){
     },
 
     streamerPrincipal:{
-      nome:sp.nome||"",
-      link:sp.link||"",
-      img:sp.img||""
+      nome:sp.nome || "",
+      link:sp.link || "",
+      img:sp.img || ""
     },
 
-    times:times.map(t=>({
-      nome:t.nome||"",
-      img:t.img||""
+    times:(times || []).map(x=>({
+      nome:x.nome || "",
+      img:x.img || ""
     })),
 
-    patrocinadores:pats.map(p=>({
-      nome:p.nome||"",
-      img:p.img||""
+    patrocinadores:(pats || []).map(x=>({
+      nome:x.nome || "",
+      img:x.img || ""
     })),
 
-    streamers:streamers.map(s=>({
-      nome:s.nome||"",
-      link:s.link||"",
-      img:s.img||""
+    streamers:(streamers || []).map(x=>({
+      nome:x.nome || "",
+      link:x.link || "",
+      img:x.img || ""
     }))
   }
 }
@@ -570,12 +572,29 @@ function salvarLocal(){
 
 function carregarLocal(){
   const r=localStorage.getItem(SITE_KEY)
-  if(r)aplicar(JSON.parse(r))
+  if(!r){
+    alert("Não tem nada salvo no aparelho")
+    return
+  }
+
+  try{
+    aplicar(JSON.parse(r))
+    txt("✅ Dados carregados do aparelho")
+  }catch(e){
+    txt("Erro ao ler dados do aparelho")
+  }
 }
 
-function carregarAuto(){
-  const r=localStorage.getItem(SITE_KEY)
-  if(r)aplicar(JSON.parse(r))
+async function carregarAuto(){
+  const local = localStorage.getItem(SITE_KEY)
+
+  if(local){
+    try{
+      aplicar(JSON.parse(local))
+    }catch(e){}
+  }
+
+  await carregarGithub(true)
 }
 
 async function sha(token){
@@ -605,8 +624,12 @@ async function salvarGithub(){
   txt("Salvando no GitHub...")
 
   try{
+    const dadosAtuais = dados()
+
+    localStorage.setItem(SITE_KEY, JSON.stringify(dadosAtuais))
+
     const s=await sha(t)
-    const c=btoa(unescape(encodeURIComponent(JSON.stringify(dados(),null,2))))
+    const c=btoa(unescape(encodeURIComponent(JSON.stringify(dadosAtuais,null,2))))
 
     const r=await fetch(`https://api.github.com/repos/${REPO}/contents/${PATH}`,{
       method:"PUT",
@@ -625,6 +648,7 @@ async function salvarGithub(){
 
     if(r.ok){
       txt("✅ Dados enviados para o GitHub")
+      await carregarGithub(true)
     }else{
       txt("❌ "+await r.text())
     }
@@ -633,8 +657,8 @@ async function salvarGithub(){
   }
 }
 
-async function carregarGithub(){
-  txt("Carregando do GitHub...")
+async function carregarGithub(silencioso=false){
+  if(!silencioso) txt("Carregando do GitHub...")
 
   try{
     const r=await fetch(`https://raw.githubusercontent.com/${REPO}/${BRANCH}/${PATH}?t=`+Date.now(),{
@@ -642,15 +666,18 @@ async function carregarGithub(){
     })
 
     if(!r.ok){
-      txt("❌ Não foi possível carregar")
+      if(!silencioso) txt("❌ Não foi possível carregar")
       return
     }
 
     const json=await r.json()
+
     aplicar(json)
-    txt("✅ Dados carregados do GitHub")
+    localStorage.setItem(SITE_KEY, JSON.stringify(json))
+
+    if(!silencioso) txt("✅ Dados carregados do GitHub")
   }catch(e){
-    txt("Erro: "+e.message)
+    if(!silencioso) txt("Erro: "+e.message)
   }
 }
 </script>
