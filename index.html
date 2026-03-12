@@ -433,92 +433,92 @@ margin-top:10px;
 <footer>© 2026 Zona Casual</footer>
 
 <script>
-let slideInterval=null
-const slide=document.getElementById("timesSlide")
+let slideInterval = null
+const slide = document.getElementById("timesSlide")
 
 function iniciarSlide(){
 if(slideInterval) clearInterval(slideInterval)
-slide.style.transform="translateX(0)"
-if(slide.children.length<=1) return
+slide.style.transform = "translateX(0)"
+if(slide.children.length <= 1) return
 
-slideInterval=setInterval(()=>{
-const primeiro=slide.children[0]
+slideInterval = setInterval(()=>{
+const primeiro = slide.children[0]
 if(!primeiro) return
-const largura=primeiro.offsetWidth+22
-slide.style.transition="transform .6s ease"
-slide.style.transform=`translateX(-${largura}px)`
+const largura = primeiro.offsetWidth + 22
+slide.style.transition = "transform .6s ease"
+slide.style.transform = `translateX(-${largura}px)`
 setTimeout(()=>{
 slide.appendChild(primeiro)
-slide.style.transition="none"
-slide.style.transform="translateX(0)"
+slide.style.transition = "none"
+slide.style.transform = "translateX(0)"
 },600)
 },2600)
 }
 
 function aplicarDados(d){
-document.getElementById("dataTxt").textContent=d.data||"-"
-document.getElementById("horaTxt").textContent=d.horario||"-"
+document.getElementById("dataTxt").textContent = d.data || "-"
+document.getElementById("horaTxt").textContent = d.horario || "-"
 
-document.getElementById("sobre").textContent=d.sobre?.texto||""
-document.getElementById("sobreImg").src=d.sobre?.imagem||""
+document.getElementById("sobre").textContent = d.sobre?.texto || ""
+document.getElementById("sobreImg").src = d.sobre?.imagem || ""
 
-document.getElementById("streamerNome").textContent=d.streamers?.[0]?.nome||"@streamer"
-document.getElementById("streamerImg").src=d.streamers?.[0]?.foto||""
+document.getElementById("streamerNome").textContent = d.streamers?.[0]?.nome || "@streamer"
+document.getElementById("streamerImg").src = d.streamers?.[0]?.foto || ""
 
-const total=Number(d.vagas_total)||0
-const ocupadas=Number(d.vagas_ocupadas)||0
-const livres=Math.max(0,total-ocupadas)
-document.getElementById("vagaNumero").textContent=livres+"/"+total
+const total = Number(d.vagas_total) || 0
+const ocupadas = Number(d.vagas_ocupadas) || 0
+const livres = Math.max(0, total - ocupadas)
+document.getElementById("vagaNumero").textContent = livres + "/" + total
 
-const patroCard=document.getElementById("patroCard")
-const patroGrid=document.getElementById("patroGrid")
-patroGrid.innerHTML=""
+const patroCard = document.getElementById("patroCard")
+const patroGrid = document.getElementById("patroGrid")
+patroGrid.innerHTML = ""
 if(Array.isArray(d.patrocinadores) && d.patrocinadores.length){
-patroCard.style.display="block"
+patroCard.style.display = "block"
 d.patrocinadores.forEach(p=>{
 patroGrid.insertAdjacentHTML("beforeend",`
 <div class="logo-box">
-<img src="${p.foto||p.img||p.logo||""}" alt="">
-<p>${p.nome||""}</p>
+<img src="${p.foto || p.img || p.logo || ""}" alt="">
+<p>${p.nome || ""}</p>
 </div>
 `)
 })
 }else{
-patroCard.style.display="none"
+patroCard.style.display = "none"
 }
 
-const timesCard=document.getElementById("timesCard")
-slide.innerHTML=""
+const timesCard = document.getElementById("timesCard")
+slide.innerHTML = ""
 if(Array.isArray(d.times) && d.times.length){
-timesCard.style.display="block"
+timesCard.style.display = "block"
 d.times.forEach(t=>{
 slide.insertAdjacentHTML("beforeend",`
 <div class="team">
-<img src="${t.foto||t.img||t.logo||""}" alt="">
-<p>${t.nome||""}</p>
+<img src="${t.foto || t.img || t.logo || ""}" alt="">
+<p>${t.nome || ""}</p>
 </div>
 `)
 })
 iniciarSlide()
 }else{
-timesCard.style.display="none"
+timesCard.style.display = "none"
 if(slideInterval) clearInterval(slideInterval)
 }
 }
 
 async function carregarDados(){
 try{
-const r=await fetch("dados.json?t="+Date.now())
-const d=await r.json()
+const r = await fetch("dados.json?t=" + Date.now(), { cache:"no-store" })
+const d = await r.json()
 aplicarDados(d)
 }catch(e){
-console.error("Erro carregando dados.json",e)
+console.error("Erro carregando dados.json", e)
 }
 }
 
-window.addEventListener("DOMContentLoaded",()=>{
+window.addEventListener("DOMContentLoaded", ()=>{
 carregarDados()
-setInterval(carregarDados,4000)
+setInterval(carregarDados, 4000)
 })
 </script>
 
