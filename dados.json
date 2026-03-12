@@ -1,37 +1,44 @@
-{
-  "titulo": "ZONA CASUAL",
-  "dataEvento": "",
-  "horaEvento": "",
-  "sobre": "",
-  "fotoSobre": "",
-  "chamada": "",
-  "vagasTotais": 13,
-  "vagasDisponiveis": 13,
-  "maxParticipantes": 13,
-  "totalTimes": 1,
-  "streamerPrincipal": {
-    "nome": "@StreamerOficial",
-    "img": "",
-    "link": "https://twitch.tv/"
-  },
-  "times": [
-    {
-      "nome": "Time Exemplo",
-      "img": ""
-    }
-  ],
-  "patrocinadores": [
-    {
-      "nome": "Patrocinador Exemplo",
-      "img": ""
-    }
-  ],
-  "streamers": [
-    {
-      "nome": "Streamer Exemplo",
-      "img": "",
-      "link": ""
-    }
-  ],
-  "updatedAt": "2026-03-12T18:33:03.604Z"
-}
+const GITHUB_TOKEN = "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"
+const REPO = "sitebrasilcasual/modo-casual"
+const FILE_PATH = "dados.json"
+const BRANCH = "main"
+
+async function salvarDados(dados) {
+
+  const url = `https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`
+
+  const getFile = await fetch(url)
+  const fileData = await getFile.json()
+
+  const sha = fileData.sha
+
+  const conteudo = btoa(
+    unescape(
+      encodeURIComponent(JSON.stringify(dados, null, 2))
+    )
+  )
+
+  const resposta = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Authorization": `Bearer ${GITHUB_TOKEN}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: "Atualizando dados do site",
+      content: conteudo,
+      sha: sha,
+      branch: BRANCH
+    })
+  })
+
+  const resultado = await resposta.json()
+
+  if (resultado.commit) {
+    alert("Dados salvos no GitHub ✅")
+  } else {
+    alert("Erro ao salvar ❌")
+    console.log(resultado)
+  }
+
+  }
