@@ -1,36 +1,22 @@
 {
   "site": {
-    "titulo": "ZONA CASUAL",
-    "descricao": "Campeonato Zona Casual",
-    "banner": "",
-    "logo": ""
+    "titulo": "Zona Casual",
+    "vagas_total": 20,
+    "vagas_preenchidas": 0
   },
 
-  "vagas": {
-    "total": 12,
-    "ocupadas": 0
+  "formspree": {
+    "inscricao_url": "https://formspree.io/f/myknkqyb"
   },
 
   "sobre": {
-    "texto": "Bem vindo ao campeonato Zona Casual.",
-    "foto": ""
+    "texto": "Bem-vindo ao campeonato Zona Casual. Monte seu time e participe.",
+    "imagem": ""
   },
 
-  "inscricoes": {
-    "abertas": true,
-    "times": []
-  },
-
-  "galeria": {
-    "times": []
-  },
-
-  "patrocinadores": [],
+  "times": [],
 
   "streamers": [],
 
-  "config": {
-    "formspree": "https://formspree.io/f/myknkqyb",
-    "ultima_atualizacao": ""
-  }
+  "patrocinadores": []
 }
