@@ -1,44 +1,37 @@
 {
-  "tituloSite": "ZONA CASUAL",
+  "titulo": "ZONA CASUAL",
   "dataEvento": "",
   "horaEvento": "",
-  "textoSobre": "Bem-vindo ao campeonato Zona Casual. Monte seu time e participe.",
+  "sobre": "",
   "fotoSobre": "",
-  "textoChamada": "As inscrições estão abertas. Garanta sua vaga agora.",
-  "formspree": "https://formspree.io/f/myknkqyb",
-
-  "vagasTotal": 20,
-  "vagasPreenchidas": 0,
-
+  "chamada": "",
+  "vagasTotais": 13,
+  "vagasDisponiveis": 13,
+  "maxParticipantes": 13,
+  "totalTimes": 1,
+  "streamerPrincipal": {
+    "nome": "@StreamerOficial",
+    "img": "",
+    "link": "https://twitch.tv/"
+  },
   "times": [
     {
       "nome": "Time Exemplo",
-      "logo": "",
-      "capitao": "Capitão",
-      "integrante1": "Integrante 1",
-      "integrante2": "Integrante 2",
-      "integrante3": "Integrante 3",
-      "integrante4": "Integrante 4"
+      "img": ""
     }
   ],
-
   "patrocinadores": [
     {
       "nome": "Patrocinador Exemplo",
-      "logo": "",
-      "link": ""
+      "img": ""
     }
   ],
-
   "streamers": [
     {
       "nome": "Streamer Exemplo",
-      "foto": "",
+      "img": "",
       "link": ""
     }
   ],
-
-  "painel": {
-    "senha": "admin123"
-  }
+  "updatedAt": "2026-03-12T18:31:50.881Z"
 }
