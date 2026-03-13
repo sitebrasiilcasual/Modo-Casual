@@ -1,6 +1,6 @@
 {
   "titulo": "ZONA CASUAL",
-  "vagas_total": 20,
+  "vagas_total": 50,
   "vagas_ocupadas": 0,
   "sobre": {
     "texto": "Campeonato Zona Casual.",
@@ -29,16 +29,6 @@
         "Jogador4"
       ],
       "logo": ""
-    }
-  ],
-  "patrocinadores": [
-    {
-      "nome": "",
-      "foto": ""
-    },
-    {
-      "nome": "",
-      "foto": ""
     }
   ],
   "data": "",
