@@ -176,11 +176,6 @@ border-radius:50%;
 transition:.2s;
 z-index:20;
 }
-.config-btn:hover{
-transform:scale(1.08);
-background:#ff8c00;
-color:#000;
-}
 .vaga-wrap{
 display:flex;
 justify-content:center;
@@ -387,7 +382,7 @@ margin-top:10px;
 </div>
 </div>
 </div>
-<a class="btn" href="inscrição.html">INSCRIÇÃO P/ PERSONALIZADA</a>
+<a class="btn" href="inscricao.html">INSCRIÇÃO P/ PERSONALIZADA</a>
 </div>
 
 <div class="card streamer">
@@ -407,7 +402,9 @@ margin-top:10px;
 <footer>© 2026 Zona Casual</footer>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxDpXJcIFKBOZVnHmIeQHSmoWM5k7MJjk5_o1u6krutoygcZsvq1SaQKw8QZlrZu-Zi0A/exec";
+const PLANILHA_ID = "1CXU5zljjOT5uvcqog6q6ATGcFO-A1528oJBTtA_zztM";
+const API_CONFIG = `https://opensheet.elk.sh/${PLANILHA_ID}/Config`;
+const API_INSCRICOES = `https://opensheet.elk.sh/${PLANILHA_ID}/Inscricoes`;
 
 let slideInterval = null;
 const slide = document.getElementById("timesSlide");
@@ -483,10 +480,11 @@ if(slideInterval) clearInterval(slideInterval);
 }
 }
 
-function aplicarVagas(dadosSite, dadosVagas){
-const total = Number(dadosVagas?.vagas_total) || Number(dadosSite.vagas_total) || 0;
-const restantes = Math.max(0, Number(dadosVagas?.vagas_restantes) || Number(dadosSite.vagas_total) || 0);
-document.getElementById("vagaNumero").textContent = total + "/" + restantes;
+function aplicarVagas(total, ocupadas){
+const totalNum = Math.max(0, Number(total) || 0);
+const ocupadasNum = Math.max(0, Number(ocupadas) || 0);
+const restantes = Math.max(0, totalNum - ocupadasNum);
+document.getElementById("vagaNumero").textContent = restantes + "/" + totalNum;
 }
 
 async function carregarTudo(){
@@ -498,28 +496,29 @@ dadosSite = await resSite.json();
 aplicarDadosSite(dadosSite);
 }catch(e){
 console.error("Erro no dados.json", e);
-return;
 }
 
 try{
-const resVagas = await fetch(API_URL + "?t=" + Date.now(), {cache:"no-store"});
-const dadosVagas = await resVagas.json();
-if(dadosVagas.ok){
-aplicarVagas(dadosSite, dadosVagas);
-}else{
-const total = Number(dadosSite.vagas_total) || 0;
-document.getElementById("vagaNumero").textContent = total + "/" + total;
-}
+const confRes = await fetch(API_CONFIG + "?t=" + Date.now(), {cache:"no-store"});
+const conf = await confRes.json();
+
+const insRes = await fetch(API_INSCRICOES + "?t=" + Date.now(), {cache:"no-store"});
+const ins = await insRes.json();
+
+const total = Number(conf?.[0]?.vagas_total) || Number(dadosSite?.vagas_total) || 0;
+const ocupadas = Array.isArray(ins) ? ins.length : 0;
+
+aplicarVagas(total, ocupadas);
 }catch(e){
-console.error("Erro na API de vagas", e);
-const total = Number(dadosSite.vagas_total) || 0;
-document.getElementById("vagaNumero").textContent = total + "/" + total;
+console.error("Erro ao carregar vagas da planilha", e);
+const totalFallback = Number(dadosSite?.vagas_total) || 0;
+aplicarVagas(totalFallback, 0);
 }
 }
 
 window.addEventListener("DOMContentLoaded", ()=>{
 carregarTudo();
-setInterval(carregarTudo, 4000);
+setInterval(carregarTudo, 5000);
 });
 </script>
 
