@@ -176,6 +176,11 @@ border-radius:50%;
 transition:.2s;
 z-index:20;
 }
+.config-btn:hover{
+transform:scale(1.08);
+background:#ff8c00;
+color:#000;
+}
 .vaga-wrap{
 display:flex;
 justify-content:center;
@@ -382,7 +387,7 @@ margin-top:10px;
 </div>
 </div>
 </div>
-<a class="btn" href="inscrição.html">INSCRIÇÃO P/ PERSONALIZADA</a>
+<a class="btn" href="inscricao.html">INSCRIÇÃO P/ PERSONALIZADA</a>
 </div>
 
 <div class="card streamer">
@@ -402,7 +407,7 @@ margin-top:10px;
 <footer>© 2026 Zona Casual</footer>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwQXYl5qxLXK7PW0SlDQT3ivtzMcWUppv0jPYgfauSv1jjOd1R8kgKCDYiJyiwimzGb_A/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxDpXJcIFKBOZVnHmIeQHSmoWM5k7MJjk5_o1u6krutoygcZsvq1SaQKw8QZlrZu-Zi0A/exec";
 
 let slideInterval = null;
 const slide = document.getElementById("timesSlide");
@@ -499,7 +504,12 @@ return;
 try{
 const resVagas = await fetch(API_URL + "?t=" + Date.now(), {cache:"no-store"});
 const dadosVagas = await resVagas.json();
+if(dadosVagas.ok){
 aplicarVagas(dadosSite, dadosVagas);
+}else{
+const total = Number(dadosSite.vagas_total) || 0;
+document.getElementById("vagaNumero").textContent = total + "/" + total;
+}
 }catch(e){
 console.error("Erro na API de vagas", e);
 const total = Number(dadosSite.vagas_total) || 0;
