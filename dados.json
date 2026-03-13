@@ -3,24 +3,24 @@
   "vagas_total": 20,
   "vagas_ocupadas": 0,
   "sobre": {
-    "texto": "Bem vindos a zona casual onde o entretenimento é o início da brincadeira séria",
-    "imagem": ""
+    "texto": "Bem vindos a zona casual onde o entretenimento é o início da brincadeira.",
+    "imagem": "sobre-1773423921724.jpg"
   },
   "streamers": [
     {
       "nome": "Streamer 1",
-      "foto": ""
+      "foto": "streamer-1773423918019.png"
     }
   ],
   "admins": [
     {
       "nome": "Admin 1",
-      "foto": ""
+      "foto": "admin-1773423914829.jpg"
     }
   ],
   "times": [
     {
-      "nome": "TIME EXEMPLO",
+      "nome": "",
       "capitao": "Nome",
       "integrantes": [
         "Jogador1",
@@ -28,10 +28,32 @@
         "Jogador3",
         "Jogador4"
       ],
-      "logo": ""
+      "logo": "",
+      "foto": "time-time-1-1773423940925.png"
+    },
+    {
+      "nome": "",
+      "foto": "time-time-2-1773423956578.jpg"
+    },
+    {
+      "nome": "",
+      "foto": "time-time-3-1773423972514.png"
     }
   ],
-  "patrocinadores": [],
+  "patrocinadores": [
+    {
+      "nome": "1SHOTKILL ",
+      "foto": "patro-1shotkill-1773423990131.jpg"
+    },
+    {
+      "nome": "BEGAMERS",
+      "foto": "patro-begamers-1773424038063.png"
+    },
+    {
+      "nome": "VANGUARDA BR",
+      "foto": "patro-vanguarda-br-1773424058957.png"
+    }
+  ],
   "data": "",
   "horario": ""
 }
