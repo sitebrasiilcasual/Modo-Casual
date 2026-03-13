@@ -100,7 +100,7 @@ button.small{padding:10px 12px;font-size:14px}
         <button class="green" onclick="salvarTokenLocal()">SALVAR TOKEN NO NAVEGADOR</button>
         <button class="red" onclick="apagarToken()">APAGAR TOKEN SALVO</button>
       </div>
-      <div class="muted">O token fica salvo só no seu navegador.</div>
+      <div class="muted">O token fica salvo só no navegador.</div>
     </div>
 
     <div class="card">
@@ -283,7 +283,7 @@ async function uploadArquivoGithub(file, nomeArquivo){
 
   localStorage.setItem("github_token", token);
   const base64 = await fileToBase64SemPrefixo(file);
-  const path = `imagens/${nomeArquivo}`;
+  const path = nomeArquivo;
 
   const resp = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
     method:"PUT",
