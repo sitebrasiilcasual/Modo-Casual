@@ -2,517 +2,203 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Inscrição - Zona Casual</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{overflow-x:hidden}
+
 body{
-font-family:Arial,sans-serif;
+font-family:Arial;
 background:#000;
 color:#fff;
 text-align:center;
-position:relative;
-min-height:100vh;
+padding:20px
 }
-body:before{
-content:"";
-position:fixed;
-inset:0;
-z-index:-3;
-background:
-radial-gradient(circle at 20% 20%,rgba(255,140,0,.16),transparent 35%),
-radial-gradient(circle at 80% 30%,rgba(255,180,0,.10),transparent 30%),
-linear-gradient(to bottom,rgba(25,12,0,.82),rgba(0,0,0,.96));
+
+.container{
+max-width:700px;
+margin:auto
 }
-.embers{
-position:fixed;
-inset:0;
-pointer-events:none;
-overflow:hidden;
-z-index:-2;
-}
-.embers span{
-position:absolute;
-bottom:-30px;
-width:6px;
-height:6px;
-border-radius:50%;
-background:#ff9a1f;
-box-shadow:0 0 12px #ff8c00,0 0 24px rgba(255,140,0,.85);
-animation:subir linear infinite;
-opacity:0;
-}
-@keyframes subir{
-0%{transform:translateY(0) translateX(0) scale(.7);opacity:0}
-10%{opacity:.95}
-100%{transform:translateY(-120vh) translateX(40px) scale(1.2);opacity:0}
-}
-header{
-background:rgba(17,17,17,.92);
-border-bottom:2px solid #ff8c00;
-padding:24px 14px 18px;
-position:relative;
-overflow:hidden;
-z-index:3;
-}
-.glitch{
-font-size:40px;
-font-weight:900;
-letter-spacing:4px;
-text-transform:uppercase;
-position:relative;
-display:inline-block;
-color:#fff7eb;
-transform:perspective(600px) rotateX(10deg);
-text-shadow:
-0 2px 0 #ffb347,
-0 4px 0 #ff8c00,
-0 6px 0 #ff6a00,
-0 8px 18px rgba(255,69,0,.9),
-0 0 35px rgba(255,90,0,.95);
-animation:falha 2.2s infinite;
-}
-.glitch:before,.glitch:after{
-content:attr(data-text);
-position:absolute;
-left:0;top:0;
-width:100%;
-pointer-events:none;
-}
-.glitch:before{
-color:#ff4500;
-transform:translate(-3px,-2px);
-opacity:.8;
-mix-blend-mode:screen;
-animation:gl1 .18s infinite;
-}
-.glitch:after{
-color:#ffcf66;
-transform:translate(3px,2px);
-opacity:.8;
-mix-blend-mode:screen;
-animation:gl2 .18s infinite;
-}
-@keyframes falha{
-0%,100%{transform:perspective(600px) rotateX(10deg) skewX(0)}
-15%{transform:perspective(600px) rotateX(10deg) skewX(2deg)}
-16%{transform:perspective(600px) rotateX(10deg) skewX(-2deg)}
-17%{transform:perspective(600px) rotateX(10deg) skewX(0)}
-52%{transform:perspective(600px) rotateX(10deg) skewX(-3deg)}
-53%{transform:perspective(600px) rotateX(10deg) skewX(2deg)}
-54%{transform:perspective(600px) rotateX(10deg) skewX(0)}
-}
-@keyframes gl1{
-0%{transform:translate(-3px,-2px)}
-25%{transform:translate(-6px,-1px)}
-50%{transform:translate(-2px,1px)}
-75%{transform:translate(-5px,-2px)}
-100%{transform:translate(-3px,-2px)}
-}
-@keyframes gl2{
-0%{transform:translate(3px,2px)}
-25%{transform:translate(6px,1px)}
-50%{transform:translate(2px,-1px)}
-75%{transform:translate(5px,2px)}
-100%{transform:translate(3px,2px)}
-}
-.linha-energia{
-height:3px;
-width:100%;
-background:linear-gradient(90deg,transparent,#ff6a00,#ff8c00,#ff4500,transparent);
-background-size:300% 100%;
-animation:energia 3s linear infinite;
-box-shadow:0 0 10px #ff6a00,0 0 24px rgba(255,140,0,.7);
-}
-@keyframes energia{
-0%{background-position:-300% 0}
-100%{background-position:300% 0}
-}
-.wrap{
-max-width:780px;
-margin:auto;
-padding:20px 14px 30px;
-position:relative;
-z-index:3;
-}
+
 .card{
-background:rgba(17,17,17,.92);
-border:1px solid rgba(255,140,0,.35);
+background:#111;
+border:1px solid rgba(255,140,0,.3);
 border-radius:14px;
 padding:20px;
-margin-bottom:18px;
-box-shadow:0 0 0 1px rgba(255,140,0,.08),0 10px 25px rgba(0,0,0,.35);
+margin-bottom:18px
 }
-.card h2{
-margin-bottom:14px;
-color:#fff3d6;
-text-shadow:0 0 10px rgba(255,140,0,.25);
+
+h1{
+color:#ff8c00;
+margin-bottom:14px
 }
+
 .info{
-background:rgba(255,140,0,.06);
-border:1px solid rgba(255,140,0,.18);
-border-radius:12px;
-padding:14px;
 margin-bottom:14px;
-line-height:1.7;
-color:#eee;
+color:#ddd
 }
-.top-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
-margin-bottom:16px;
+
+/* BARRA */
+
+.progress-box{
+margin:16px 0
 }
-.mini-box{
-background:rgba(255,140,0,.06);
-border:1px solid rgba(255,140,0,.18);
-border-radius:12px;
-padding:14px;
-}
-.mini-box .label{
-font-size:13px;
-color:#ffcf66;
-margin-bottom:6px;
-font-weight:bold;
-letter-spacing:.5px;
-text-transform:uppercase;
-}
-.mini-box .value{
-font-size:18px;
-font-weight:bold;
-color:#fff;
-}
-.vaga-wrap{
-display:flex;
-justify-content:center;
-align-items:center;
-margin:8px 0 20px;
-}
-.vaga-circle{
-position:relative;
-width:210px;
-height:210px;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-background:linear-gradient(145deg,#0d0d0d,#161616 55%,#0a0a0a);
-border:3px solid #ff8c00;
-box-shadow:0 0 12px rgba(255,140,0,.45),0 0 28px rgba(255,140,0,.28),inset 0 0 20px rgba(255,140,0,.08);
-overflow:hidden;
-}
-.vaga-circle:before{
-content:"";
-position:absolute;
-inset:10px;
-border-radius:50%;
-border:2px solid rgba(255,140,0,.28);
-animation:giro 10s linear infinite;
-}
-.vaga-circle:after{
-content:"";
-position:absolute;
-width:75%;
-height:75%;
-border-radius:50%;
-border:1px dashed rgba(255,180,100,.35);
-animation:giro2 14s linear infinite reverse;
-}
-.vaga-scan{
-position:absolute;
+
+.progress-bar{
 width:100%;
+height:18px;
+background:#222;
+border-radius:20px;
+overflow:hidden
+}
+
+.progress{
 height:100%;
-border-radius:50%;
-background:conic-gradient(from 0deg,transparent 0deg,transparent 260deg,rgba(255,140,0,.3) 320deg,transparent 360deg);
-animation:scan 3s linear infinite;
+background:linear-gradient(90deg,#ff8c00,#ffb347);
+width:0%;
+transition:.3s
 }
-.vaga-content{
-position:relative;
-z-index:5;
-text-align:center;
+
+.vagas{
+margin-top:8px;
+font-size:20px;
+font-weight:bold
 }
-.vaga-top{
-font-size:46px;
-font-weight:900;
-color:#fff7eb;
-text-shadow:0 0 10px #ff8c00;
-min-width:120px;
-}
-.vaga-sub{
-margin-top:6px;
-font-size:14px;
-color:#ffcf66;
-}
-@keyframes giro{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-@keyframes giro2{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-@keyframes scan{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.form-grid{
+
+form{
 display:grid;
-grid-template-columns:1fr 1fr;
-gap:12px;
+gap:10px
 }
-.form-full{
-grid-column:1/-1;
+
+input{
+padding:12px;
+border-radius:8px;
+border:none;
+background:#1a1a1a;
+color:#fff
 }
-.input-group{
-text-align:left;
-}
-.input-group label{
-display:block;
-margin:0 0 6px;
-font-size:13px;
-font-weight:bold;
-color:#ffcf66;
-letter-spacing:.4px;
-text-transform:uppercase;
-}
-input,button{
-width:100%;
+
+button{
 padding:14px;
+background:#ff8c00;
 border:none;
 border-radius:10px;
-font-size:16px;
-}
-input{
-background:#1a1a1a;
-color:#fff;
-border:1px solid rgba(255,140,0,.12);
-}
-button{
-background:#ff8c00;
-color:#000;
-font-weight:700;
-cursor:pointer;
-box-shadow:0 0 18px rgba(255,140,0,.22);
-margin-top:4px;
-}
-button:disabled{
-opacity:.6;
-cursor:not-allowed;
-}
-.msg{
-display:none;
-margin-top:12px;
 font-weight:bold;
+cursor:pointer
 }
-.msg.erro{color:#ff7b7b}
-.msg.ok{color:#7dff9a}
-.bottom-actions{
-margin-top:14px;
-display:grid;
-grid-template-columns:1fr;
-gap:10px;
+
+button:disabled{
+opacity:.5
 }
-.voltar{
-display:inline-block;
-padding:12px 20px;
-border-radius:999px;
-background:#2a2a2a;
-color:#fff;
-text-decoration:none;
-font-weight:700;
-border:1px solid rgba(255,140,0,.18);
+
+.msg{
+margin-top:10px
 }
-footer{
-padding:18px;
-border-top:1px solid #ff8c00;
-margin-top:10px;
-}
-@media(max-width:600px){
-.glitch{font-size:28px;letter-spacing:2px}
-.top-grid{grid-template-columns:1fr}
-.form-grid{grid-template-columns:1fr}
-.vaga-circle{width:180px;height:180px}
-.vaga-top{font-size:38px;min-width:100px}
-}
+
 </style>
 </head>
+
 <body>
 
-<div class="embers">
-<span style="left:4%;animation-duration:9s"></span>
-<span style="left:11%;animation-duration:11s"></span>
-<span style="left:18%;animation-duration:8s"></span>
-<span style="left:26%;animation-duration:12s"></span>
-<span style="left:34%;animation-duration:9.5s"></span>
-<span style="left:42%;animation-duration:10.5s"></span>
-<span style="left:50%;animation-duration:8.8s"></span>
-<span style="left:58%;animation-duration:11.8s"></span>
-<span style="left:66%;animation-duration:9.2s"></span>
-<span style="left:74%;animation-duration:10.8s"></span>
-<span style="left:82%;animation-duration:12.4s"></span>
-<span style="left:90%;animation-duration:9.7s"></span>
-<span style="left:96%;animation-duration:11.2s"></span>
-</div>
+<div class="container">
 
-<header>
-<h1 id="titulo" class="glitch" data-text="ZONA CASUAL">ZONA CASUAL</h1>
-</header>
-
-<div class="linha-energia"></div>
-
-<div class="wrap">
 <div class="card">
-<h2>Inscrição da Personalizada</h2>
 
-<div class="info" id="infoTxt">
-Preencha corretamente os dados do seu time para participar.
-</div>
+<h1>Inscrição</h1>
 
-<div class="top-grid">
-<div class="mini-box">
-<div class="label">Data</div>
-<div class="value" id="dataTxt">-</div>
-</div>
-<div class="mini-box">
-<div class="label">Horário</div>
-<div class="value" id="horaTxt">-</div>
-</div>
+<p class="info">
+Preencha os dados do seu time
+</p>
+
+<div class="progress-box">
+
+<div class="progress-bar">
+<div class="progress" id="bar"></div>
 </div>
 
-<div class="vaga-wrap">
-<div class="vaga-circle">
-<div class="vaga-scan"></div>
-<div class="vaga-content">
-<div class="vaga-top" id="v">0/0</div>
-<div class="vaga-sub">Vagas restantes</div>
-</div>
-</div>
+<div class="vagas" id="vagas">0 / 0</div>
+
 </div>
 
-<form id="f" class="form-grid">
-<div class="input-group form-full">
-<label>Nome do clã</label>
-<input type="text" id="time" placeholder="NOME DO CLÃ (TIME)" required>
-</div>
+<form id="form">
 
-<div class="input-group form-full">
-<label>Whatsapp do líder</label>
-<input type="text" id="whatsapp" placeholder="WHATSAPP DO LÍDER" required>
-</div>
+<input id="time" placeholder="Nome do Clã" required>
 
-<div class="input-group">
-<label>Integrante 1</label>
-<input type="text" id="integrante1" placeholder="INTEGRANTE 1" required>
-</div>
+<input id="whatsapp" placeholder="Whatsapp do Líder" required>
 
-<div class="input-group">
-<label>Integrante 2</label>
-<input type="text" id="integrante2" placeholder="INTEGRANTE 2" required>
-</div>
+<input id="integrante1" placeholder="Integrante 1" required>
 
-<div class="input-group">
-<label>Integrante 3</label>
-<input type="text" id="integrante3" placeholder="INTEGRANTE 3" required>
-</div>
+<input id="integrante2" placeholder="Integrante 2" required>
 
-<div class="input-group">
-<label>Integrante 4</label>
-<input type="text" id="integrante4" placeholder="INTEGRANTE 4" required>
-</div>
+<input id="integrante3" placeholder="Integrante 3" required>
 
-<div class="form-full">
-<button id="enviar" type="submit">ENVIAR INSCRIÇÃO</button>
-<div id="msg" class="msg erro">As vagas acabaram.</div>
-<div id="okMsg" class="msg ok">No sistema da planilha sem Apps Script, esta versão mostra as vagas, mas o envio precisa ser ligado a um formulário/endpoint.</div>
-<div id="erroBox" class="msg erro"></div>
-</div>
+<input id="integrante4" placeholder="Integrante 4" required>
+
+<button id="btn">
+Enviar inscrição
+</button>
+
 </form>
 
-<div class="bottom-actions">
-<a class="voltar" href="index.html">VOLTAR AO INÍCIO</a>
-</div>
-</div>
+<div class="msg" id="msg"></div>
+
 </div>
 
-<footer>© 2026 Zona Casual</footer>
+</div>
 
 <script>
-const PLANILHA_ID = "1CXU5zljjOT5uvcqog6q6ATGcFO-A1528oJBTtA_zztM";
-const API_CONFIG = `https://opensheet.elk.sh/${PLANILHA_ID}/Config`;
-const API_INSCRICOES = `https://opensheet.elk.sh/${PLANILHA_ID}/Inscricoes`;
 
-function atualizarContador(total, ocupadas){
-const totalNum = Math.max(0, Number(total) || 0);
-const ocupadasNum = Math.max(0, Number(ocupadas) || 0);
-const restantes = Math.max(0, totalNum - ocupadasNum);
+const API="https://script.google.com/macros/s/AKfycbxukc8jJvSKJR8JMlL9ebwh0mR0JSkBh9xYvGvdJJHN1j-Wv0tL5Of2-O1p7tWpcwu4FQ/exec"
 
-document.getElementById("v").textContent = restantes + "/" + totalNum;
+async function carregar(){
 
-if(restantes <= 0){
-document.getElementById("enviar").disabled = true;
-document.getElementById("msg").style.display = "block";
-}else{
-document.getElementById("enviar").disabled = false;
-document.getElementById("msg").style.display = "none";
-}
-}
+const r=await fetch(API)
+const j=await r.json()
 
-function mostrarErro(msg){
-const box = document.getElementById("erroBox");
-box.style.display = "block";
-box.textContent = msg;
+const total=j.vagas_total
+const rest=j.vagas_restantes
+
+document.getElementById("vagas").innerText=rest+" / "+total
+
+const porcent=( (total-rest)/total )*100
+
+document.getElementById("bar").style.width=porcent+"%"
+
+if(rest<=0){
+document.getElementById("btn").disabled=true
 }
 
-async function carregarDados(){
-let dadosSite = null;
-
-try{
-const resSite = await fetch("dados.json?t=" + Date.now(), {cache:"no-store"});
-dadosSite = await resSite.json();
-
-const titulo = dadosSite.titulo || "ZONA CASUAL";
-const tituloEl = document.getElementById("titulo");
-tituloEl.textContent = titulo;
-tituloEl.setAttribute("data-text", titulo);
-document.title = "Inscrição - " + titulo;
-
-document.getElementById("dataTxt").textContent = dadosSite.data || "-";
-document.getElementById("horaTxt").textContent = dadosSite.horario || "-";
-
-if(dadosSite.infoInscricao){
-document.getElementById("infoTxt").innerHTML = dadosSite.infoInscricao;
-}
-}catch(e){
-console.error(e);
-mostrarErro("Erro ao carregar dados.json");
-return;
 }
 
-try{
-const conf = await fetch(API_CONFIG + "?t=" + Date.now(), {cache:"no-store"}).then(r=>r.json());
-const ins = await fetch(API_INSCRICOES + "?t=" + Date.now(), {cache:"no-store"}).then(r=>r.json());
+document.getElementById("form").addEventListener("submit",async e=>{
 
-const total = Number(conf?.[0]?.vagas_total) || Number(dadosSite?.vagas_total) || 0;
-const ocupadas = Array.isArray(ins) ? ins.length : 0;
+e.preventDefault()
 
-atualizarContador(total, ocupadas);
-}catch(e){
-console.error(e);
-mostrarErro("Erro ao carregar vagas da planilha");
-const totalFallback = Number(dadosSite?.vagas_total) || 0;
-atualizarContador(totalFallback, 0);
-}
-}
+const d=new URLSearchParams()
 
-document.getElementById("f").addEventListener("submit", function(e){
-e.preventDefault();
+d.append("time",time.value)
+d.append("whatsapp",whatsapp.value)
+d.append("integrante1",integrante1.value)
+d.append("integrante2",integrante2.value)
+d.append("integrante3",integrante3.value)
+d.append("integrante4",integrante4.value)
 
-const btn = document.getElementById("enviar");
-if(btn.disabled){
-return;
-}
+await fetch(API,{
+method:"POST",
+body:d
+})
 
-document.getElementById("okMsg").style.display = "block";
-document.getElementById("erroBox").style.display = "none";
-});
+form.reset()
 
-window.addEventListener("DOMContentLoaded", ()=>{
-carregarDados();
-setInterval(carregarDados, 5000);
-});
+carregar()
+
+})
+
+carregar()
+
+setInterval(carregar,4000)
+
 </script>
 
 </body>

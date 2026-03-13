@@ -311,7 +311,10 @@ margin:0 auto 14px;
 background:#111;
 box-shadow:0 0 18px rgba(255,140,0,.35);
 }
-#sobre{line-height:1.7;color:#ddd}
+#sobre{
+line-height:1.7;
+color:#ddd;
+}
 footer{
 padding:18px;
 border-top:1px solid #ff8c00;
@@ -382,7 +385,7 @@ margin-top:10px;
 </div>
 </div>
 </div>
-<a class="btn" href="inscrição.html">INSCRIÇÃO P/ PERSONALIZADA</a>
+<a class="btn" href="inscricao.html">INSCRIÇÃO P/ PERSONALIZADA</a>
 </div>
 
 <div class="card streamer">
@@ -402,123 +405,114 @@ margin-top:10px;
 <footer>© 2026 Zona Casual</footer>
 
 <script>
-const PLANILHA_ID = "1CXU5zljjOT5uvcqog6q6ATGcFO-A1528oJBTtA_zztM";
-const API_CONFIG = `https://opensheet.elk.sh/${PLANILHA_ID}/Config`;
-const API_INSCRICOES = `https://opensheet.elk.sh/${PLANILHA_ID}/Inscricoes`;
+const API_URL="https://script.google.com/macros/s/AKfycbxukc8jJvSKJR8JMlL9ebwh0mR0JSkBh9xYvGvdJJHN1j-Wv0tL5Of2-O1p7tWpcwu4FQ/exec";
 
-let slideInterval = null;
-const slide = document.getElementById("timesSlide");
+let slideInterval=null;
+const slide=document.getElementById("timesSlide");
 
 function iniciarSlide(){
 if(slideInterval) clearInterval(slideInterval);
-slide.style.transform = "translateX(0)";
-if(slide.children.length <= 1) return;
+slide.style.transform="translateX(0)";
+if(slide.children.length<=1) return;
 
-slideInterval = setInterval(()=>{
-const primeiro = slide.children[0];
+slideInterval=setInterval(()=>{
+const primeiro=slide.children[0];
 if(!primeiro) return;
-const largura = primeiro.offsetWidth + 22;
-slide.style.transition = "transform .6s ease";
-slide.style.transform = `translateX(-${largura}px)`;
+const largura=primeiro.offsetWidth+22;
+slide.style.transition="transform .6s ease";
+slide.style.transform=`translateX(-${largura}px)`;
 setTimeout(()=>{
 slide.appendChild(primeiro);
-slide.style.transition = "none";
-slide.style.transform = "translateX(0)";
+slide.style.transition="none";
+slide.style.transform="translateX(0)";
 },600);
 },2600);
 }
 
 function aplicarDadosSite(dadosSite){
-const titulo = dadosSite.titulo || "ZONA CASUAL";
-const tituloEl = document.getElementById("titulo");
-tituloEl.textContent = titulo;
-tituloEl.setAttribute("data-text", titulo);
-document.title = titulo;
+const titulo=dadosSite.titulo||"ZONA CASUAL";
+const tituloEl=document.getElementById("titulo");
+tituloEl.textContent=titulo;
+tituloEl.setAttribute("data-text",titulo);
+document.title=titulo;
 
-document.getElementById("dataTxt").textContent = dadosSite.data || "-";
-document.getElementById("horaTxt").textContent = dadosSite.horario || "-";
+document.getElementById("dataTxt").textContent=dadosSite.data||"-";
+document.getElementById("horaTxt").textContent=dadosSite.horario||"-";
 
-document.getElementById("sobre").textContent = dadosSite.sobre?.texto || "";
-document.getElementById("sobreImg").src = dadosSite.sobre?.imagem || "";
+document.getElementById("sobre").textContent=dadosSite.sobre?.texto||"";
+document.getElementById("sobreImg").src=dadosSite.sobre?.imagem||"";
 
-document.getElementById("streamerNome").textContent = dadosSite.streamers?.[0]?.nome || "@streamer";
-document.getElementById("streamerImg").src = dadosSite.streamers?.[0]?.foto || "";
+document.getElementById("streamerNome").textContent=dadosSite.streamers?.[0]?.nome||"@streamer";
+document.getElementById("streamerImg").src=dadosSite.streamers?.[0]?.foto||"";
 
-const patroCard = document.getElementById("patroCard");
-const patroGrid = document.getElementById("patroGrid");
-patroGrid.innerHTML = "";
-if(Array.isArray(dadosSite.patrocinadores) && dadosSite.patrocinadores.length){
-patroCard.style.display = "block";
+const patroCard=document.getElementById("patroCard");
+const patroGrid=document.getElementById("patroGrid");
+patroGrid.innerHTML="";
+if(Array.isArray(dadosSite.patrocinadores)&&dadosSite.patrocinadores.length){
+patroCard.style.display="block";
 dadosSite.patrocinadores.forEach(p=>{
-patroGrid.insertAdjacentHTML("beforeend", `
+patroGrid.insertAdjacentHTML("beforeend",`
 <div class="logo-box">
-<img src="${p.foto || p.img || p.logo || ""}" alt="">
-<p>${p.nome || ""}</p>
+<img src="${p.foto||p.img||p.logo||""}" alt="">
+<p>${p.nome||""}</p>
 </div>
 `);
 });
 }else{
-patroCard.style.display = "none";
+patroCard.style.display="none";
 }
 
-const timesCard = document.getElementById("timesCard");
-slide.innerHTML = "";
-if(Array.isArray(dadosSite.times) && dadosSite.times.length){
-timesCard.style.display = "block";
+const timesCard=document.getElementById("timesCard");
+slide.innerHTML="";
+if(Array.isArray(dadosSite.times)&&dadosSite.times.length){
+timesCard.style.display="block";
 dadosSite.times.forEach(t=>{
-slide.insertAdjacentHTML("beforeend", `
+slide.insertAdjacentHTML("beforeend",`
 <div class="team">
-<img src="${t.foto || t.img || t.logo || ""}" alt="">
-<p>${t.nome || ""}</p>
+<img src="${t.foto||t.img||t.logo||""}" alt="">
+<p>${t.nome||""}</p>
 </div>
 `);
 });
 iniciarSlide();
 }else{
-timesCard.style.display = "none";
+timesCard.style.display="none";
 if(slideInterval) clearInterval(slideInterval);
 }
 }
 
-function aplicarVagas(total, ocupadas){
-const totalNum = Math.max(0, Number(total) || 0);
-const ocupadasNum = Math.max(0, Number(ocupadas) || 0);
-const restantes = Math.max(0, totalNum - ocupadasNum);
-document.getElementById("vagaNumero").textContent = restantes + "/" + totalNum;
-}
-
-async function carregarTudo(){
-let dadosSite = null;
-
+async function carregarDados(){
 try{
-const resSite = await fetch("dados.json?t=" + Date.now(), {cache:"no-store"});
-dadosSite = await resSite.json();
-aplicarDadosSite(dadosSite);
+const res=await fetch("dados.json?t="+Date.now(),{cache:"no-store"});
+const dados=await res.json();
+aplicarDadosSite(dados);
 }catch(e){
-console.error("Erro no dados.json", e);
+console.log(e);
+}
 }
 
+async function carregarVagas(){
 try{
-const confRes = await fetch(API_CONFIG + "?t=" + Date.now(), {cache:"no-store"});
-const conf = await confRes.json();
+const res=await fetch(API_URL+"?t="+Date.now(),{cache:"no-store"});
+const dados=await res.json();
 
-const insRes = await fetch(API_INSCRICOES + "?t=" + Date.now(), {cache:"no-store"});
-const ins = await insRes.json();
+if(dados.ok===false){
+console.log(dados.erro);
+return;
+}
 
-const total = Number(conf?.[0]?.vagas_total) || Number(dadosSite?.vagas_total) || 0;
-const ocupadas = Array.isArray(ins) ? ins.length : 0;
+document.getElementById("vagaNumero").textContent=
+(dados.vagas_restantes??0)+"/"+(dados.vagas_total??0);
 
-aplicarVagas(total, ocupadas);
 }catch(e){
-console.error("Erro ao carregar vagas da planilha", e);
-const totalFallback = Number(dadosSite?.vagas_total) || 0;
-aplicarVagas(totalFallback, 0);
+console.log(e);
 }
 }
 
-window.addEventListener("DOMContentLoaded", ()=>{
-carregarTudo();
-setInterval(carregarTudo, 5000);
+window.addEventListener("DOMContentLoaded",()=>{
+carregarDados();
+carregarVagas();
+setInterval(carregarVagas,5000);
 });
 </script>
 
