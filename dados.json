@@ -14,5 +14,17 @@
     }
   ],
   "patrocinadores": [],
-  "times": []
+  "times": [
+    {
+      "nome": "TIME EXEMPLO",
+      "capitao": "Nome",
+      "integrantes": [
+        "Jogador1",
+        "Jogador2",
+        "Jogador3",
+        "Jogador4"
+      ],
+      "logo": ""
+    }
+  ]
 }
