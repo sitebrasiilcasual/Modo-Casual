@@ -26,8 +26,6 @@ radial-gradient(circle at 20% 20%,rgba(255,140,0,.16),transparent 35%),
 radial-gradient(circle at 80% 30%,rgba(255,180,0,.10),transparent 30%),
 linear-gradient(to bottom,rgba(25,12,0,.82),rgba(0,0,0,.96));
 }
-
-/* PARTÍCULAS */
 .embers{
 position:fixed;
 inset:0;
@@ -51,8 +49,6 @@ opacity:0;
 10%{opacity:.95}
 100%{transform:translateY(-120vh) translateX(40px) scale(1.2);opacity:0}
 }
-
-/* HEADER */
 header{
 background:rgba(17,17,17,.92);
 border-bottom:2px solid #ff8c00;
@@ -60,8 +56,6 @@ padding:24px 14px 20px;
 position:relative;
 overflow:hidden;
 }
-
-/* TÍTULO */
 .glitch{
 font-size:40px;
 font-weight:900;
@@ -123,8 +117,6 @@ animation:gl2 .18s infinite;
 75%{transform:translate(5px,2px)}
 100%{transform:translate(3px,2px)}
 }
-
-/* LINHA */
 .linha-energia{
 height:3px;
 width:100%;
@@ -137,7 +129,6 @@ box-shadow:0 0 10px #ff6a00,0 0 24px rgba(255,140,0,.7);
 0%{background-position:-300% 0}
 100%{background-position:300% 0}
 }
-
 .container{
 max-width:900px;
 margin:auto;
@@ -167,8 +158,6 @@ font-weight:700;
 margin-top:14px;
 box-shadow:0 0 18px rgba(255,140,0,.3);
 }
-
-/* BOTÃO ADMIN */
 .config-btn{
 position:fixed;
 left:12px;
@@ -187,13 +176,6 @@ border-radius:50%;
 transition:.2s;
 z-index:20;
 }
-.config-btn:hover{
-transform:scale(1.08);
-background:#ff8c00;
-color:#000;
-}
-
-/* VAGAS */
 .vaga-wrap{
 display:flex;
 justify-content:center;
@@ -253,8 +235,6 @@ min-width:120px;
 @keyframes giro{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes giro2{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes scan{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-
-/* PATROCINADORES */
 .logo-grid{
 display:flex;
 justify-content:center;
@@ -281,8 +261,6 @@ margin-top:8px;
 font-size:13px;
 font-weight:700;
 }
-
-/* SLIDE TIMES */
 .slide-wrap{
 overflow:hidden;
 width:100%;
@@ -313,8 +291,6 @@ margin-top:10px;
 font-weight:700;
 font-size:14px;
 }
-
-/* STREAMER */
 .streamer img{
 width:120px;
 height:120px;
@@ -324,8 +300,6 @@ object-fit:cover;
 background:#111;
 }
 #streamerNome{margin-top:10px}
-
-/* SOBRE */
 .sobre-img{
 width:220px;
 height:220px;
@@ -337,17 +311,12 @@ margin:0 auto 14px;
 background:#111;
 box-shadow:0 0 18px rgba(255,140,0,.35);
 }
-#sobre{
-line-height:1.7;
-color:#ddd;
-}
-
+#sobre{line-height:1.7;color:#ddd}
 footer{
 padding:18px;
 border-top:1px solid #ff8c00;
 margin-top:10px;
 }
-
 @media(max-width:600px){
 .glitch{font-size:28px;letter-spacing:2px}
 .vaga-circle{width:180px;height:180px}
@@ -433,93 +402,100 @@ margin-top:10px;
 <footer>© 2026 Zona Casual</footer>
 
 <script>
-let slideInterval = null
-const slide = document.getElementById("timesSlide")
+const API_URL = "https://script.google.com/macros/s/AKfycbwQXYl5qxLXK7PW0SlDQT3ivtzMcWUppv0jPYgfauSv1jjOd1R8kgKCDYiJyiwimzGb_A/exec";
+
+let slideInterval = null;
+const slide = document.getElementById("timesSlide");
 
 function iniciarSlide(){
-if(slideInterval) clearInterval(slideInterval)
-slide.style.transform = "translateX(0)"
-if(slide.children.length <= 1) return
+if(slideInterval) clearInterval(slideInterval);
+slide.style.transform = "translateX(0)";
+if(slide.children.length <= 1) return;
 
 slideInterval = setInterval(()=>{
-const primeiro = slide.children[0]
-if(!primeiro) return
-const largura = primeiro.offsetWidth + 22
-slide.style.transition = "transform .6s ease"
-slide.style.transform = `translateX(-${largura}px)`
+const primeiro = slide.children[0];
+if(!primeiro) return;
+const largura = primeiro.offsetWidth + 22;
+slide.style.transition = "transform .6s ease";
+slide.style.transform = `translateX(-${largura}px)`;
 setTimeout(()=>{
-slide.appendChild(primeiro)
-slide.style.transition = "none"
-slide.style.transform = "translateX(0)"
-},600)
-},2600)
+slide.appendChild(primeiro);
+slide.style.transition = "none";
+slide.style.transform = "translateX(0)";
+},600);
+},2600);
 }
 
-function aplicarDados(d){
-document.getElementById("dataTxt").textContent = d.data || "-"
-document.getElementById("horaTxt").textContent = d.horario || "-"
+function aplicarDados(dadosSite, dadosVagas){
+document.getElementById("dataTxt").textContent = dadosSite.data || "-";
+document.getElementById("horaTxt").textContent = dadosSite.horario || "-";
 
-document.getElementById("sobre").textContent = d.sobre?.texto || ""
-document.getElementById("sobreImg").src = d.sobre?.imagem || ""
+document.getElementById("sobre").textContent = dadosSite.sobre?.texto || "";
+document.getElementById("sobreImg").src = dadosSite.sobre?.imagem || "";
 
-document.getElementById("streamerNome").textContent = d.streamers?.[0]?.nome || "@streamer"
-document.getElementById("streamerImg").src = d.streamers?.[0]?.foto || ""
+document.getElementById("streamerNome").textContent = dadosSite.streamers?.[0]?.nome || "@streamer";
+document.getElementById("streamerImg").src = dadosSite.streamers?.[0]?.foto || "";
 
-const total = Number(d.vagas_total) || 0
-const ocupadas = Number(d.vagas_ocupadas) || 0
-const livres = Math.max(0, total - ocupadas)
-document.getElementById("vagaNumero").textContent = livres + "/" + total
+const total = Number(dadosVagas?.vagas_total) || Number(dadosSite.vagas_total) || 0;
+const restantes = Math.max(0, Number(dadosVagas?.vagas_restantes) || 0);
+document.getElementById("vagaNumero").textContent = restantes + "/" + total;
 
-const patroCard = document.getElementById("patroCard")
-const patroGrid = document.getElementById("patroGrid")
-patroGrid.innerHTML = ""
-if(Array.isArray(d.patrocinadores) && d.patrocinadores.length){
-patroCard.style.display = "block"
-d.patrocinadores.forEach(p=>{
+const patroCard = document.getElementById("patroCard");
+const patroGrid = document.getElementById("patroGrid");
+patroGrid.innerHTML = "";
+if(Array.isArray(dadosSite.patrocinadores) && dadosSite.patrocinadores.length){
+patroCard.style.display = "block";
+dadosSite.patrocinadores.forEach(p=>{
 patroGrid.insertAdjacentHTML("beforeend",`
 <div class="logo-box">
 <img src="${p.foto || p.img || p.logo || ""}" alt="">
 <p>${p.nome || ""}</p>
 </div>
-`)
-})
+`);
+});
 }else{
-patroCard.style.display = "none"
+patroCard.style.display = "none";
 }
 
-const timesCard = document.getElementById("timesCard")
-slide.innerHTML = ""
-if(Array.isArray(d.times) && d.times.length){
-timesCard.style.display = "block"
-d.times.forEach(t=>{
+const timesCard = document.getElementById("timesCard");
+slide.innerHTML = "";
+if(Array.isArray(dadosSite.times) && dadosSite.times.length){
+timesCard.style.display = "block";
+dadosSite.times.forEach(t=>{
 slide.insertAdjacentHTML("beforeend",`
 <div class="team">
 <img src="${t.foto || t.img || t.logo || ""}" alt="">
 <p>${t.nome || ""}</p>
 </div>
-`)
-})
-iniciarSlide()
+`);
+});
+iniciarSlide();
 }else{
-timesCard.style.display = "none"
-if(slideInterval) clearInterval(slideInterval)
+timesCard.style.display = "none";
+if(slideInterval) clearInterval(slideInterval);
 }
 }
 
-async function carregarDados(){
+async function carregarTudo(){
 try{
-const r = await fetch("dados.json?t=" + Date.now(), { cache:"no-store" })
-const d = await r.json()
-aplicarDados(d)
+const [resSite, resVagas] = await Promise.all([
+fetch("dados.json?t=" + Date.now(), {cache:"no-store"}),
+fetch(API_URL + "?t=" + Date.now(), {cache:"no-store"})
+]);
+
+const dadosSite = await resSite.json();
+const dadosVagas = await resVagas.json();
+
+aplicarDados(dadosSite, dadosVagas);
 }catch(e){
-console.error("Erro carregando dados.json", e)
+console.error("Erro carregando dados", e);
 }
 }
 
 window.addEventListener("DOMContentLoaded", ()=>{
-carregarDados()
-setInterval(carregarDados, 4000)
-})
+carregarTudo();
+setInterval(carregarTudo, 4000);
+});
 </script>
 
 </body>

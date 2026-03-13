@@ -26,8 +26,6 @@ radial-gradient(circle at 20% 20%,rgba(255,140,0,.16),transparent 35%),
 radial-gradient(circle at 80% 30%,rgba(255,180,0,.10),transparent 30%),
 linear-gradient(to bottom,rgba(25,12,0,.82),rgba(0,0,0,.96));
 }
-
-/* PARTÍCULAS */
 .embers{
 position:fixed;
 inset:0;
@@ -51,8 +49,6 @@ opacity:0;
 10%{opacity:.95}
 100%{transform:translateY(-120vh) translateX(40px) scale(1.2);opacity:0}
 }
-
-/* HEADER */
 header{
 background:rgba(17,17,17,.92);
 border-bottom:2px solid #ff8c00;
@@ -61,8 +57,6 @@ position:relative;
 overflow:hidden;
 z-index:3;
 }
-
-/* TÍTULO */
 .glitch{
 font-size:40px;
 font-weight:900;
@@ -124,8 +118,6 @@ animation:gl2 .18s infinite;
 75%{transform:translate(5px,2px)}
 100%{transform:translate(3px,2px)}
 }
-
-/* BARRA */
 .linha-energia{
 height:3px;
 width:100%;
@@ -138,7 +130,6 @@ box-shadow:0 0 10px #ff6a00,0 0 24px rgba(255,140,0,.7);
 0%{background-position:-300% 0}
 100%{background-position:300% 0}
 }
-
 .wrap{
 max-width:780px;
 margin:auto;
@@ -146,7 +137,6 @@ padding:20px 14px 30px;
 position:relative;
 z-index:3;
 }
-
 .card{
 background:rgba(17,17,17,.92);
 border:1px solid rgba(255,140,0,.35);
@@ -155,13 +145,11 @@ padding:20px;
 margin-bottom:18px;
 box-shadow:0 0 0 1px rgba(255,140,0,.08),0 10px 25px rgba(0,0,0,.35);
 }
-
 .card h2{
 margin-bottom:14px;
 color:#fff3d6;
 text-shadow:0 0 10px rgba(255,140,0,.25);
 }
-
 .info{
 background:rgba(255,140,0,.06);
 border:1px solid rgba(255,140,0,.18);
@@ -171,21 +159,18 @@ margin-bottom:14px;
 line-height:1.7;
 color:#eee;
 }
-
 .top-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:12px;
 margin-bottom:16px;
 }
-
 .mini-box{
 background:rgba(255,140,0,.06);
 border:1px solid rgba(255,140,0,.18);
 border-radius:12px;
 padding:14px;
 }
-
 .mini-box .label{
 font-size:13px;
 color:#ffcf66;
@@ -199,8 +184,6 @@ font-size:18px;
 font-weight:bold;
 color:#fff;
 }
-
-/* CÍRCULO */
 .vaga-wrap{
 display:flex;
 justify-content:center;
@@ -265,8 +248,6 @@ color:#ffcf66;
 @keyframes giro{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes giro2{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes scan{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-
-/* FORM */
 .form-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
@@ -318,14 +299,12 @@ font-weight:bold;
 }
 .msg.erro{color:#ff7b7b}
 .msg.ok{color:#7dff9a}
-
 .bottom-actions{
 margin-top:14px;
 display:grid;
 grid-template-columns:1fr;
 gap:10px;
 }
-
 .voltar{
 display:inline-block;
 padding:12px 20px;
@@ -336,13 +315,11 @@ text-decoration:none;
 font-weight:700;
 border:1px solid rgba(255,140,0,.18);
 }
-
 footer{
 padding:18px;
 border-top:1px solid #ff8c00;
 margin-top:10px;
 }
-
 @media(max-width:600px){
 .glitch{font-size:28px;letter-spacing:2px}
 .top-grid{grid-template-columns:1fr}
@@ -377,7 +354,6 @@ margin-top:10px;
 <div class="linha-energia"></div>
 
 <div class="wrap">
-
 <div class="card">
 <h2>Inscrição da Personalizada</h2>
 
@@ -406,38 +382,36 @@ Preencha corretamente os dados do seu time para participar.
 </div>
 </div>
 
-<form id="f" action="https://formspree.io/f/myknkqyb" method="POST" class="form-grid">
+<form id="f" class="form-grid">
 <div class="input-group form-full">
 <label>Nome do clã</label>
-<input type="text" name="Nome do Clã (Time)" placeholder="NOME DO CLÃ (TIME)" required>
+<input type="text" id="time" placeholder="NOME DO CLÃ (TIME)" required>
 </div>
 
 <div class="input-group form-full">
 <label>Whatsapp do líder</label>
-<input type="text" name="Whatsapp do Líder" placeholder="WHATSAPP DO LÍDER" required>
+<input type="text" id="whatsapp" placeholder="WHATSAPP DO LÍDER" required>
 </div>
 
 <div class="input-group">
 <label>Integrante 1</label>
-<input type="text" name="Integrante 1" placeholder="INTEGRANTE 1" required>
+<input type="text" id="integrante1" placeholder="INTEGRANTE 1" required>
 </div>
 
 <div class="input-group">
 <label>Integrante 2</label>
-<input type="text" name="Integrante 2" placeholder="INTEGRANTE 2" required>
+<input type="text" id="integrante2" placeholder="INTEGRANTE 2" required>
 </div>
 
 <div class="input-group">
 <label>Integrante 3</label>
-<input type="text" name="Integrante 3" placeholder="INTEGRANTE 3" required>
+<input type="text" id="integrante3" placeholder="INTEGRANTE 3" required>
 </div>
 
 <div class="input-group">
 <label>Integrante 4</label>
-<input type="text" name="Integrante 4" placeholder="INTEGRANTE 4" required>
+<input type="text" id="integrante4" placeholder="INTEGRANTE 4" required>
 </div>
-
-<input type="hidden" name="_subject" value="Nova inscrição - Zona Casual">
 
 <div class="form-full">
 <button id="enviar" type="submit">ENVIAR INSCRIÇÃO</button>
@@ -451,88 +425,111 @@ Preencha corretamente os dados do seu time para participar.
 <a class="voltar" href="index.html">VOLTAR AO INÍCIO</a>
 </div>
 </div>
-
 </div>
 
 <footer>© 2026 Zona Casual</footer>
 
 <script>
-let usadas = 0
-let total = 12
+const API_URL = "https://script.google.com/macros/s/AKfycbwQXYl5qxLXK7PW0SlDQT3ivtzMcWUppv0jPYgfauSv1jjOd1R8kgKCDYiJyiwimzGb_A/exec";
 
-function atualizarContador(){
-  const restantes = Math.max(0, total - usadas)
-  document.getElementById("v").textContent = restantes + "/" + total
+function atualizarContador(total, restantes){
+const r = Math.max(0, restantes);
+document.getElementById("v").textContent = total + "/" + r;
 
-  if(restantes <= 0){
-    document.getElementById("enviar").disabled = true
-    document.getElementById("msg").style.display = "block"
-  }else{
-    document.getElementById("enviar").disabled = false
-    document.getElementById("msg").style.display = "none"
-  }
+if(r <= 0){
+document.getElementById("enviar").disabled = true;
+document.getElementById("msg").style.display = "block";
+}else{
+document.getElementById("enviar").disabled = false;
+document.getElementById("msg").style.display = "none";
+}
 }
 
 function mostrarErro(msg){
-  const box = document.getElementById("erroBox")
-  box.style.display = "block"
-  box.textContent = msg
+const box = document.getElementById("erroBox");
+box.style.display = "block";
+box.textContent = msg;
 }
 
 async function carregarDados(){
-  try{
-    const res = await fetch("dados.json?t=" + Date.now(), { cache: "no-store" })
-    if(!res.ok) throw new Error("Erro ao carregar dados.json")
+try{
+const [resSite, resVagas] = await Promise.all([
+fetch("dados.json?t=" + Date.now(), {cache:"no-store"}),
+fetch(API_URL + "?t=" + Date.now(), {cache:"no-store"})
+]);
 
-    const dados = await res.json()
+const dadosSite = await resSite.json();
+const dadosVagas = await resVagas.json();
 
-    const titulo = dados.titulo || "ZONA CASUAL"
-    const tituloEl = document.getElementById("titulo")
-    tituloEl.textContent = titulo
-    tituloEl.setAttribute("data-text", titulo)
-    document.title = "Inscrição - " + titulo
+const titulo = dadosSite.titulo || "ZONA CASUAL";
+const tituloEl = document.getElementById("titulo");
+tituloEl.textContent = titulo;
+tituloEl.setAttribute("data-text", titulo);
+document.title = "Inscrição - " + titulo;
 
-    document.getElementById("dataTxt").textContent = dados.data || "-"
-    document.getElementById("horaTxt").textContent = dados.horario || "-"
+document.getElementById("dataTxt").textContent = dadosSite.data || "-";
+document.getElementById("horaTxt").textContent = dadosSite.horario || "-";
 
-    if(dados.infoInscricao){
-      document.getElementById("infoTxt").innerHTML = dados.infoInscricao
-    }
-
-    if(dados.formAction){
-      document.getElementById("f").action = dados.formAction
-    }
-
-    total = Number(dados.vagas_total) || 12
-
-    const usadasJson = Number(dados.vagas_ocupadas) || 0
-    const usadasLocal = Number(localStorage.getItem("vagasUsadasLocal")) || 0
-
-    usadas = Math.max(usadasJson, usadasLocal)
-
-    atualizarContador()
-
-  }catch(e){
-    console.error(e)
-    total = 12
-    usadas = Number(localStorage.getItem("vagasUsadasLocal")) || 0
-    atualizarContador()
-    mostrarErro("Erro ao carregar dados.json. A página usou valores locais.")
-  }
+if(dadosSite.infoInscricao){
+document.getElementById("infoTxt").innerHTML = dadosSite.infoInscricao;
 }
 
-document.getElementById("f").addEventListener("submit", function(e){
-  if(usadas >= total){
-    e.preventDefault()
-    atualizarContador()
-    return
-  }
+atualizarContador(
+Number(dadosVagas.vagas_total) || 0,
+Number(dadosVagas.vagas_restantes) || 0
+);
 
-  const novoValor = usadas + 1
-  localStorage.setItem("vagasUsadasLocal", String(novoValor))
-})
+}catch(e){
+console.error(e);
+mostrarErro("Erro ao carregar os dados.");
+}
+}
 
-window.addEventListener("DOMContentLoaded", carregarDados)
+document.getElementById("f").addEventListener("submit", async function(e){
+e.preventDefault();
+
+const payload = {
+time: document.getElementById("time").value,
+whatsapp: document.getElementById("whatsapp").value,
+integrante1: document.getElementById("integrante1").value,
+integrante2: document.getElementById("integrante2").value,
+integrante3: document.getElementById("integrante3").value,
+integrante4: document.getElementById("integrante4").value
+};
+
+try{
+const r = await fetch(API_URL, {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify(payload)
+});
+
+const d = await r.json();
+
+if(!d.ok && d.erro){
+mostrarErro(d.erro);
+return;
+}
+
+document.getElementById("okMsg").style.display = "block";
+document.getElementById("erroBox").style.display = "none";
+
+atualizarContador(
+Number(d.vagas_total) || 0,
+Number(d.vagas_restantes) || 0
+);
+
+document.getElementById("f").reset();
+
+}catch(err){
+console.error(err);
+mostrarErro("Erro ao enviar inscrição.");
+}
+});
+
+window.addEventListener("DOMContentLoaded", carregarDados);
 </script>
 
 </body>

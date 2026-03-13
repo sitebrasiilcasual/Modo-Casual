@@ -111,7 +111,6 @@ button.small{padding:10px 12px;font-size:14px}
       </div>
       <div class="grid">
         <input id="total" type="number" placeholder="Vagas totais">
-        <input id="ocupadas" type="number" placeholder="Vagas ocupadas">
       </div>
     </div>
 
@@ -237,7 +236,6 @@ async function carregarDadosPainel(){
     document.getElementById("dataEvento").value = dados.data || "";
     document.getElementById("horaEvento").value = dados.horario || "";
     document.getElementById("total").value = Number(dados.vagas_total) || 0;
-    document.getElementById("ocupadas").value = Number(dados.vagas_ocupadas) || 0;
     document.getElementById("textoSobre").value = dados.sobre.texto || "";
 
     document.getElementById("previewSobre").src = dados.sobre.imagem || "";
@@ -522,7 +520,6 @@ async function salvarDados(){
     dados.data = document.getElementById("dataEvento").value.trim();
     dados.horario = document.getElementById("horaEvento").value.trim();
     dados.vagas_total = Number(document.getElementById("total").value) || 0;
-    dados.vagas_ocupadas = Number(document.getElementById("ocupadas").value) || 0;
     dados.sobre.texto = document.getElementById("textoSobre").value.trim();
 
     if(!dados.streamers[0].nome) dados.streamers[0].nome = "@streamer";
