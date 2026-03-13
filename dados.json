@@ -16,7 +16,7 @@
   "admins": [
     {
       "nome": "Admin",
-      "foto": "imagens/admin-1773364033804.png"
+      "foto": "admin-123.png"
     }
   ],
   "patrocinadores": [
@@ -36,15 +36,15 @@
   "times": [
     {
       "nome": "",
-      "foto": "time-123.png"
-    },
-    {
-      "nome": "",
       "foto": "imagens/time-time-2-1773363689668.jpg"
     },
     {
       "nome": "",
       "foto": "imagens/time-time-3-1773363757631.jpg"
+    },
+    {
+      "nome": "",
+      "foto": "time-time-3-1773364111803.png"
     }
   ]
 }
