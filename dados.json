@@ -1,8 +1,7 @@
 {
   "titulo": "ZONA CASUAL",
-  "data": "",
-  "horario": "",
-  "vagas_total": 50,
+  "vagas_total": 20,
+  "vagas_ocupadas": 0,
   "sobre": {
     "texto": "Campeonato Zona Casual.",
     "imagem": "http://localhost:8158/ademar.html"
@@ -13,7 +12,12 @@
       "foto": "http://localhost:8158/ademar.html"
     }
   ],
-  "patrocinadores": [],
+  "admins": [
+    {
+      "nome": "Admin 1",
+      "foto": ""
+    }
+  ],
   "times": [
     {
       "nome": "TIME EXEMPLO",
@@ -26,5 +30,17 @@
       ],
       "logo": ""
     }
-  ]
+  ],
+  "patrocinadores": [
+    {
+      "nome": "",
+      "foto": ""
+    },
+    {
+      "nome": "",
+      "foto": ""
+    }
+  ],
+  "data": "",
+  "horario": ""
 }
