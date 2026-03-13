@@ -1,50 +1,52 @@
 {
+  "titulo": "ZONA CASUAL",
+
   "data": "20/04/2026",
   "horario": "20:00",
+
   "vagas_total": 15,
   "vagas_ocupadas": 0,
+
+  "infoInscricao": "Preencha corretamente os dados do seu time para participar da personalizada.",
+
   "sobre": {
-    "texto": "Campeonato Zona Casual.",
-    "imagem": "sobre-1773373030891.jpg"
+    "texto": "Zona Casual é um projeto de campeonatos personalizados criado para reunir jogadores e criar partidas competitivas organizadas.",
+    "imagem": ""
   },
+
   "streamers": [
     {
       "nome": "@streamer",
-      "foto": "streamer-1773373056205.png"
+      "foto": ""
     }
   ],
+
   "admins": [
     {
       "nome": "Admin",
-      "foto": "admin-123.png"
+      "foto": ""
     }
   ],
+
   "patrocinadores": [
     {
-      "nome": "1SHOTKILL ",
-      "foto": "patro-1shotkill-1773373130947.jpg"
+      "nome": "Patrocinador 1",
+      "foto": ""
     },
     {
-      "nome": "BEGAMERS ",
-      "foto": "patro-begamers-1773373141392.jpg"
-    },
-    {
-      "nome": "VANGUARDA BR",
-      "foto": "patro-vanguarda-br-1773373158063.png"
+      "nome": "Patrocinador 2",
+      "foto": ""
     }
   ],
+
   "times": [
     {
-      "nome": "",
-      "foto": "time-time-1-1773373083017.jpg"
+      "nome": "Time 1",
+      "foto": ""
     },
     {
-      "nome": "",
-      "foto": "time-time-2-1773373097318.png"
-    },
-    {
-      "nome": "",
-      "foto": "time-time-3-1773373119358.png"
+      "nome": "Time 2",
+      "foto": ""
     }
   ]
 }
