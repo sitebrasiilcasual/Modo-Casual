@@ -35,8 +35,16 @@
   ],
   "times": [
     {
-      "nome": "Time 1",
+      "nome": "",
       "foto": "time-123.png"
+    },
+    {
+      "nome": "",
+      "foto": "imagens/time-time-2-1773363689668.jpg"
+    },
+    {
+      "nome": "",
+      "foto": "imagens/time-time-3-1773363757631.jpg"
     }
   ]
 }
