@@ -6,21 +6,42 @@
 <title>Painel Zona Casual</title>
 
 <style>
+
 *{box-sizing:border-box}
-body{background:#000;color:#fff;font-family:Arial;margin:0}
-.wrap{max-width:900px;margin:auto;padding:16px}
+
+body{
+background:#000;
+color:#fff;
+font-family:Arial;
+margin:0;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:16px;
+}
 
 .card{
 background:#111;
 border:1px solid rgba(255,140,0,.3);
 border-radius:14px;
 padding:18px;
-margin-bottom:14px
+margin-bottom:16px;
 }
 
-h1,h2{text-align:center;color:#ff8c00}
+h1,h2{
+text-align:center;
+color:#ff8c00;
+margin-bottom:14px;
+}
 
-label{display:block;margin-top:10px;margin-bottom:4px;font-weight:bold}
+label{
+display:block;
+margin-top:10px;
+margin-bottom:4px;
+font-weight:bold;
+}
 
 input,textarea{
 width:100%;
@@ -28,7 +49,8 @@ padding:12px;
 border:none;
 border-radius:8px;
 background:#1c1c1c;
-color:#fff
+color:#fff;
+font-size:15px;
 }
 
 button{
@@ -40,24 +62,32 @@ background:#ff8c00;
 color:#000;
 font-weight:bold;
 margin-top:10px;
-cursor:pointer
+cursor:pointer;
 }
 
 .preview{
 width:100px;
 height:100px;
-object-fit:cover;
 border-radius:10px;
+object-fit:cover;
 border:2px solid #ff8c00;
-margin-top:8px
+margin-top:8px;
+}
+
+.item{
+background:#181818;
+padding:10px;
+border-radius:10px;
+margin-top:10px;
 }
 
 .hidden{display:none}
 
 .login{
 max-width:360px;
-margin:120px auto
+margin:120px auto;
 }
+
 </style>
 </head>
 
@@ -68,12 +98,11 @@ margin:120px auto
 <h1>Painel</h1>
 
 <label>Senha</label>
-<input id="senha" type="password">
+<input id="senha">
 
-<button onclick="login()">ENTRAR</button>
+<button onclick="login()">Entrar</button>
 
 </div>
-
 
 <div id="painel" class="wrap hidden">
 
@@ -100,7 +129,7 @@ margin:120px auto
 <input id="horario">
 
 <label>Total vagas</label>
-<input id="vagas" type="number">
+<input id="vagas">
 
 </div>
 
@@ -133,6 +162,28 @@ margin:120px auto
 
 <div class="card">
 
+<h2>Patrocinadores</h2>
+
+<div id="patros"></div>
+
+<button onclick="addPatro()">Adicionar patrocinador</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>Times</h2>
+
+<div id="times"></div>
+
+<button onclick="addTime()">Adicionar time</button>
+
+</div>
+
+
+<div class="card">
+
 <button onclick="salvar()">Salvar no GitHub</button>
 
 </div>
@@ -147,17 +198,19 @@ const repo="sitebrasiilcasual/Modo-Casual"
 const file="dados.json"
 const branch="main"
 
-let sha=""
+let dados={}
 
 function login(){
 
-if(senha.value!==SENHA){
-alert("senha errada")
+if(document.getElementById("senha").value!==SENHA){
+
+alert("Senha errada")
 return
+
 }
 
-loginBox.classList.add("hidden")
-painel.classList.remove("hidden")
+document.getElementById("loginBox").classList.add("hidden")
+document.getElementById("painel").classList.remove("hidden")
 
 token.value=localStorage.getItem("github_token")||""
 
@@ -167,34 +220,29 @@ carregar()
 
 function salvarToken(){
 localStorage.setItem("github_token",token.value)
-alert("token salvo")
+alert("Token salvo")
 }
 
 function preview(input,img){
 
-const f=input.files[0]
-if(!f)return
-
 const r=new FileReader()
 
-r.onload=e=>{
-img.src=e.target.result
-}
+r.onload=e=>img.src=e.target.result
 
-r.readAsDataURL(f)
+r.readAsDataURL(input.files[0])
 
 }
 
 sobreUpload.onchange=()=>preview(sobreUpload,previewSobre)
 streamerUpload.onchange=()=>preview(streamerUpload,previewStreamer)
 
-
 async function carregar(){
 
 try{
 
 const res=await fetch("dados.json?t="+Date.now())
-const dados=await res.json()
+
+dados=await res.json()
 
 data.value=dados.data||""
 horario.value=dados.horario||""
@@ -206,37 +254,98 @@ previewSobre.src=dados.sobre?.imagem||""
 streamerNome.value=dados.streamers?.[0]?.nome||""
 previewStreamer.src=dados.streamers?.[0]?.foto||""
 
+renderPatros()
+renderTimes()
+
 }catch(e){
-console.log("dados.json ainda não existe")
-}
+
+dados={patrocinadores:[],times:[]}
 
 }
 
-
-async function pegarSHA(token){
-
-const res=await fetch(`https://api.github.com/repos/${repo}/contents/${file}?ref=${branch}`,{
-headers:{
-Authorization:`Bearer ${token}`,
-Accept:"application/vnd.github+json"
 }
+
+function renderPatros(){
+
+patros.innerHTML=""
+
+;(dados.patrocinadores||[]).forEach((p,i)=>{
+
+patros.innerHTML+=`
+<div class="item">
+<input value="${p.nome||""}" onchange="dados.patrocinadores[${i}].nome=this.value">
+<input type="file" onchange="uploadPatro(${i},this)">
+<img class="preview" src="${p.foto||""}">
+</div>
+`
+
 })
 
-if(res.status===404){
-sha=""
-return
 }
 
-const json=await res.json()
+function addPatro(){
 
-if(!res.ok){
-throw new Error(json.message)
-}
+if(!dados.patrocinadores)dados.patrocinadores=[]
 
-sha=json.sha
+dados.patrocinadores.push({nome:"",foto:""})
+
+renderPatros()
 
 }
 
+function uploadPatro(i,input){
+
+const r=new FileReader()
+
+r.onload=e=>{
+dados.patrocinadores[i].foto=e.target.result
+renderPatros()
+}
+
+r.readAsDataURL(input.files[0])
+
+}
+
+function renderTimes(){
+
+times.innerHTML=""
+
+;(dados.times||[]).forEach((t,i)=>{
+
+times.innerHTML+=`
+<div class="item">
+<input value="${t.nome||""}" onchange="dados.times[${i}].nome=this.value">
+<input type="file" onchange="uploadTime(${i},this)">
+<img class="preview" src="${t.foto||""}">
+</div>
+`
+
+})
+
+}
+
+function addTime(){
+
+if(!dados.times)dados.times=[]
+
+dados.times.push({nome:"",foto:""})
+
+renderTimes()
+
+}
+
+function uploadTime(i,input){
+
+const r=new FileReader()
+
+r.onload=e=>{
+dados.times[i].foto=e.target.result
+renderTimes()
+}
+
+r.readAsDataURL(input.files[0])
+
+}
 
 async function salvar(){
 
@@ -245,35 +354,40 @@ try{
 const tk=token.value.trim()
 
 if(!tk){
-alert("cole o token github")
+alert("Cole o token GitHub")
 return
 }
 
-await pegarSHA(tk)
+/* pega SHA atual automaticamente */
 
-const dados={
+const shaReq=await fetch(`https://api.github.com/repos/${repo}/contents/${file}?t=${Date.now()}`,{
+headers:{Authorization:`Bearer ${tk}`}
+})
 
-titulo:"ZONA CASUAL",
+let shaAtual=null
 
-data:data.value,
-horario:horario.value,
-vagas_total:Number(vagas.value)||0,
+if(shaReq.ok){
 
-sobre:{
+const shaJson=await shaReq.json()
+shaAtual=shaJson.sha
+
+}
+
+/* atualiza dados */
+
+dados.data=data.value
+dados.horario=horario.value
+dados.vagas_total=Number(vagas.value)
+
+dados.sobre={
 texto:sobreTexto.value,
-imagem:previewSobre.src||""
-},
+imagem:previewSobre.src
+}
 
-streamers:[
-{
+dados.streamers=[{
 nome:streamerNome.value,
-foto:previewStreamer.src||""
-}
-],
-
-patrocinadores:[],
-times:[]
-}
+foto:previewStreamer.src
+}]
 
 const conteudo=btoa(unescape(encodeURIComponent(JSON.stringify(dados,null,2))))
 
@@ -283,9 +397,7 @@ content:conteudo,
 branch:branch
 }
 
-if(sha){
-body.sha=sha
-}
+if(shaAtual) body.sha=shaAtual
 
 const res=await fetch(`https://api.github.com/repos/${repo}/contents/${file}`,{
 
@@ -293,7 +405,6 @@ method:"PUT",
 
 headers:{
 Authorization:`Bearer ${tk}`,
-Accept:"application/vnd.github+json",
 "Content-Type":"application/json"
 },
 
@@ -305,18 +416,14 @@ const json=await res.json()
 
 if(!res.ok){
 
-console.error(json)
-
 alert("Erro GitHub: "+json.message)
-
 return
+
 }
 
 alert("SALVO COM SUCESSO")
 
 }catch(e){
-
-console.error(e)
 
 alert("Erro: "+e.message)
 
