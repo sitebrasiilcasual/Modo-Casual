@@ -12,33 +12,41 @@
   "streamers": [
     {
       "nome": "@streamer",
-      "foto": ""
+      "foto": "streamer-1773374209645.png"
     }
   ],
   "admins": [
     {
       "nome": "Admin",
-      "foto": ""
+      "foto": "admin-1773374237288.jpg"
     }
   ],
   "patrocinadores": [
     {
-      "nome": "Patrocinador 1",
-      "foto": ""
+      "nome": "BEGAMERS ",
+      "foto": "patro-begamers-1773374374368.jpg"
     },
     {
-      "nome": "Patrocinador 2",
-      "foto": ""
+      "nome": "1SHOTKILL ",
+      "foto": "patro-1shotkill-1773374389458.jpg"
+    },
+    {
+      "nome": "VANGUARDA BR",
+      "foto": "patro-vanguarda-br-1773374409038.png"
     }
   ],
   "times": [
     {
-      "nome": "Time 1",
-      "foto": ""
+      "nome": "",
+      "foto": "time-time-1-1773374277098.png"
     },
     {
-      "nome": "Time 2",
-      "foto": ""
+      "nome": "",
+      "foto": "time-time-2-1773374297017.jpg"
+    },
+    {
+      "nome": "",
+      "foto": "time-time-3-1773374330017.jpg"
     }
   ]
 }
