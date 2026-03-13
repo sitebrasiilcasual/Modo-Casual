@@ -461,68 +461,75 @@ let usadas = 0
 let total = 12
 
 function atualizarContador(){
-const restantes = Math.max(0, total - usadas)
-document.getElementById("v").textContent = restantes + "/" + total
+  const restantes = Math.max(0, total - usadas)
+  document.getElementById("v").textContent = restantes + "/" + total
 
-if(restantes <= 0){
-document.getElementById("enviar").disabled = true
-document.getElementById("msg").style.display = "block"
-}else{
-document.getElementById("enviar").disabled = false
-document.getElementById("msg").style.display = "none"
-}
+  if(restantes <= 0){
+    document.getElementById("enviar").disabled = true
+    document.getElementById("msg").style.display = "block"
+  }else{
+    document.getElementById("enviar").disabled = false
+    document.getElementById("msg").style.display = "none"
+  }
 }
 
 function mostrarErro(msg){
-const box = document.getElementById("erroBox")
-box.style.display = "block"
-box.textContent = msg
+  const box = document.getElementById("erroBox")
+  box.style.display = "block"
+  box.textContent = msg
 }
 
 async function carregarDados(){
-try{
-const res = await fetch("dados.json?t=" + Date.now(), { cache: "no-store" })
-if(!res.ok) throw new Error("Erro ao carregar dados.json")
+  try{
+    const res = await fetch("dados.json?t=" + Date.now(), { cache: "no-store" })
+    if(!res.ok) throw new Error("Erro ao carregar dados.json")
 
-const dados = await res.json()
+    const dados = await res.json()
 
-const titulo = dados.titulo || "ZONA CASUAL"
-const tituloEl = document.getElementById("titulo")
-tituloEl.textContent = titulo
-tituloEl.setAttribute("data-text", titulo)
-document.title = "Inscrição - " + titulo
+    const titulo = dados.titulo || "ZONA CASUAL"
+    const tituloEl = document.getElementById("titulo")
+    tituloEl.textContent = titulo
+    tituloEl.setAttribute("data-text", titulo)
+    document.title = "Inscrição - " + titulo
 
-document.getElementById("dataTxt").textContent = dados.data || "-"
-document.getElementById("horaTxt").textContent = dados.horario || "-"
+    document.getElementById("dataTxt").textContent = dados.data || "-"
+    document.getElementById("horaTxt").textContent = dados.horario || "-"
 
-if(dados.infoInscricao){
-document.getElementById("infoTxt").innerHTML = dados.infoInscricao
-}
+    if(dados.infoInscricao){
+      document.getElementById("infoTxt").innerHTML = dados.infoInscricao
+    }
 
-if(dados.formAction){
-document.getElementById("f").action = dados.formAction
-}
+    if(dados.formAction){
+      document.getElementById("f").action = dados.formAction
+    }
 
-total = Number(dados.vagas_total) || 12
-usadas = Number(dados.vagas_ocupadas) || 0
+    total = Number(dados.vagas_total) || 12
 
-atualizarContador()
+    const usadasJson = Number(dados.vagas_ocupadas) || 0
+    const usadasLocal = Number(localStorage.getItem("vagasUsadasLocal")) || 0
 
-}catch(e){
-console.error(e)
-total = 12
-usadas = 0
-atualizarContador()
-mostrarErro("Erro ao carregar dados.json. A página usou valores padrão.")
-}
+    usadas = Math.max(usadasJson, usadasLocal)
+
+    atualizarContador()
+
+  }catch(e){
+    console.error(e)
+    total = 12
+    usadas = Number(localStorage.getItem("vagasUsadasLocal")) || 0
+    atualizarContador()
+    mostrarErro("Erro ao carregar dados.json. A página usou valores locais.")
+  }
 }
 
 document.getElementById("f").addEventListener("submit", function(e){
-if(usadas >= total){
-e.preventDefault()
-atualizarContador()
-return
-}
+  if(usadas >= total){
+    e.preventDefault()
+    atualizarContador()
+    return
+  }
+
+  const novoValor = usadas + 1
+  localStorage.setItem("vagasUsadasLocal", String(novoValor))
 })
 
 window.addEventListener("DOMContentLoaded", carregarDados)
