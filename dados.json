@@ -7,18 +7,18 @@
   "infoInscricao": "Preencha corretamente os dados do seu time para participar da personalizada.",
   "sobre": {
     "texto": "Zona Casual é um projeto de campeonatos personalizados criado para reunir jogadores e criar partidas competitivas organizadas.",
-    "imagem": "sobre-1773419089075.jpg"
+    "imagem": ""
   },
   "streamers": [
     {
       "nome": "@streamer",
-      "foto": "streamer-1773418893328.png"
+      "foto": ""
     }
   ],
   "admins": [
     {
       "nome": "Admin",
-      "foto": "admin-1773418611208.png"
+      "foto": ""
     }
   ],
   "patrocinadores": [
@@ -30,15 +30,7 @@
   "times": [
     {
       "nome": "Time 1",
-      "foto": "time-time-1-1773419192873.jpg"
-    },
-    {
-      "nome": "",
       "foto": ""
-    },
-    {
-      "nome": "",
-      "foto": "time-time-3-1773419162943.png"
     }
   ]
 }
