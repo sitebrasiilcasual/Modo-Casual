@@ -1,52 +1,44 @@
 {
   "titulo": "ZONA CASUAL",
-
   "data": "20/04/2026",
   "horario": "20:00",
-
   "vagas_total": 15,
   "vagas_ocupadas": 0,
-
   "infoInscricao": "Preencha corretamente os dados do seu time para participar da personalizada.",
-
   "sobre": {
     "texto": "Zona Casual é um projeto de campeonatos personalizados criado para reunir jogadores e criar partidas competitivas organizadas.",
-    "imagem": ""
+    "imagem": "sobre-123.png"
   },
-
   "streamers": [
     {
       "nome": "@streamer",
-      "foto": ""
+      "foto": "streamer-123.png"
     }
   ],
-
   "admins": [
     {
       "nome": "Admin",
-      "foto": ""
+      "foto": "admin-123.png"
     }
   ],
-
   "patrocinadores": [
     {
       "nome": "Patrocinador 1",
-      "foto": ""
+      "foto": "patro-123.png"
     },
     {
       "nome": "Patrocinador 2",
-      "foto": ""
+      "foto": "patro-456.png"
     }
   ],
-
   "times": [
     {
       "nome": "Time 1",
-      "foto": ""
+      "foto": "time-123.png"
     },
     {
       "nome": "Time 2",
-      "foto": ""
+      "foto": "time-456.png"
     }
   ]
 }
