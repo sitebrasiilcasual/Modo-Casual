@@ -5,12 +5,12 @@
   "vagas_ocupadas": 0,
   "sobre": {
     "texto": "Campeonato Zona Casual.",
-    "imagem": "sobre-1773364231119.jpg"
+    "imagem": "sobre-1773373030891.jpg"
   },
   "streamers": [
     {
       "nome": "@streamer",
-      "foto": "streamer-1773364572875.png"
+      "foto": "streamer-1773373056205.png"
     }
   ],
   "admins": [
@@ -22,29 +22,29 @@
   "patrocinadores": [
     {
       "nome": "1SHOTKILL ",
-      "foto": "imagens/patro-patro-1-1773363411650.jpg"
+      "foto": "patro-1shotkill-1773373130947.jpg"
     },
     {
       "nome": "BEGAMERS ",
-      "foto": "imagens/patro-patro-2-1773363426253.jpg"
+      "foto": "patro-begamers-1773373141392.jpg"
     },
     {
       "nome": "VANGUARDA BR",
-      "foto": "imagens/patro-patro-3-1773363639980.png"
+      "foto": "patro-vanguarda-br-1773373158063.png"
     }
   ],
   "times": [
     {
       "nome": "",
-      "foto": "imagens/time-time-2-1773363689668.jpg"
+      "foto": "time-time-1-1773373083017.jpg"
     },
     {
       "nome": "",
-      "foto": "imagens/time-time-3-1773363757631.jpg"
+      "foto": "time-time-2-1773373097318.png"
     },
     {
       "nome": "",
-      "foto": "time-time-3-1773364111803.png"
+      "foto": "time-time-3-1773373119358.png"
     }
   ]
 }
