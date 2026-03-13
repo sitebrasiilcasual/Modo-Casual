@@ -77,7 +77,7 @@ color:#fff;
 
 button.small{
 width:auto;
-padding:8px 12px;
+padding:6px 10px;
 font-size:13px;
 }
 
@@ -128,11 +128,12 @@ margin:120px auto;
 <h1>Painel</h1>
 
 <label>Senha</label>
-<input id="senha" type="password">
+<input id="senha">
 
 <button onclick="login()">ENTRAR</button>
 
 </div>
+
 
 <div id="painel" class="wrap hidden">
 
@@ -141,7 +142,7 @@ margin:120px auto;
 <h1>ZONA CASUAL</h1>
 
 <label>Token GitHub</label>
-<input id="token" placeholder="Cole seu token aqui">
+<input id="token">
 
 <button onclick="salvarToken()">Salvar Token</button>
 
@@ -167,7 +168,7 @@ margin:120px auto;
 </div>
 
 <label>Total de vagas</label>
-<input id="vagas" type="number">
+<input id="vagas">
 
 </div>
 
@@ -241,42 +242,29 @@ const SENHA="1326"
 const repo="sitebrasiilcasual/Modo-Casual"
 const file="dados.json"
 
+const API_URL="https://script.google.com/macros/s/AKfycbx8SVvysKKOm09ld1OQ3AVF_DMk5r_gDiE4IR-hnLIbn0p17jZEnWWW-yuwJPRdkWM/exec"
+
 let patros=[]
 let times=[]
 let sha=""
-let sobreBase64=""
-let streamerBase64=""
 
 function login(){
 
 if(document.getElementById("senha").value!==SENHA){
-
 alert("senha errada")
 return
-
 }
 
 document.getElementById("loginBox").classList.add("hidden")
 document.getElementById("painel").classList.remove("hidden")
-
-document.getElementById("token").value=localStorage.getItem("github_token")||""
 
 carregar()
 
 }
 
 function salvarToken(){
-
-const token=document.getElementById("token").value.trim()
-
-if(!token){
-alert("Cole o token primeiro")
-return
-}
-
-localStorage.setItem("github_token",token)
-alert("Token salvo no navegador")
-
+localStorage.setItem("github_token",token.value)
+alert("Token salvo")
 }
 
 function preview(input,img){
@@ -289,14 +277,6 @@ const r=new FileReader()
 
 r.onload=e=>{
 img.src=e.target.result
-
-if(img.id==="previewSobre"){
-sobreBase64=e.target.result
-}
-
-if(img.id==="previewStreamer"){
-streamerBase64=e.target.result
-}
 }
 
 r.readAsDataURL(f)
@@ -310,7 +290,6 @@ streamerUpload.onchange=()=>preview(streamerUpload,previewStreamer)
 function addPatro(nome="",foto=""){
 
 patros.push({nome,foto})
-
 renderPatros()
 
 }
@@ -335,7 +314,7 @@ div.innerHTML+=`
 
 </div>
 
-<input placeholder="Nome" value="${(p.nome||"").replace(/"/g,'&quot;')}" onchange="patros[${i}].nome=this.value">
+<input placeholder="Nome" value="${p.nome||""}" onchange="patros[${i}].nome=this.value">
 
 <input type="file" onchange="patroUpload(${i},this)">
 
@@ -351,39 +330,26 @@ div.innerHTML+=`
 
 function patroUpload(i,input){
 
-const arquivo=input.files[0]
-if(!arquivo)return
-
 const r=new FileReader()
 
 r.onload=e=>{
-
 patros[i].foto=e.target.result
-
 renderPatros()
-
 }
 
-r.readAsDataURL(arquivo)
+r.readAsDataURL(input.files[0])
 
 }
 
 function remPatro(i){
-
 patros.splice(i,1)
-
 renderPatros()
-
 }
 
 
-
 function addTime(nome="",foto=""){
-
 times.push({nome,foto})
-
 renderTimes()
-
 }
 
 function renderTimes(){
@@ -406,7 +372,7 @@ div.innerHTML+=`
 
 </div>
 
-<input placeholder="Nome" value="${(t.nome||"").replace(/"/g,'&quot;')}" onchange="times[${i}].nome=this.value">
+<input placeholder="Nome" value="${t.nome||""}" onchange="times[${i}].nome=this.value">
 
 <input type="file" onchange="timeUpload(${i},this)">
 
@@ -422,31 +388,21 @@ div.innerHTML+=`
 
 function timeUpload(i,input){
 
-const arquivo=input.files[0]
-if(!arquivo)return
-
 const r=new FileReader()
 
 r.onload=e=>{
-
 times[i].foto=e.target.result
-
 renderTimes()
-
 }
 
-r.readAsDataURL(arquivo)
+r.readAsDataURL(input.files[0])
 
 }
 
 function remTime(i){
-
 times.splice(i,1)
-
 renderTimes()
-
 }
-
 
 
 function removerFotos(){
@@ -454,61 +410,20 @@ function removerFotos(){
 previewSobre.src=""
 previewStreamer.src=""
 
-sobreBase64=""
-streamerBase64=""
-
 patros.forEach(p=>p.foto="")
 times.forEach(t=>t.foto="")
 
 renderPatros()
 renderTimes()
 
-alert("Fotos removidas. Agora clique em Salvar no GitHub.")
-
 }
 
-
-
-async function carregar(){
-
-const res=await fetch("dados.json?t="+Date.now(),{cache:"no-store"})
-const dados=await res.json()
-
-data.value=dados.data||""
-horario.value=dados.horario||""
-vagas.value=dados.vagas_total||""
-
-sobreTexto.value=dados.sobre?.texto||""
-previewSobre.src=dados.sobre?.imagem||""
-sobreBase64=dados.sobre?.imagem||""
-
-streamerNome.value=dados.streamers?.[0]?.nome||""
-previewStreamer.src=dados.streamers?.[0]?.foto||""
-streamerBase64=dados.streamers?.[0]?.foto||""
-
-patros=dados.patrocinadores||[]
-times=dados.times||[]
-
-renderPatros()
-renderTimes()
-
-}
 
 async function pegarSHA(token){
 
-const res=await fetch(`https://api.github.com/repos/${repo}/contents/${file}`,{
-headers:{
-Authorization:"token "+token,
-Accept:"application/vnd.github+json"
-}
-})
+const res=await fetch(`https://api.github.com/repos/${repo}/contents/${file}`)
 
 const json=await res.json()
-
-if(!res.ok){
-console.error(json)
-throw new Error(json.message||"Erro ao buscar SHA")
-}
 
 sha=json.sha
 
@@ -521,11 +436,9 @@ try{
 const token=document.getElementById("token").value.trim()
 
 if(!token){
-alert("Cole o token do GitHub")
+alert("Cole o token GitHub")
 return
 }
-
-localStorage.setItem("github_token",token)
 
 await pegarSHA(token)
 
@@ -539,13 +452,13 @@ vagas_total:Number(vagas.value)||0,
 
 sobre:{
 texto:sobreTexto.value,
-imagem:sobreBase64||""
+imagem:previewSobre.src||""
 },
 
 streamers:[
 {
-nome:streamerNome.value||"@streamer",
-foto:streamerBase64||""
+nome:streamerNome.value,
+foto:previewStreamer.src||""
 }
 ],
 
@@ -556,36 +469,34 @@ times:times
 
 const conteudo=btoa(unescape(encodeURIComponent(JSON.stringify(dados,null,2))))
 
-const salvarReq=await fetch(`https://api.github.com/repos/${repo}/contents/${file}`,{
-
+await fetch(`https://api.github.com/repos/${repo}/contents/${file}`,{
 method:"PUT",
-
 headers:{
 Authorization:"token "+token,
 Accept:"application/vnd.github+json",
 "Content-Type":"application/json"
 },
-
 body:JSON.stringify({
 message:"update dados.json",
 content:conteudo,
 sha:sha
 })
-
 })
 
-const resposta=await salvarReq.json()
 
-if(salvarReq.ok){
+await fetch(API_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"set_vagas_total",
+admin_key:"1326",
+vagas_total:Number(vagas.value)||0
+})
+})
 
-alert("Salvo no GitHub com sucesso")
-
-}else{
-
-console.error(resposta)
-alert("Erro ao salvar no GitHub")
-
-}
+alert("Salvo no GitHub e planilha atualizada")
 
 }catch(e){
 
@@ -593,6 +504,31 @@ console.error(e)
 alert("Erro ao salvar")
 
 }
+
+}
+
+
+async function carregar(){
+
+const res=await fetch("dados.json")
+
+const dados=await res.json()
+
+data.value=dados.data||""
+horario.value=dados.horario||""
+vagas.value=dados.vagas_total||""
+
+sobreTexto.value=dados.sobre?.texto||""
+previewSobre.src=dados.sobre?.imagem||""
+
+streamerNome.value=dados.streamers?.[0]?.nome||""
+previewStreamer.src=dados.streamers?.[0]?.foto||""
+
+patros=dados.patrocinadores||[]
+times=dados.times||[]
+
+renderPatros()
+renderTimes()
 
 }
 
