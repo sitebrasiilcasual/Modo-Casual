@@ -2,15 +2,15 @@
   "titulo": "ZONA CASUAL",
   "data": "",
   "horario": "",
-  "vagas_total": 50,
+  "vagas_total": 20,
   "sobre": {
     "texto": "Campeonato Zona Casual.",
-    "imagem": "http://localhost:8158/ademar.html"
+    "imagem": ""
   },
   "streamers": [
     {
       "nome": "Streamer 1",
-      "foto": "http://localhost:8158/ademar.html"
+      "foto": ""
     }
   ],
   "patrocinadores": [],
