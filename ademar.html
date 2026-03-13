@@ -7,144 +7,60 @@
 
 <style>
 *{box-sizing:border-box}
-
-body{
-background:#000;
-color:#fff;
-font-family:Arial,sans-serif;
-margin:0;
-}
-
-.wrap{
-max-width:900px;
-margin:auto;
-padding:16px;
-}
+body{background:#000;color:#fff;font-family:Arial;margin:0}
+.wrap{max-width:900px;margin:auto;padding:16px}
 
 .card{
 background:#111;
-border:1px solid rgba(255,140,0,.25);
-border-radius:16px;
+border:1px solid rgba(255,140,0,.3);
+border-radius:14px;
 padding:18px;
-margin-bottom:16px;
-box-shadow:0 0 0 1px rgba(255,140,0,.05),0 10px 24px rgba(0,0,0,.35);
+margin-bottom:14px
 }
 
-h1,h2{
-text-align:center;
-color:#ff8c00;
-margin:0 0 14px;
-}
+h1,h2{text-align:center;color:#ff8c00}
 
-label{
-display:block;
-margin-top:10px;
-margin-bottom:4px;
-font-weight:bold;
-}
+label{display:block;margin-top:10px;margin-bottom:4px;font-weight:bold}
 
 input,textarea{
 width:100%;
 padding:12px;
 border:none;
-border-radius:10px;
+border-radius:8px;
 background:#1c1c1c;
-color:#fff;
-font-size:15px;
-}
-
-textarea{
-min-height:90px;
-resize:vertical;
+color:#fff
 }
 
 button{
 width:100%;
 padding:12px;
 border:none;
-border-radius:10px;
+border-radius:8px;
 background:#ff8c00;
 color:#000;
 font-weight:bold;
-font-size:15px;
-cursor:pointer;
 margin-top:10px;
-}
-
-button.sec{
-background:#222;
-color:#fff;
-}
-
-button.small{
-width:auto;
-padding:8px 12px;
-font-size:13px;
-margin-top:0;
-}
-
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+cursor:pointer
 }
 
 .preview{
 width:100px;
 height:100px;
-border-radius:12px;
 object-fit:cover;
+border-radius:10px;
 border:2px solid #ff8c00;
-margin-top:8px;
-display:block;
-background:#0f0f0f;
-}
-
-.item{
-background:#181818;
-padding:12px;
-border-radius:12px;
-margin-bottom:10px;
-border:1px solid rgba(255,140,0,.15);
-}
-
-.item-title{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:6px;
-gap:10px;
+margin-top:8px
 }
 
 .hidden{display:none}
 
 .login{
 max-width:360px;
-margin:120px auto;
-}
-
-.top-note{
-text-align:center;
-color:#bbb;
-font-size:13px;
-margin-top:-6px;
-margin-bottom:6px;
-}
-
-.msg{
-text-align:center;
-font-size:14px;
-margin-top:10px;
-color:#ffcf99;
-}
-
-@media(max-width:760px){
-.grid{
-grid-template-columns:1fr;
-}
+margin:120px auto
 }
 </style>
 </head>
+
 <body>
 
 <div id="loginBox" class="login card">
@@ -152,47 +68,38 @@ grid-template-columns:1fr;
 <h1>Painel</h1>
 
 <label>Senha</label>
-<input id="senha" type="password" placeholder="Digite a senha">
+<input id="senha" type="password">
 
 <button onclick="login()">ENTRAR</button>
 
 </div>
+
 
 <div id="painel" class="wrap hidden">
 
 <div class="card">
 
 <h1>ZONA CASUAL</h1>
-<p class="top-note">Edite os dados e clique em salvar no GitHub.</p>
 
 <label>Token GitHub</label>
-<input id="token" placeholder="Cole seu token aqui">
+<input id="token">
 
 <button onclick="salvarToken()">Salvar Token</button>
-<div id="status" class="msg"></div>
 
 </div>
 
 
 <div class="card">
 
-<h2>Dados do Evento</h2>
+<h2>Evento</h2>
 
-<div class="grid">
-
-<div>
 <label>Data</label>
 <input id="data">
-</div>
 
-<div>
 <label>Horário</label>
 <input id="horario">
-</div>
 
-</div>
-
-<label>Total de vagas</label>
+<label>Total vagas</label>
 <input id="vagas" type="number">
 
 </div>
@@ -202,13 +109,11 @@ grid-template-columns:1fr;
 
 <h2>Sobre</h2>
 
-<label>Texto</label>
 <textarea id="sobreTexto"></textarea>
 
-<label>Imagem</label>
-<input type="file" id="sobreUpload" accept="image/*">
+<input type="file" id="sobreUpload">
 
-<img id="previewSobre" class="preview" src="" alt="Preview sobre">
+<img id="previewSobre" class="preview">
 
 </div>
 
@@ -217,42 +122,16 @@ grid-template-columns:1fr;
 
 <h2>Streamer</h2>
 
-<label>Nome</label>
 <input id="streamerNome">
 
-<label>Foto</label>
-<input type="file" id="streamerUpload" accept="image/*">
+<input type="file" id="streamerUpload">
 
-<img id="previewStreamer" class="preview" src="" alt="Preview streamer">
-
-</div>
-
-
-<div class="card">
-
-<h2>Patrocinadores</h2>
-
-<div id="patros"></div>
-
-<button onclick="addPatro()">Adicionar patrocinador</button>
+<img id="previewStreamer" class="preview">
 
 </div>
 
 
 <div class="card">
-
-<h2>Times</h2>
-
-<div id="times"></div>
-
-<button onclick="addTime()">Adicionar time</button>
-
-</div>
-
-
-<div class="card">
-
-<button onclick="removerFotos()">Remover todas as fotos</button>
 
 <button onclick="salvar()">Salvar no GitHub</button>
 
@@ -262,306 +141,189 @@ grid-template-columns:1fr;
 
 
 <script>
-const SENHA = "1326";
-const repo = "sitebrasiilcasual/Modo-Casual";
-const file = "dados.json";
-const branch = "main";
-const API_URL = "https://script.google.com/macros/s/AKfycbyAdDXXyNENkX1WWlIyOgkh72_35nhoRULe0NYKlgeyHR2OYFke0hem1HrNInQ5b8GMKw/exec";
 
-let patros = [];
-let times = [];
-let sha = "";
-let sobreBase64 = "";
-let streamerBase64 = "";
+const SENHA="1326"
+const repo="sitebrasiilcasual/Modo-Casual"
+const file="dados.json"
+const branch="main"
 
-function setStatus(txt){
-  document.getElementById("status").textContent = txt;
-}
+let sha=""
 
 function login(){
-  if(document.getElementById("senha").value !== SENHA){
-    alert("senha errada");
-    return;
-  }
 
-  document.getElementById("loginBox").classList.add("hidden");
-  document.getElementById("painel").classList.remove("hidden");
-  document.getElementById("token").value = localStorage.getItem("github_token") || "";
-  carregar();
+if(senha.value!==SENHA){
+alert("senha errada")
+return
+}
+
+loginBox.classList.add("hidden")
+painel.classList.remove("hidden")
+
+token.value=localStorage.getItem("github_token")||""
+
+carregar()
+
 }
 
 function salvarToken(){
-  const token = document.getElementById("token").value.trim();
-
-  if(!token){
-    alert("Cole o token primeiro");
-    return;
-  }
-
-  localStorage.setItem("github_token", token);
-  setStatus("Token salvo no navegador.");
-  alert("Token salvo no navegador");
+localStorage.setItem("github_token",token.value)
+alert("token salvo")
 }
 
-function preview(input, img){
-  const f = input.files[0];
-  if(!f) return;
+function preview(input,img){
 
-  const r = new FileReader();
+const f=input.files[0]
+if(!f)return
 
-  r.onload = e => {
-    img.src = e.target.result;
+const r=new FileReader()
 
-    if(img.id === "previewSobre"){
-      sobreBase64 = e.target.result;
-    }
-
-    if(img.id === "previewStreamer"){
-      streamerBase64 = e.target.result;
-    }
-  };
-
-  r.readAsDataURL(f);
+r.onload=e=>{
+img.src=e.target.result
 }
 
-sobreUpload.onchange = () => preview(sobreUpload, previewSobre);
-streamerUpload.onchange = () => preview(streamerUpload, previewStreamer);
+r.readAsDataURL(f)
 
-function addPatro(nome="", foto=""){
-  patros.push({nome, foto});
-  renderPatros();
 }
 
-function renderPatros(){
-  const div = document.getElementById("patros");
-  div.innerHTML = "";
+sobreUpload.onchange=()=>preview(sobreUpload,previewSobre)
+streamerUpload.onchange=()=>preview(streamerUpload,previewStreamer)
 
-  patros.forEach((p, i) => {
-    div.innerHTML += `
-      <div class="item">
-        <div class="item-title">
-          <strong>Patrocinador ${i+1}</strong>
-          <button class="small sec" onclick="remPatro(${i})">Remover</button>
-        </div>
-
-        <input placeholder="Nome" value="${(p.nome || "").replace(/"/g,'&quot;')}" onchange="patros[${i}].nome=this.value">
-
-        <input type="file" accept="image/*" onchange="patroUpload(${i},this)">
-
-        <img class="preview" src="${p.foto || ""}" alt="Preview patrocinador">
-      </div>
-    `;
-  });
-}
-
-function patroUpload(i, input){
-  const arquivo = input.files[0];
-  if(!arquivo) return;
-
-  const r = new FileReader();
-
-  r.onload = e => {
-    patros[i].foto = e.target.result;
-    renderPatros();
-  };
-
-  r.readAsDataURL(arquivo);
-}
-
-function remPatro(i){
-  patros.splice(i, 1);
-  renderPatros();
-}
-
-function addTime(nome="", foto=""){
-  times.push({nome, foto});
-  renderTimes();
-}
-
-function renderTimes(){
-  const div = document.getElementById("times");
-  div.innerHTML = "";
-
-  times.forEach((t, i) => {
-    div.innerHTML += `
-      <div class="item">
-        <div class="item-title">
-          <strong>Time ${i+1}</strong>
-          <button class="small sec" onclick="remTime(${i})">Remover</button>
-        </div>
-
-        <input placeholder="Nome" value="${(t.nome || "").replace(/"/g,'&quot;')}" onchange="times[${i}].nome=this.value">
-
-        <input type="file" accept="image/*" onchange="timeUpload(${i},this)">
-
-        <img class="preview" src="${t.foto || ""}" alt="Preview time">
-      </div>
-    `;
-  });
-}
-
-function timeUpload(i, input){
-  const arquivo = input.files[0];
-  if(!arquivo) return;
-
-  const r = new FileReader();
-
-  r.onload = e => {
-    times[i].foto = e.target.result;
-    renderTimes();
-  };
-
-  r.readAsDataURL(arquivo);
-}
-
-function remTime(i){
-  times.splice(i, 1);
-  renderTimes();
-}
-
-function removerFotos(){
-  previewSobre.src = "";
-  previewStreamer.src = "";
-
-  sobreBase64 = "";
-  streamerBase64 = "";
-
-  patros.forEach(p => p.foto = "");
-  times.forEach(t => t.foto = "");
-
-  renderPatros();
-  renderTimes();
-
-  alert("Fotos removidas. Agora clique em Salvar no GitHub.");
-}
 
 async function carregar(){
-  try{
-    const res = await fetch("dados.json?t=" + Date.now(), {cache:"no-store"});
-    const dados = await res.json();
 
-    data.value = dados.data || "";
-    horario.value = dados.horario || "";
-    vagas.value = dados.vagas_total || "";
+try{
 
-    sobreTexto.value = dados.sobre?.texto || "";
-    previewSobre.src = dados.sobre?.imagem || "";
-    sobreBase64 = dados.sobre?.imagem || "";
+const res=await fetch("dados.json?t="+Date.now())
+const dados=await res.json()
 
-    streamerNome.value = dados.streamers?.[0]?.nome || "";
-    previewStreamer.src = dados.streamers?.[0]?.foto || "";
-    streamerBase64 = dados.streamers?.[0]?.foto || "";
+data.value=dados.data||""
+horario.value=dados.horario||""
+vagas.value=dados.vagas_total||""
 
-    patros = Array.isArray(dados.patrocinadores) ? dados.patrocinadores : [];
-    times = Array.isArray(dados.times) ? dados.times : [];
+sobreTexto.value=dados.sobre?.texto||""
+previewSobre.src=dados.sobre?.imagem||""
 
-    renderPatros();
-    renderTimes();
-    setStatus("Dados carregados.");
-  }catch(e){
-    console.error(e);
-    alert("Erro ao carregar dados.json");
-  }
+streamerNome.value=dados.streamers?.[0]?.nome||""
+previewStreamer.src=dados.streamers?.[0]?.foto||""
+
+}catch(e){
+console.log("dados.json ainda não existe")
 }
+
+}
+
 
 async function pegarSHA(token){
-  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${file}?ref=${branch}`,{
-    headers:{
-      Authorization:`Bearer ${token}`,
-      Accept:"application/vnd.github+json",
-      "X-GitHub-Api-Version":"2022-11-28"
-    }
-  });
 
-  const json = await res.json();
-
-  if(res.status === 404){
-    sha = "";
-    return;
-  }
-
-  if(!res.ok){
-    console.error("Erro ao buscar SHA:", json);
-    throw new Error(json.message || "Erro ao buscar SHA");
-  }
-
-  sha = json.sha || "";
+const res=await fetch(`https://api.github.com/repos/${repo}/contents/${file}?ref=${branch}`,{
+headers:{
+Authorization:`Bearer ${token}`,
+Accept:"application/vnd.github+json"
 }
+})
+
+if(res.status===404){
+sha=""
+return
+}
+
+const json=await res.json()
+
+if(!res.ok){
+throw new Error(json.message)
+}
+
+sha=json.sha
+
+}
+
 
 async function salvar(){
-  try{
-    const token = document.getElementById("token").value.trim();
 
-    if(!token){
-      alert("Cole o token GitHub");
-      return;
-    }
+try{
 
-    localStorage.setItem("github_token", token);
-    setStatus("Salvando no GitHub...");
+const tk=token.value.trim()
 
-    await pegarSHA(token);
-
-    const dados = {
-      titulo:"ZONA CASUAL",
-      data:data.value,
-      horario:horario.value,
-      vagas_total:Number(vagas.value) || 0,
-      sobre:{
-        texto:sobreTexto.value,
-        imagem:sobreBase64 || ""
-      },
-      streamers:[
-        {
-          nome:streamerNome.value || "@streamer",
-          foto:streamerBase64 || ""
-        }
-      ],
-      patrocinadores:patros,
-      times:times
-    };
-
-    const conteudo = btoa(unescape(encodeURIComponent(JSON.stringify(dados, null, 2))));
-
-    const body = {
-      message:"update dados.json",
-      content:conteudo,
-      branch:branch
-    };
-
-    if(sha){
-      body.sha = sha;
-    }
-
-    const salvarReq = await fetch(`https://api.github.com/repos/${repo}/contents/${file}`,{
-      method:"PUT",
-      headers:{
-        Authorization:`Bearer ${token}`,
-        Accept:"application/vnd.github+json",
-        "Content-Type":"application/json",
-        "X-GitHub-Api-Version":"2022-11-28"
-      },
-      body:JSON.stringify(body)
-    });
-
-    const resposta = await salvarReq.json();
-
-    if(!salvarReq.ok){
-      console.error("Erro ao salvar no GitHub:", resposta);
-      alert("Erro GitHub: " + (resposta.message || "desconhecido"));
-      setStatus("Erro ao salvar no GitHub.");
-      return;
-    }
-
-    setStatus("Salvo com sucesso no GitHub.");
-    alert("Salvo no GitHub com sucesso");
-
-  }catch(e){
-    console.error(e);
-    setStatus("Erro ao salvar.");
-    alert("Erro ao salvar: " + e.message);
-  }
+if(!tk){
+alert("cole o token github")
+return
 }
+
+await pegarSHA(tk)
+
+const dados={
+
+titulo:"ZONA CASUAL",
+
+data:data.value,
+horario:horario.value,
+vagas_total:Number(vagas.value)||0,
+
+sobre:{
+texto:sobreTexto.value,
+imagem:previewSobre.src||""
+},
+
+streamers:[
+{
+nome:streamerNome.value,
+foto:previewStreamer.src||""
+}
+],
+
+patrocinadores:[],
+times:[]
+}
+
+const conteudo=btoa(unescape(encodeURIComponent(JSON.stringify(dados,null,2))))
+
+const body={
+message:"update dados.json",
+content:conteudo,
+branch:branch
+}
+
+if(sha){
+body.sha=sha
+}
+
+const res=await fetch(`https://api.github.com/repos/${repo}/contents/${file}`,{
+
+method:"PUT",
+
+headers:{
+Authorization:`Bearer ${tk}`,
+Accept:"application/vnd.github+json",
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(body)
+
+})
+
+const json=await res.json()
+
+if(!res.ok){
+
+console.error(json)
+
+alert("Erro GitHub: "+json.message)
+
+return
+}
+
+alert("SALVO COM SUCESSO")
+
+}catch(e){
+
+console.error(e)
+
+alert("Erro: "+e.message)
+
+}
+
+}
+
 </script>
 
 </body>
