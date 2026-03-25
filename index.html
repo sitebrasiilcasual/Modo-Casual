@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zona Casual | Oficial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* RESET E BASE */
+        *{box-sizing:border-box;margin:0;padding:0; font-family: 'Poppins', sans-serif;} 
+        body{ background:#050505; color:#fff; text-align:center; overflow-x:hidden; width: 100%; } 
+        
+        header { padding: 40px 0; }
+        .logo-header { max-width: 160px; filter: drop-shadow(0 0 15px rgba(255,140,0,0.5)); }
+
+        /* SEÇÃO LOGOS GIGANTES */
+        .partner-label { font-size: 14px; text-transform: uppercase; letter-spacing: 5px; color: #ff8c00; margin: 50px 0 30px; font-weight: 900; }
+        .partner-grid { display: flex; justify-content: center; align-items: center; gap: 60px; flex-wrap: wrap; padding: 0 30px; max-width: 1300px; margin: 0 auto; }
+        
+        .partner-item { position: relative; display: flex; flex-direction: column; align-items: center; margin-bottom: 30px; }
+        .partner-logo { height: 110px; width: auto; object-fit: contain; }
+        .team-logo { height: 160px; width: 160px; border-radius: 50%; border: 4px solid #ff8c00; object-fit: cover; box-shadow: 0 0 30px rgba(255,140,0,0.5); }
+
+        /* LAYOUT DOS CARDS */
+        .wrap { max-width: 1100px; margin: 50px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 30px; } 
+        .row-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; align-items: stretch; }
+        
+        .card { 
+            background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 35px; 
+            padding: 50px 30px; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6); position: relative;
+        }
+
+        .card-sobre { width: 100%; padding: 60px 30px; }
+
+        h2 { font-size: 18px; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 30px; font-weight: 900; }
+        .vaga-circle { width: 140px; height: 140px; border-radius: 50%; border: 5px solid #ff8c00; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(255,140,0,0.5); }
+        .vaga-top { font-size: 42px; font-weight: 900; }
+
+        /* BOTÕES */
+        .btn-action { 
+            display: inline-block; width: 100%; max-width: 380px;
+            background: linear-gradient(90deg, #ff8c00, #ff5f00); 
+            color: #000; padding: 20px; border-radius: 15px; 
+            text-decoration: none; font-weight: 900; text-transform: uppercase; 
+            font-size: 16px; box-shadow: 0 10px 30px rgba(255,140,0,0.5);
+            margin-top: 50px; transition: 0.3s; border: none; cursor: pointer;
+        }
+
+        /* TEXTO DO PROJETO */
+        .sobre-texto { font-size: 1.25rem; color: #fff; line-height: 2.3; white-space: pre-wrap; max-width: 750px; margin: 0 auto; font-weight: 300; text-align: center; }
+        .sobre-texto b, .sobre-texto strong { color: #ff8c00 !important; font-weight: 900; }
+
+        /* TICKER EM LOOP - FIXO NO RODAPÉ OU ABAIXO DO CONTEÚDO */
+        .ticker-wrap { 
+            width: 100vw; 
+            background: #ff8c00; 
+            color: #000; 
+            padding: 15px 0; 
+            overflow: hidden; 
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            margin-top: 60px;
+        }
+        .ticker { 
+            display: flex; 
+            white-space: nowrap; 
+            animation: ticker 20s linear infinite; 
+            font-weight: 900; 
+            font-size: 16px; 
+            text-transform: uppercase; 
+            width: fit-content;
+        }
+        .ticker span { padding: 0 40px; flex-shrink: 0; }
+        
+        @keyframes ticker { 
+            0% { transform: translateX(0); } 
+            100% { transform: translateX(-50%); } 
+        }
+
+        /* EDITOR */
+        .edit-tools-container { display: none; position: absolute; top: -20px; width: 100%; justify-content: center; gap: 8px; z-index: 999; }
+        .edit-mode .edit-tools-container { display: flex; }
+        .edit-btn { background: #3b82f6; color: white; border: none; padding: 6px 14px; border-radius: 5px; font-size: 11px; font-weight: 900; cursor: pointer; }
+        .btn-link { background: #f59e0b; }
+        .btn-del { background: #ef4444; margin-top: 10px; }
+        .btn-add { display: none; margin: 20px auto; background: #22c55e; color: #fff; border: none; padding: 12px 30px; border-radius: 10px; cursor: pointer; font-weight: 900; }
+        .edit-mode .btn-add, .edit-mode .btn-del { display: block; }
+        .edit-mode [contenteditable="true"] { border: 1px dashed #ff8c00 !important; background: rgba(255,140,0,0.05); }
+
+        #admin-gear { position: fixed; bottom: 80px; right: 25px; opacity: 0.1; cursor: pointer; font-size: 22px; z-index: 100; }
+        #save-bar { display: none; position: fixed; top: 0; width: 100%; background: #ff8c00; color: #000; padding: 15px; z-index: 10000; font-weight: 900; justify-content: center; align-items: center; gap: 20px; }
+    </style>
+</head>
+<body>
+
+<div id="save-bar">
+    <span>MODO EDITOR ATIVADO</span>
+    <button onclick="salvarNoGithub()" style="background:#000; color:#fff; border:none; padding:10px 25px; border-radius:8px; cursor:pointer;">GRAVAR TUDO ONLINE</button>
+    <button onclick="window.location.reload()" style="background:transparent; border:1px solid #000; padding:5px 15px; cursor:pointer; font-weight: bold;">SAIR</button>
+</div>
+
+<header><img src="zonacasual.png" class="logo-header"></header>
+
+<section>
+    <div class="partner-label">Patrocinadores Oficiais</div>
+    <div class="partner-grid" id="grid-patros"></div>
+    <button class="btn-add" onclick="addItem('grid-patros', 'partner-logo')">+ NOVO PATROCINADOR</button>
+    
+    <div class="partner-label">Times Participantes</div>
+    <div class="partner-grid" id="grid-times"></div>
+    <button class="btn-add" onclick="addItem('grid-times', 'team-logo')">+ NOVO TIME</button>
+</section>
+
+<div class="wrap">
+    <div class="row-top">
+        <div class="card">
+            <h2>Vagas</h2>
+            <div class="vaga-circle"><span class="vaga-top" id="vagaNumero" contenteditable="false">15/15</span></div>
+        </div>
+
+        <div class="card">
+            <div style="position:relative">
+                <img src="https://via.placeholder.com/150" id="streamerImg" style="width:120px; height:120px; border-radius:50%; border:3px solid #ff8c00; object-fit:cover;">
+                <div class="edit-tools-container">
+                    <button class="edit-btn" onclick="trocarImagem('streamerImg')">Foto</button>
+                </div>
+            </div>
+            <h3 id="streamerNome" style="color:#ff8c00; font-weight:900; font-size: 1.4rem; margin-top: 15px;" contenteditable="false">@seu-user</h3>
+            <p id="streamerSub" contenteditable="false">Transmissão Oficial</p>
+            <a href="#" id="streamerLink" class="btn-action" data-url="#" style="font-size: 12px; padding: 12px; margin-top: 20px;">Acompanhar Live</a>
+            <button class="edit-btn btn-link edit-mode" style="display:none; margin-top: 5px;" onclick="editBtnLink('streamerLink')">Link da Live</button>
+        </div>
+    </div>
+
+    <div class="card card-sobre">
+        <h2>O PROJETO</h2>
+        <div class="sobre-texto" id="sobre-p1" contenteditable="false">
+A <b>Zona Casual</b> é o
+ponto de encontro da
+comunidade que busca
+<i>excelência e diversão.</i>
+
+Nossa missão é simples:
+<b>Competitividade Real</b>
+com total respeito.
+        </div>
+        <a href="inscrição.html" class="btn-action" id="btn-final" data-url="inscrição.html">Inscrever SQUAD</a>
+        <button class="edit-btn btn-link edit-mode" style="display:none; margin-top: 10px;" onclick="editBtnLink('btn-final')">Link Inscrição</button>
+    </div>
+</div>
+
+<div class="ticker-wrap">
+    <div class="ticker">
+        <span>ZONA CASUAL 2026</span><span>BEGAMERS</span><span>VANGUARDA</span><span>1SHOTKILL</span>
+        <span>ZONA CASUAL 2026</span><span>BEGAMERS</span><span>VANGUARDA</span><span>1SHOTKILL</span>
+        <span>ZONA CASUAL 2026</span><span>BEGAMERS</span><span>VANGUARDA</span><span>1SHOTKILL</span>
+        <span>ZONA CASUAL 2026</span><span>BEGAMERS</span><span>VANGUARDA</span><span>1SHOTKILL</span>
+    </div>
+</div>
+
+<footer>
+    <p style="font-size: 10px; opacity: 0.2; padding-bottom: 40px;">© 2026 ZONA CASUAL | MODO CASUAL OFFICIAL</p>
+    <i class="fa fa-cog" id="admin-gear" onclick="ativarAdmin()"></i>
+</footer>
+
+<input type="file" id="fileInput" style="display:none" accept="image/*">
+
+<script>
+    const CONFIG = { token: localStorage.getItem("github_token") || "", repo: "sitebrasiilcasual/Modo-Casual", file: "dados.json", branch: "main" };
+
+    async function carregarDados(){
+        try {
+            const res = await fetch("dados.json?t=" + Date.now());
+            const d = await res.json();
+            if(d.streamers) {
+                document.getElementById("streamerNome").innerText = d.streamers[0].nome;
+                document.getElementById("streamerImg").src = d.streamers[0].foto;
+                document.getElementById("streamerLink").setAttribute("data-url", d.streamers[0].link);
+                document.getElementById("streamerLink").href = d.streamers[0].link;
+            }
+            if(d.sobre) document.getElementById("sobre-p1").innerHTML = d.sobre.texto;
+            renderizarGrid("grid-patros", d.patrocinadores || [], "partner-logo");
+            renderizarGrid("grid-times", d.times || [], "team-logo");
+        } catch(e) {}
+    }
+
+    function renderizarGrid(idGrid, lista, classeImg) {
+        const grid = document.getElementById(idGrid);
+        grid.innerHTML = "";
+        lista.forEach((item, index) => {
+            const idUnico = `img-${idGrid}-${index}`;
+            const div = document.createElement("div");
+            div.className = "partner-item";
+            div.setAttribute("data-link", item.link || "");
+            div.innerHTML = `
+                <img src="${item.foto}" class="${classeImg}" id="${idUnico}" onclick="irParaLink('${item.link}')">
+                <div class="edit-tools-container">
+                    <button class="edit-btn" onclick="trocarImagem('${idUnico}')">Foto</button>
+                    <button class="edit-btn btn-link" onclick="editItemLink(this.parentElement.parentElement)">Link</button>
+                </div>
+                <button class="edit-btn btn-del edit-mode" style="display:none" onclick="this.parentElement.remove()">X</button>
+            `;
+            grid.appendChild(div);
+        });
+    }
+
+    function irParaLink(url) { if(!document.body.classList.contains("edit-mode") && url) window.open(url, "_blank"); }
+
+    function ativarAdmin() {
+        if (prompt("Senha:") === "1326") {
+            document.body.classList.add("edit-mode");
+            document.getElementById("save-bar").style.display = "flex";
+            document.querySelectorAll('[contenteditable]').forEach(el => el.contentEditable = true);
+            document.querySelectorAll('.edit-mode').forEach(el => el.style.display = "block");
+        }
+    }
+
+    function addItem(idGrid, classeImg) {
+        const grid = document.getElementById(idGrid);
+        const idUnico = `new-${Date.now()}`;
+        const div = document.createElement("div");
+        div.className = "partner-item";
+        div.setAttribute("data-link", "");
+        div.innerHTML = `
+            <img src="https://via.placeholder.com/150" class="${classeImg}" id="${idUnico}">
+            <div class="edit-tools-container" style="display:flex">
+                <button class="edit-btn" onclick="trocarImagem('${idUnico}')">Foto</button>
+                <button class="edit-btn btn-link" onclick="editItemLink(this.parentElement.parentElement)">Link</button>
+            </div>
+            <button class="edit-btn btn-del" onclick="this.parentElement.remove()">X</button>
+        `;
+        grid.appendChild(div);
+    }
+
+    function editItemLink(el) { const n = prompt("Link Social:", el.getAttribute("data-link")); if(n!==null) el.setAttribute("data-link", n); }
+    function editBtnLink(id) { const el = document.getElementById(id); const n = prompt("Link:", el.getAttribute("data-url")); if(n!==null) { el.setAttribute("data-url", n); el.href = n; } }
+
+    let targetImg = "";
+    function trocarImagem(id) { targetImg = id; document.getElementById("fileInput").click(); }
+    document.getElementById("fileInput").onchange = e => {
+        const fr = new FileReader();
+        fr.onload = () => document.getElementById(targetImg).src = fr.result;
+        fr.readAsDataURL(e.target.files[0]);
+    };
+
+    async function salvarNoGithub() {
+        const coletar = (id) => Array.from(document.getElementById(id).querySelectorAll(".partner-item")).map(i => ({
+            foto: i.querySelector("img").src,
+            link: i.getAttribute("data-link")
+        }));
+        const dados = {
+            sobre: { texto: document.getElementById("sobre-p1").innerHTML },
+            streamers: [{
+                nome: document.getElementById("streamerNome").innerText,
+                foto: document.getElementById("streamerImg").src,
+                link: document.getElementById("streamerLink").getAttribute("data-url")
+            }],
+            patrocinadores: coletar("grid-patros"),
+            times: coletar("grid-times")
+        };
+        try {
+            const resSha = await fetch(`https://api.github.com/repos/${CONFIG.repo}/contents/${CONFIG.file}?ref=${CONFIG.branch}`, { headers: { Authorization: `token ${CONFIG.token}` } });
+            const dataSha = await resSha.json();
+            await fetch(`https://api.github.com/repos/${CONFIG.repo}/contents/${CONFIG.file}`, {
+                method: "PUT",
+                headers: { Authorization: `token ${CONFIG.token}` },
+                body: JSON.stringify({ message: "Update", content: btoa(unescape(encodeURIComponent(JSON.stringify(dados, null, 2)))), sha: dataSha.sha, branch: CONFIG.branch })
+            });
+            alert("SITE ATUALIZADO!"); window.location.reload();
+        } catch (e) { alert("Erro ao salvar."); }
+    }
+    window.onload = carregarDados;
+</script>
+</body>
+                  </html>
+                  
