@@ -1,6 +1,16 @@
 {
-  "sobre": { "texto": "Texto inicial aqui" },
-  "streamers": [{ "nome": "@seu-user", "foto": "", "link": "" }],
+  "data": "25/03",
+  "horario": "20:00",
+  "sobre": {
+    "texto": "A Zona Casual é o ponto de encontro da comunidade que busca excelência e diversão. Fugimos do básico para entregar salas personalizadas com organização de elite.\n\n"
+  },
+  "streamers": [
+    {
+      "nome": "@seu-user",
+      "foto": "https://zonacasual.com.br/",
+      "link": ""
+    }
+  ],
   "patrocinadores": [],
   "times": []
 }
