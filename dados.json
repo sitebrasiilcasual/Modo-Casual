@@ -1,0 +1,6 @@
+{
+  "sobre": { "texto": "Texto inicial aqui" },
+  "streamers": [{ "nome": "@seu-user", "foto": "", "link": "" }],
+  "patrocinadores": [],
+  "times": []
+}
