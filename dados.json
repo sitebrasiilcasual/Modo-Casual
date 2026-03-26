@@ -1,6 +1,7 @@
 {
+  "btnTexto": "INSCREVER SQUAD",
   "sobre": {
-    "texto": "\nA <b>Zona Casual</b> é o\nponto de encontro da\ncomunidade que busca\n<i>excelência e diversão.</i>\n\nNossa missão é simples:\n<b>Competitividade Casual</b>\ncom total respeito.\n        "
+    "texto": "<font dir=\"auto\" style=\"vertical-align: inherit;\"><font dir=\"auto\" style=\"vertical-align: inherit;\">\nA </font></font><b><font dir=\"auto\" style=\"vertical-align: inherit;\"><font dir=\"auto\" style=\"vertical-align: inherit;\">Zona Casual</font></font></b><font dir=\"auto\" style=\"vertical-align: inherit;\"><font dir=\"auto\" style=\"vertical-align: inherit;\"> é o ponto de encontro da comunidade que busca </font></font><i><font dir=\"auto\" style=\"vertical-align: inherit;\"><font dir=\"auto\" style=\"vertical-align: inherit;\">excelência e diversão.</font></font></i><font dir=\"auto\" style=\"vertical-align: inherit;\"><font dir=\"auto\" style=\"vertical-align: inherit;\"> \n\nNossa missão é simples:\n </font></font><b><font dir=\"auto\" style=\"vertical-align: inherit;\"><font dir=\"auto\" style=\"vertical-align: inherit;\">Competitividade Casual</font></font></b><font dir=\"auto\" style=\"vertical-align: inherit;\"><font dir=\"auto\" style=\"vertical-align: inherit;\"> \ncom total respeito.\n        </font></font>"
   },
   "streamers": [
     {
