@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Zona Casual | Oficial</title>
-
     <link rel="icon" type="image/png" href="favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -17,7 +16,7 @@
         header { padding: 40px 0; }
         .logo-header { max-width: 140px; filter: drop-shadow(0 0 15px rgba(255,140,0,0.5)); }
 
-        /* LOGOS */
+        /* LOGOS - HORIZONTAL */
         .partner-label { font-size: 12px; text-transform: uppercase; letter-spacing: 4px; color: #ff8c00; margin: 40px 0 20px; font-weight: 900; opacity: 0.8; }
         .partner-grid { display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; padding: 0 15px; max-width: 1000px; margin: 0 auto; }
         .partner-item { position: relative; display: flex; flex-direction: column; align-items: center; margin-bottom: 15px; }
@@ -29,29 +28,28 @@
         .row-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .card { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 30px; padding: 40px 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
 
-        /* TEXTO DO PROJETO ALINHADO À ESQUERDA */
-.sobre-texto { 
-    font-size: 1.25rem; 
-    color: #fff; 
-    line-height: 2.3; 
-    white-space: pre-wrap; 
-    max-width: 750px; 
-    margin: 0 auto; 
-    font-weight: 300; 
-    text-align: left; /* ALINHAMENTO À ESQUERDA */
-    padding-left: 20px; /* PEQUENO RECUO PARA ESTÉTICA */
-}
-        
+        /* TEXTO DO PROJETO - ALINHADO À ESQUERDA COM DESTAQUE LARANJA */
+        .sobre-texto { 
+            font-size: 1.25rem; 
+            color: #fff; 
+            line-height: 2.3; 
+            white-space: pre-wrap; 
+            max-width: 500px; /* Diminuído para o bloco ficar centralizado mesmo alinhado à esquerda */
+            margin: 0 auto; 
+            font-weight: 300; 
+            text-align: left; 
+        }
+        .sobre-texto b, .sobre-texto strong { color: #ff8c00 !important; font-weight: 900; }
 
         /* BOTÃO PRINCIPAL */
-        .btn-action { display: inline-block; width: 100%; max-width: 350px; background: linear-gradient(90deg, #ff8c00, #ff5f00); color: #000; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 900; text-transform: uppercase; font-size: 15px; margin-top: 40px; box-shadow: 0 8px 25px rgba(255,140,0,0.3); border:none; cursor:pointer;}
+        .btn-action { display: inline-block; width: 100%; max-width: 350px; background: linear-gradient(90deg, #ff8c00, #ff5f00); color: #000; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 900; text-transform: uppercase; font-size: 15px; margin-top: 40px; box-shadow: 0 8px 25px rgba(255,140,0,0.3); border:none; cursor:pointer; text-align: center;}
         .btn-action.disabled { background: #333 !important; color: #777 !important; cursor: not-allowed; pointer-events: none; }
 
         /* VAGAS */
         .vaga-circle { width: 110px; height: 110px; border-radius: 50%; border: 4px solid #ff8c00; display: flex; align-items: center; justify-content: center; }
         .vaga-top { font-size: 26px; font-weight: 900; color: #fff; }
 
-        /* TICKER - CORRIGIDO PARA NÃO BAGUNÇAR */
+        /* TICKER */
         .ticker-wrap { width: 100%; background: #ff8c00; color: #000; padding: 15px 0; overflow: hidden; margin-top: 50px; position: relative; }
         .ticker { display: flex; white-space: nowrap; animation: ticker 25s linear infinite; font-weight: 900; font-size: 14px; width: max-content; }
         .ticker span { padding: 0 30px; }
@@ -63,8 +61,10 @@
         .edit-btn { background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 5px; font-size: 10px; font-weight: 900; cursor: pointer; }
         .btn-add { display: none; margin: 15px auto; background: #22c55e; color: #fff; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: 900; }
         .edit-mode .btn-add, .edit-mode .btn-del { display: block; }
+        .edit-mode [contenteditable="true"] { border: 1px dashed #ff8c00 !important; outline: none; }
 
-        #admin-gear { padding: 20px; opacity: 0.1; cursor: pointer; font-size: 22px; display: inline-block; margin-top: 20px; }
+        #admin-gear { position: fixed; bottom: 20px; right: 20px; opacity: 0.2; cursor: pointer; font-size: 24px; z-index: 9999; color: #fff; }
+        #admin-gear:hover { opacity: 1; color: #ff8c00; }
         #save-bar { display: none; position: fixed; top: 0; width: 100%; background: #ff8c00; color: #000; padding: 12px; z-index: 10000; font-weight: 900; justify-content: center; align-items: center; gap: 15px; }
     </style>
 </head>
@@ -108,21 +108,17 @@
     </div>
 
     <div class="card card-sobre">
-<div class="card card-sobre">
-    <h2 style="font-size: 14px; letter-spacing: 3px; margin-bottom: 25px; text-align: center;">O PROJETO</h2>
-    <div class="sobre-texto" id="sobre-p1" contenteditable="false">
-A <b>Zona Casual</b> é o
+        <h2 style="margin-bottom: 25px;">O PROJETO</h2>
+        <div class="sobre-texto" id="sobre-p1" contenteditable="false">A <b>Zona Casual</b> é o
 ponto de encontro da
 comunidade que busca
 <i>excelência e diversão.</i>
 
 Nossa missão é simples:
 <b>Competitividade Real</b>
-com total respeito.
-    </div>
-    <a href="inscrição.html" class="btn-action" id="btn-final" data-url="inscrição.html" contenteditable="false">Inscrever SQUAD</a>
-</div>
-
+com total respeito.</div>
+        
+        <a href="inscrição.html" class="btn-action" id="btn-final" data-url="inscrição.html" contenteditable="false">Inscrever SQUAD</a>
         <div class="edit-mode" style="display:none; margin-top:10px;"><button class="edit-btn" style="background:#f59e0b" onclick="editBtnLink('btn-final')">Link do Botão</button></div>
     </div>
 </div>
@@ -134,10 +130,7 @@ com total respeito.
     </div>
 </div>
 
-<footer>
-    <i class="fa fa-cog" id="admin-gear" onclick="ativarAdmin()"></i>
-</footer>
-
+<footer><i class="fa fa-cog" id="admin-gear" onclick="ativarAdmin()"></i></footer>
 <input type="file" id="fileInput" style="display:none" accept="image/*">
 
 <script>
@@ -222,5 +215,4 @@ com total respeito.
     setInterval(sincronizarVagas, 5000);
 </script>
 </body>
-          </html>
-          
+</html>
