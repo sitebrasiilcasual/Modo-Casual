@@ -29,9 +29,19 @@
         .row-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .card { background: #0d0d0d; border: 1px solid #1a1a1a; border-radius: 30px; padding: 40px 25px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
 
-        /* TEXTO DO PROJETO */
-        .sobre-texto { font-size: 1.25rem; color: #fff; line-height: 2.3; white-space: pre-wrap; max-width: 750px; margin: 0 auto; font-weight: 300; text-align: center; }
-        .sobre-texto b, .sobre-texto strong { color: #ff8c00 !important; font-weight: 900; }
+        /* TEXTO DO PROJETO ALINHADO À ESQUERDA */
+.sobre-texto { 
+    font-size: 1.25rem; 
+    color: #fff; 
+    line-height: 2.3; 
+    white-space: pre-wrap; 
+    max-width: 750px; 
+    margin: 0 auto; 
+    font-weight: 300; 
+    text-align: left; /* ALINHAMENTO À ESQUERDA */
+    padding-left: 20px; /* PEQUENO RECUO PARA ESTÉTICA */
+}
+        
 
         /* BOTÃO PRINCIPAL */
         .btn-action { display: inline-block; width: 100%; max-width: 350px; background: linear-gradient(90deg, #ff8c00, #ff5f00); color: #000; padding: 18px; border-radius: 12px; text-decoration: none; font-weight: 900; text-transform: uppercase; font-size: 15px; margin-top: 40px; box-shadow: 0 8px 25px rgba(255,140,0,0.3); border:none; cursor:pointer;}
@@ -98,8 +108,9 @@
     </div>
 
     <div class="card card-sobre">
-        <h2>O PROJETO</h2>
-        <div class="sobre-texto" id="sobre-p1" contenteditable="false">
+<div class="card card-sobre">
+    <h2 style="font-size: 14px; letter-spacing: 3px; margin-bottom: 25px; text-align: center;">O PROJETO</h2>
+    <div class="sobre-texto" id="sobre-p1" contenteditable="false">
 A <b>Zona Casual</b> é o
 ponto de encontro da
 comunidade que busca
@@ -108,8 +119,10 @@ comunidade que busca
 Nossa missão é simples:
 <b>Competitividade Real</b>
 com total respeito.
-        </div>
-        <a href="inscrição.html" class="btn-action" id="btn-final" data-url="inscrição.html" contenteditable="false">Inscrever SQUAD</a>
+    </div>
+    <a href="inscrição.html" class="btn-action" id="btn-final" data-url="inscrição.html" contenteditable="false">Inscrever SQUAD</a>
+</div>
+
         <div class="edit-mode" style="display:none; margin-top:10px;"><button class="edit-btn" style="background:#f59e0b" onclick="editBtnLink('btn-final')">Link do Botão</button></div>
     </div>
 </div>
